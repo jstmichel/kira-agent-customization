@@ -2,7 +2,12 @@
 name: KIRA :: Architect
 description: "Performs deep architectural analysis: reads product scope, identifies all affected layers, resolves cross-layer dependencies, and produces a structured implementation spec. Use directly or as part of the KIRA system for full issue implementation or ambiguous multi-layer scope."
 tools: [read, search]
-model: ['claude-opus-4-7 (copilot)', 'gpt-5.4 (copilot)']
+model: ['Claude Opus 4.7', 'GPT-5.4']  # Tries models in order
+handoffs:
+  - label: Return Spec to KIRA
+    agent: agent
+    prompt: Architectural analysis is complete. Returning the implementation spec for execution.
+    send: true
 ---
 
 # KIRA :: Architect — Architectural Planning

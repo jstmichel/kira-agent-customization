@@ -2,7 +2,12 @@
 name: KIRA :: Builder
 description: "Builds the active project and runs all tests; interprets errors and iterates until green. Use directly or as part of the KIRA system as the final validation step."
 tools: [read, edit, search, execute, todo]
-model: gpt-5.4-mini (copilot)
+model: 'GPT-5.4 mini'
+handoffs:
+  - label: Report Build Results
+    agent: agent
+    prompt: Build and test run complete. Review the output and determine next steps.
+    send: true
 ---
 
 # KIRA :: Builder — Validation Layer

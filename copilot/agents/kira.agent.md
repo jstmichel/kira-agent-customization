@@ -2,7 +2,12 @@
 name: KIRA
 description: "Knowledge, Intelligence & Reasoning Assistant. Primary coordination layer for development workflows, routing, planning, issue authoring, validation, and AI maintenance. Type 'KIRA, run diagnostics' for a full system status report."
 tools: [read, edit, search, execute, todo, agent]
-model: claude-sonnet-4-6 (copilot)
+model: 'Claude Sonnet 4.6'
+handoffs:
+  - label: Validate Build
+    agent: agent
+    prompt: All layer work is complete. Run dotnet build and dotnet test and report results.
+    send: true
 argument-hint: "Issue number (#42), task description, or 'What can you do?'"
 ---
 

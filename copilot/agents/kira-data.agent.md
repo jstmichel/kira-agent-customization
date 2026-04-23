@@ -2,7 +2,12 @@
 name: KIRA :: Data
 description: "Implements EF Core configuration, repositories, database migrations, and infrastructure services. Use directly or as part of the KIRA system for Infrastructure layer changes."
 tools: [read, edit, search, execute]
-model: gpt-5.3-codex (copilot)
+model: GPT-5.3-Codex
+handoffs: 
+  - label: Migration Review
+    agent: agent
+    prompt: Review the generated migration for any schema concerns before we proceed.
+    send: true
 ---
 
 # KIRA :: Data — Infrastructure Layer
