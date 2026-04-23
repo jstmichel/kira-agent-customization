@@ -36,8 +36,7 @@ KIRA is a multi-agent coordination system. The root `KIRA` agent routes work to 
 | KIRA :: Data | Infrastructure layer — EF Core, repositories, migrations, services | `kira-data.agent.md` |
 | KIRA :: Maintainer | AI customization file review and maintenance (approval-gated) | `kira-maintainer.agent.md` |
 | KIRA :: Tester | xUnit tests with FluentAssertions, coverage analysis, missing test authoring | `kira-tester.agent.md` |
-
-> KIRA :: UI routes to a user-installed agent; the prompt stub `kira-ui.prompt.md` is in this repo but no agent file is present here yet.
+| KIRA :: UI | WebApp layer — Blazor components, Razor pages, CSS, localization | `kira-ui.agent.md` |
 
 ---
 
