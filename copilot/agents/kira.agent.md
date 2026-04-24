@@ -115,7 +115,7 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
 2. Read the relevant source files to understand what changes are needed.
 3. **Present the PLAN GATE** for code-writing tasks (Coder, Data, UI, Tester), then immediately call the subsystem.
 4. Pass the subsystem the discovered project instruction files relevant to that layer or concern; do not rely on a hardcoded file list.
-5. After Coder, Data, UI, or test-authoring work completes, call `KIRA :: Builder` to validate. Skip this for `KIRA :: Builder` itself and any read-only task.
+5. After Coder, Data, UI, or test-authoring work completes, call `KIRA :: Builder` to validate only when the workspace contains a buildable `.sln` or `.csproj`. If no .NET project exists, skip validation and report that build/test validation was not applicable. Skip this for `KIRA :: Builder` itself and any read-only task.
 
 ### ISSUE / WORK ITEM IMPLEMENTATION
 **Trigger**: any of the following — route to `KIRA :: Architect` regardless of whether a ticket number is provided:

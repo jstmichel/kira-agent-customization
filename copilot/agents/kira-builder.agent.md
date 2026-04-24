@@ -39,12 +39,13 @@ Project instructions override personal skills whenever both cover the same conce
 
 ## Workflow
 
-1. Run `dotnet build` — report any compilation errors.
-2. Run `dotnet test` — report any failing tests.
-3. For each failure: read the relevant source file, apply the minimal fix, re-run.
-4. Repeat until build and tests are green.
-5. **Migration check**: if the change involved `DbSet` properties or entity configurations in the active `DbContext`, discover the Infrastructure project dynamically and verify a migration exists under its `Migrations/` directory. If missing, follow the `kira-ef-migration-workflow` skill to generate it and report it.
-6. Return a pass/fail summary and list of any files changed during validation to KIRA.
+1. Preflight the workspace for a `.sln` or `.csproj`. If none exists, report that validation is skipped because the workspace is not a buildable .NET project and stop.
+2. Run `dotnet build` — report any compilation errors.
+3. Run `dotnet test` — report any failing tests.
+4. For each failure: read the relevant source file, apply the minimal fix, re-run.
+5. Repeat until build and tests are green.
+6. **Migration check**: if the change involved `DbSet` properties or entity configurations in the active `DbContext`, discover the Infrastructure project dynamically and verify a migration exists under its `Migrations/` directory. If missing, follow the `kira-ef-migration-workflow` skill to generate it and report it.
+7. Return a pass/fail summary and list of any files changed during validation to KIRA.
 
 ## Rules
 
