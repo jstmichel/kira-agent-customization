@@ -14,8 +14,14 @@ mkdir -p "$AGENTS_DST" "$SKILLS_DST" "$PROMPTS_DST"
 
 echo "Removing existing KIRA files..."
 
-# Agents — kira.agent.md and kira-*.agent.md
-find "$AGENTS_DST" -maxdepth 1 -type f \( -name "kira.agent.md" -o -name "kira-*.agent.md" \) -delete
+# Agents — KIRA-managed agents and any stale prior conversation agent names
+find "$AGENTS_DST" -maxdepth 1 -type f \( \
+    -name "kira.agent.md" -o \
+    -name "kira-*.agent.md" -o \
+    -name "kira-aura.agent.md" -o \
+    -name "kira-companion.agent.md" -o \
+    -name "mila.agent.md" \
+\) -delete
 
 # Skills — any folder named kira-*
 find "$SKILLS_DST" -maxdepth 1 -type d -name "kira-*" -exec rm -rf {} +

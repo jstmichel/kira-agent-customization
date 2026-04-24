@@ -16,9 +16,15 @@ $PromptsDst = Join-Path $KiraHome 'prompts'
 
 Write-Host 'Removing existing KIRA files...'
 
-# Agents — kira.agent.md and kira-*.agent.md
+# Agents — KIRA-managed agents and any stale prior conversation agent names
 Get-ChildItem -Path $AgentsDst -File |
-    Where-Object { $_.Name -eq 'kira.agent.md' -or $_.Name -like 'kira-*.agent.md' } |
+    Where-Object {
+        $_.Name -eq 'kira.agent.md' -or
+        $_.Name -like 'kira-*.agent.md' -or
+        $_.Name -eq 'kira-aura.agent.md' -or
+        $_.Name -eq 'kira-companion.agent.md' -or
+        $_.Name -eq 'mila.agent.md'
+    } |
     Remove-Item -Force
 
 # Skills — any folder named kira-*
