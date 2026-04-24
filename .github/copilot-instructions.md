@@ -66,6 +66,7 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 
 | Prompt file | Agent | Purpose |
 |-------------|-------|---------|
+| `kira-architecture.prompt.md` | KIRA :: Architect | Deep architecture review, ADRs, tradeoff analysis, and migration / refactor planning |
 | `kira-domain.prompt.md` | KIRA :: Coder | Implement Domain / Application layer changes |
 | `kira-infrastructure.prompt.md` | KIRA :: Data | Implement Infrastructure layer changes |
 | `kira-maintenance.prompt.md` | KIRA :: Maintainer | Review an AI customization file |

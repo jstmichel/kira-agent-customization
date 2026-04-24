@@ -5,7 +5,7 @@ tools: [read, edit, search, execute]
 model: GPT-5.3-Codex
 handoffs:
   - label: Validate Domain Changes
-    agent: agent
+    agent: "KIRA :: Builder"
     prompt: Domain and Application layer changes are complete. Run build and tests to validate.
     send: true
 ---

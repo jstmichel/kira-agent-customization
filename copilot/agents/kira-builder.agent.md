@@ -5,7 +5,7 @@ tools: [read, edit, search, execute, todo]
 model: 'GPT-5.4 mini'
 handoffs:
   - label: Report Build Results
-    agent: agent
+    agent: "KIRA"
     prompt: Build and test run complete. Review the output and determine next steps.
     send: true
 ---
