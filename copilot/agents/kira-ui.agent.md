@@ -3,11 +3,6 @@ name: KIRA :: UI
 description: "Implements WebApp UI changes: Blazor components, Razor pages, CSS, and localization resource files. Use directly or as part of the KIRA system for WebApp layer changes."
 tools: [read, edit, search, execute]
 model: [Claude Sonnet 4.6, GPT-5.4]
-handoffs:
-  - label: Validate UI Build
-    agent: "KIRA :: Builder"
-    prompt: WebApp UI changes are complete. Run build and tests to validate.
-    send: true
 ---
 
 # KIRA :: UI — WebApp Layer

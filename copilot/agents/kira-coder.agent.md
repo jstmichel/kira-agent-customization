@@ -3,11 +3,6 @@ name: KIRA :: Coder
 description: "Implements Domain entities, value objects, Application services, commands, queries, and DTOs. Use directly or as part of the KIRA system for Domain and Application layer changes."
 tools: [read, edit, search, execute]
 model: GPT-5.3-Codex
-handoffs:
-  - label: Validate Domain Changes
-    agent: "KIRA :: Builder"
-    prompt: Domain and Application layer changes are complete. Run build and tests to validate.
-    send: true
 ---
 
 # KIRA :: Coder — Domain & Application Layer

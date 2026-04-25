@@ -4,11 +4,6 @@ description: "Knowledge, Intelligence & Reasoning Assistant. Primary coordinatio
 tools: [read, edit, search, execute, todo, agent]
 agents: ["KIRA :: Architect", "KIRA :: Builder", "KIRA :: Coder", "KIRA :: Data", "KIRA :: Maintainer", "KIRA :: Tester", "KIRA :: UI"]
 model: 'Claude Sonnet 4.6'
-handoffs:
-  - label: Validate Build
-    agent: "KIRA :: Builder"
-    prompt: All layer work is complete. Run dotnet build and dotnet test and report results.
-    send: true
 argument-hint: "Issue number (#42), task description, or 'What can you do?'"
 ---
 

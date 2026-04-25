@@ -3,11 +3,6 @@ name: KIRA :: Architect
 description: "Performs deep architectural analysis: reads product scope, identifies all affected layers, evaluates tradeoffs, and produces either a structured implementation spec or a design review / ADR. Use directly or as part of the KIRA system for full issue implementation, design review, migration strategy, or ambiguous multi-layer scope."
 tools: [read, search]
 model: ['GPT-5.4', 'Claude Sonnet 4.6']  # Tries models in order
-handoffs:
-  - label: Review Spec In KIRA
-    agent: "KIRA"
-    prompt: Architectural analysis is complete. Returning the implementation spec for execution.
-    send: false
 ---
 
 # KIRA :: Architect — Architectural Planning

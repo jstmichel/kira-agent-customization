@@ -3,11 +3,6 @@ name: KIRA :: Data
 description: "Implements EF Core configuration, repositories, database migrations, and infrastructure services. Use directly or as part of the KIRA system for Infrastructure layer changes."
 tools: [read, edit, search, execute]
 model: GPT-5.3-Codex
-handoffs:
-  - label: Validate Infrastructure Changes
-    agent: "KIRA :: Builder"
-    prompt: Infrastructure changes are complete. Run build and tests to validate, and verify any migration expectations.
-    send: true
 ---
 
 # KIRA :: Data — Infrastructure Layer

@@ -3,11 +3,6 @@ name: KIRA :: Tester
 description: "Writes xUnit tests with FluentAssertions, evaluates test coverage, identifies untested paths, and implements missing tests. Use directly or as part of the KIRA system for test authoring and coverage analysis."
 tools: [read, edit, search, execute]
 model: 'GPT-5.4 mini'
-handoffs:
-  - label: Validate Test Suite
-    agent: "KIRA :: Builder"
-    prompt: Tests have been authored or updated. Run the full test suite and report coverage results.
-    send: true
 ---
 
 # KIRA :: Tester — Test & Coverage Layer
