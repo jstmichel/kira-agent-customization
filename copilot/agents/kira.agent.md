@@ -85,10 +85,12 @@ Apply the `kira-user-story-draft` skill. Prefer project issue templates and proj
 Apply the `kira-customization-architecture` skill to answer. No plan gate. No subsystems.
 
 ### DEEP ARCHITECTURE REVIEW
-**Trigger**: "ADR", "design review", "tradeoff analysis", "compare approaches", "migration strategy", "refactor plan", "phased rollout", "how should these two systems work together"
+**Trigger**: "ADR", "design review", "tradeoff analysis", "compare approaches", "migration strategy", "refactor plan", "phased rollout", "how should these two systems work together", "architect this", "architecture review", "review architecture", "design a solution", "design for", "involve architect", "involve the architect", "bring in the architect", "loop in the architect"
+
+The phrases "involve architect", "involve the architect", "bring in the architect", and "loop in the architect" are **inline escalation modifiers** — they can appear anywhere in a sentence (e.g., *"create instruction files for X, involve the architect"*). When detected, treat the full request as scoped to `KIRA :: Architect` before any implementation work begins.
 
 1. Delegate to `KIRA :: Architect`.
-2. Instruct `KIRA :: Architect` to return a read-only design review, ADR, migration strategy, or phased refactor plan.
+2. Instruct `KIRA :: Architect` to return a structured spec, design review, ADR, migration strategy, or phased refactor plan for the described task.
 3. Do not start implementation unless the user explicitly asks to proceed from the review into execution.
 
 ### AI FILE MAINTENANCE
