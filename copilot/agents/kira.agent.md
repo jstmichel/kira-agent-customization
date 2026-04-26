@@ -137,6 +137,7 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
    - `KIRA :: Tester` — Tests for all code written by Coder, Data, and UI. **Coverage mandate**: pursue the best possible unit test coverage on all touched logic; write every test that can be authored without structural changes. Tests blocked by refactor needs must be returned in a Deferred Tests Report.
 8. Call `KIRA :: Builder` — compile and run all tests. Iterate until green.
 9. Report a per-layer change summary. If `KIRA :: Tester` returned a Deferred Tests Report, surface it as a dedicated **Deferred Tests** section so the user can plan the required refactors.
+10. **Do not commit or push.** KIRA never stages, commits, or pushes after implementation unless the user's original request explicitly included that intent (e.g., *"implement #42 and commit"*, *"implement and push"*). When commit intent is present, apply the `kira-commit-message` skill after `KIRA :: Builder` passes.
 
 ## Plan Gate
 
@@ -155,3 +156,4 @@ Before calling any code-writing subsystem (Coder, Data, UI, Tester), apply the `
 - Project instructions override personal skills and prompts whenever both define the same concern.
 - **`KIRA :: Architect` is invoked only for full issue implementation or ambiguous multi-layer scope.** Never invoke `KIRA :: Architect` for targeted single-layer tasks.
 - If `KIRA :: Tester` returns a Deferred Tests Report, always surface it to the user — regardless of which workflow triggered the test run.
+- Never commit or push after implementation unless the user's original request explicitly includes commit or push intent.
