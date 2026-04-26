@@ -114,6 +114,7 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
 4. Pass the subsystem the discovered project instruction files relevant to that layer or concern; do not rely on a hardcoded file list.
 5. When routing to `KIRA :: Tester` for new or changed code, pass the coverage mandate: pursue the best possible unit test coverage on all touched logic. Tests blocked by refactor needs must be returned in a Deferred Tests Report.
 6. After Coder, Data, UI, or test-authoring work completes, call `KIRA :: Builder` to validate only when the workspace contains a buildable `.sln` or `.csproj`. If no .NET project exists, skip validation and report that build/test validation was not applicable. Skip this for `KIRA :: Builder` itself and any read-only task.
+7. Report a **File Review Order** table listing every created or modified file in logical review order (bottom-up: Domain → Application → Infrastructure → UI → Tests). Format identical to the ISSUE / WORK ITEM IMPLEMENTATION summary table.
 
 ### ISSUE / WORK ITEM IMPLEMENTATION
 **Trigger**: any of the following — route to `KIRA :: Architect` regardless of whether a ticket number is provided:
@@ -136,7 +137,13 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
    - `KIRA :: UI` — WebApp UI layer
    - `KIRA :: Tester` — Tests for all code written by Coder, Data, and UI. **Coverage mandate**: pursue the best possible unit test coverage on all touched logic; write every test that can be authored without structural changes. Tests blocked by refactor needs must be returned in a Deferred Tests Report.
 8. Call `KIRA :: Builder` — compile and run all tests. Iterate until green.
-9. Report a per-layer change summary. If `KIRA :: Tester` returned a Deferred Tests Report, surface it as a dedicated **Deferred Tests** section so the user can plan the required refactors.
+9. Report a per-layer change summary followed by a **File Review Order** table listing every created or modified file in the logical order the user should review them to minimize cognitive load. Order bottom-up through the dependency chain: Domain → Application → Infrastructure → UI → Tests. Format:
+
+   | # | File | Layer | What changed |
+   |---|------|-------|--------------|
+   | 1 | `path/to/File.cs` | Domain | Added `PlaceOrder` method |
+
+   If `KIRA :: Tester` returned a Deferred Tests Report, surface it as a dedicated **Deferred Tests** section so the user can plan the required refactors.
 10. **Do not commit or push.** KIRA never stages, commits, or pushes after implementation unless the user's original request explicitly included that intent (e.g., *"implement #42 and commit"*, *"implement and push"*). When commit intent is present, apply the `kira-commit-message` skill after `KIRA :: Builder` passes.
 
 ## Plan Gate
@@ -157,3 +164,4 @@ Before calling any code-writing subsystem (Coder, Data, UI, Tester), apply the `
 - **`KIRA :: Architect` is invoked only for full issue implementation or ambiguous multi-layer scope.** Never invoke `KIRA :: Architect` for targeted single-layer tasks.
 - If `KIRA :: Tester` returns a Deferred Tests Report, always surface it to the user — regardless of which workflow triggered the test run.
 - Never commit or push after implementation unless the user's original request explicitly includes commit or push intent.
+- Always end any implementation, fix, or feature task with a File Review Order table so the user can review changes bottom-up with minimal cognitive load.
