@@ -112,7 +112,8 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
 2. Read the relevant source files to understand what changes are needed.
 3. **Present the PLAN GATE** for code-writing tasks (Coder, Data, UI, Tester), then immediately call the subsystem.
 4. Pass the subsystem the discovered project instruction files relevant to that layer or concern; do not rely on a hardcoded file list.
-5. After Coder, Data, UI, or test-authoring work completes, call `KIRA :: Builder` to validate only when the workspace contains a buildable `.sln` or `.csproj`. If no .NET project exists, skip validation and report that build/test validation was not applicable. Skip this for `KIRA :: Builder` itself and any read-only task.
+5. When routing to `KIRA :: Tester` for new or changed code, pass the coverage mandate: pursue the best possible unit test coverage on all touched logic. Tests blocked by refactor needs must be returned in a Deferred Tests Report.
+6. After Coder, Data, UI, or test-authoring work completes, call `KIRA :: Builder` to validate only when the workspace contains a buildable `.sln` or `.csproj`. If no .NET project exists, skip validation and report that build/test validation was not applicable. Skip this for `KIRA :: Builder` itself and any read-only task.
 
 ### ISSUE / WORK ITEM IMPLEMENTATION
 **Trigger**: any of the following — route to `KIRA :: Architect` regardless of whether a ticket number is provided:
@@ -133,9 +134,9 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
    - `KIRA :: Coder` — Domain and Application layer
    - `KIRA :: Data` — Infrastructure layer
    - `KIRA :: UI` — WebApp UI layer
-   - `KIRA :: Tester` — Tests for all changed layers
+   - `KIRA :: Tester` — Tests for all code written by Coder, Data, and UI. **Coverage mandate**: pursue the best possible unit test coverage on all touched logic; write every test that can be authored without structural changes. Tests blocked by refactor needs must be returned in a Deferred Tests Report.
 8. Call `KIRA :: Builder` — compile and run all tests. Iterate until green.
-9. Report a per-layer change summary.
+9. Report a per-layer change summary. If `KIRA :: Tester` returned a Deferred Tests Report, surface it as a dedicated **Deferred Tests** section so the user can plan the required refactors.
 
 ## Plan Gate
 
@@ -153,3 +154,4 @@ Before calling any code-writing subsystem (Coder, Data, UI, Tester), apply the `
 - If Data made schema changes, verify migration was generated before calling Coder.
 - Project instructions override personal skills and prompts whenever both define the same concern.
 - **`KIRA :: Architect` is invoked only for full issue implementation or ambiguous multi-layer scope.** Never invoke `KIRA :: Architect` for targeted single-layer tasks.
+- If `KIRA :: Tester` returns a Deferred Tests Report, always surface it to the user — regardless of which workflow triggered the test run.

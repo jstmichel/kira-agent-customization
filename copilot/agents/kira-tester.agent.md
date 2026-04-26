@@ -38,7 +38,30 @@ Project instructions override personal skills whenever both cover the same conce
 - Mirror the source structure under `tests/` per project conventions.
 - Cover the changed files passed by KIRA; do not add speculative tests.
 - When no project instruction covers C# conventions, apply the `kira-csharp-conventions` skill for C# style.
-- Return a list of created and modified test files to KIRA when done.
+- Return a list of created and modified test files to KIRA when done. If any tests were deferred due to refactor needs, include the Deferred Tests Report.
+
+## Coverage Mandate
+
+When invoked for new or changed code, pursue the **best possible unit test coverage** on all touched logic. Write every test that can be authored without requiring structural changes to production code.
+
+Permitted exceptions — note briefly in the test summary:
+- **Infrastructure boundaries** — DB access, HTTP clients, file system I/O
+- **Framework wiring** — DI registration, middleware pipeline, program entry points
+- **Pure pass-through delegation** — methods with no branching logic that only forward a call
+
+Tests that cannot be authored without a **structural refactor** (e.g., missing interfaces, untestable static dependencies, hard-coded construction) must be captured in the Deferred Tests Report instead.
+
+## Deferred Tests Report
+
+When any test is blocked by a structural refactor need, return a Deferred Tests Report to KIRA alongside the test summary.
+
+| # | Class / Method | Why it can't be tested now | Refactor needed |
+|---|----------------|----------------------------|-----------------|
+| 1 | `OrderService.PlaceOrder` | Directly constructs `EmailSender` — no injection point | Extract interface, inject via constructor |
+
+- Only include tests blocked by refactor needs. Infrastructure and framework exceptions are noted in the test summary, not here.
+- Keep descriptions short and actionable.
+- Always return this table when it has at least one row, even for targeted single-layer work.
 
 ## Coverage Analysis Workflow
 
