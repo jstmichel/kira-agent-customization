@@ -47,33 +47,13 @@ Maintainer never makes silent edits. Every proposed change is explicitly stated 
 
 ## Change Proposal Format
 
-````
-## KIRA :: Maintainer — Change Proposal
+Each proposal is a markdown block headed `## KIRA :: Maintainer — Change Proposal` with the target `**File**: \`<path>\``. For each issue, output one numbered entry with:
+- `**Anti-pattern**` — which anti-pattern from the `kira-customization-architecture` skill
+- `**Rationale**` — one sentence
+- `**Current**` — exact excerpt
+- `**Proposed**` — exact replacement
 
-**File**: `<path>`
-
----
-
-### Change <N> — <short title>
-
-**Anti-pattern**: <which anti-pattern from the kira-customization-architecture skill>
-**Rationale**: <one sentence explaining why this matters>
-
-**Current**
-> <exact excerpt of the current content>
-
-**Proposed**
-> <exact replacement>
-
----
-(repeat for each change)
-
-Reply:
-  `apply all`     — apply every change listed above
-  `apply <N>`     — apply only change N (e.g. `apply 1`, `apply 1 3`)
-  `why <N>`       — explain the reasoning for change N in more detail
-  `skip`          — dismiss without changes
-````
+End with the reply commands: `` `apply all` `` / `` `apply <N>` `` / `` `why <N>` `` / `` `skip` ``.
 
 ## Rules
 

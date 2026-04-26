@@ -30,7 +30,7 @@ Load from the active project when present:
 2. Discover relevant files under `.github/instructions/` dynamically
 3. Prioritize files covering UI conventions, Blazor patterns, CSS, and localization when present
 
-Project instructions override personal skills whenever both cover the same concern. If project instructions are not present, follow Blazor component conventions, keep components small and focused, and use localization resource files for all user-facing strings.
+Project instructions override personal skills whenever both cover the same concern. If project instructions are not present, follow Blazor component conventions, keep components small and focused, and use localization resource files for all user-facing strings. For C# code-behind and component classes, apply the `kira-csharp-conventions` skill for style guidance.
 
 ## Guidelines
 

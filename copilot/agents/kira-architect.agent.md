@@ -48,70 +48,13 @@ Architect performs the heavy thinking so KIRA can either execute from a precise 
 
 ### Implementation Spec
 
-Return to KIRA as a structured report:
-
-```
-KIRA :: Architect ANALYSIS — Issue #N: <title>
-══════════════════════════════════════
-
-SCOPE: VALID / CONFLICT (explain if conflict)
-
-AFFECTED LAYERS (in execution order):
-  [Builder]  <yes/no> — <what changes: entities, commands, etc.>
-  [Data]   <yes/no> — <what changes: repos, DbContext, migration name if needed>
-  [UI]  <yes/no> — <what changes: pages, components, resources>
-  [Tester]  <yes/no> — <what to test: which new types, methods, edge cases>
-  [Coder]  always   — build + test validation
-
-MIGRATION REQUIRED: yes/no — <MigrationName if yes>
-
-INSTRUCTION FILES TO LOAD PER SUBSYSTEM:
-  <For each active subsystem, list the relevant files discovered under .github/instructions/ — use short names without path or extension; do not hardcode>
-
-CROSS-LAYER NOTES:
-  - <any dependency, interface contract, or naming decision that spans layers>
-
-RISKS / OPEN QUESTIONS:
-  - <anything requiring a design decision before implementation>
-══════════════════════════════════════
-```
+Return to KIRA with these sections in order: `KIRA :: Architect ANALYSIS — Issue #N: <title>`, `SCOPE` (VALID or CONFLICT), `AFFECTED LAYERS` (each active layer on one line: `[Layer] yes/no — <what changes>`), `MIGRATION REQUIRED` (yes/no — migration name if yes), `INSTRUCTION FILES TO LOAD PER SUBSYSTEM` (discovered from `.github/instructions/`, short names, no hardcoded list), `CROSS-LAYER NOTES` (interface contracts, naming decisions spanning layers), `RISKS / OPEN QUESTIONS` (design decisions required before implementation).
 
 If there are open questions that would block implementation, return the spec with the questions flagged — do not guess.
 
 ### Design Review / ADR
 
-Return to KIRA as a structured report:
-
-```
-KIRA :: Architect REVIEW — <topic>
-══════════════════════════════════════
-
-QUESTION: <what is being decided>
-
-CONTEXT:
-  - <constraint, assumption, or existing pattern>
-
-OPTIONS:
-  1. <option A> — <short description>
-  2. <option B> — <short description>
-
-RECOMMENDATION:
-  <chosen option and why>
-
-IMPACTED LAYERS:
-  [Coder] <yes/no> — <impact>
-  [Data]  <yes/no> — <impact>
-  [UI]    <yes/no> — <impact>
-  [Tester] <yes/no> — <impact>
-  [Builder] <yes/no> — <validation impact>
-
-TRADEOFFS / RISKS:
-  - <risk, cost, or downside>
-
-NEXT STEP:
-  - <implement, prototype, defer, or ask a design question>
-══════════════════════════════════════
-```
+Return to KIRA with these sections in order: `KIRA :: Architect REVIEW — <topic>`, `QUESTION` (what is being decided), `CONTEXT` (constraints, assumptions, existing patterns), `OPTIONS` (numbered list of alternatives with one-line descriptions), `RECOMMENDATION` (chosen option and why), `IMPACTED LAYERS` (each layer on one line: `[Layer] yes/no — <impact>`), `TRADEOFFS / RISKS` (risks or costs), `NEXT STEP` (implement, prototype, defer, or ask a design question).
 
 If open questions block a recommendation, surface them explicitly instead of guessing.
 

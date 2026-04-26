@@ -53,15 +53,7 @@ Tests that cannot be authored without a **structural refactor** (e.g., missing i
 
 ## Deferred Tests Report
 
-When any test is blocked by a structural refactor need, return a Deferred Tests Report to KIRA alongside the test summary.
-
-| # | Class / Method | Why it can't be tested now | Refactor needed |
-|---|----------------|----------------------------|-----------------|
-| 1 | `OrderService.PlaceOrder` | Directly constructs `EmailSender` — no injection point | Extract interface, inject via constructor |
-
-- Only include tests blocked by refactor needs. Infrastructure and framework exceptions are noted in the test summary, not here.
-- Keep descriptions short and actionable.
-- Always return this table when it has at least one row, even for targeted single-layer work.
+When any test is blocked by a structural refactor need, return a Deferred Tests Report with columns: `#`, `Class / Method`, `Why it can't be tested now`, `Refactor needed`. Exclude infrastructure and framework exceptions (note those in the test summary). Always return this table when it has at least one row.
 
 ## Coverage Analysis Workflow
 
