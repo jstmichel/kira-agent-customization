@@ -1,6 +1,6 @@
 ---
 name: kira-user-story-draft
-description: "Draft a GitHub issue or user story from a feature description. Prefer project issue templates and project instructions when present; otherwise use a portable title/body workflow."
+description: "Draft a GitHub issue or user story from a feature description. Use when asked to write a story, draft an issue, or create an issue template."
 ---
 
 # User Story Draft Workflow

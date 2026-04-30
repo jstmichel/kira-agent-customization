@@ -1,6 +1,6 @@
 ---
 name: kira-csharp-conventions
-description: "C# coding conventions for all layers. Use when writing any C# class in any layer. Rules: file-scoped namespaces; explicit types (no var unless type is obvious from the right-hand side); interface members must declare access modifiers; concise methods preferred; always use braces for all control flow; readable class and method names; primary constructors by default; static methods when no instance data is used; XML doc comments on all public members in production code."
+description: "C# coding conventions for all layers. Use when writing any C# class in any layer."
 ---
 
 # C# Conventions

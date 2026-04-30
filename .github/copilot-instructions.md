@@ -54,6 +54,7 @@ Each skill lives at `copilot/skills/<name>/SKILL.md`. Skills are loaded on deman
 | `kira-ef-migration-workflow` | Generate and configure an EF Core migration |
 | `kira-plan-gate` | Output a plan table before writing files, then immediately proceed |
 | `kira-publish-github-issue` | Publish a drafted GitHub issue via the GitHub CLI |
+| `kira-review-diff` | Fetch PR or branch diff content for GitHub, Azure DevOps, or git |
 | `kira-run-diagnostics` | Output the full KIRA system status report |
 | `kira-squash-commit-message` | Generate a squash / merge commit message |
 | `kira-user-story-draft` | Draft a GitHub issue or user story |
