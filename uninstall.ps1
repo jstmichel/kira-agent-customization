@@ -8,11 +8,13 @@ $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $AgentsSrc = Join-Path $ScriptRoot 'copilot\agents'
 $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
+$InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
 $KiraHome = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
 $PromptsDst = Join-Path $KiraHome 'prompts'
+$InstructionsDst = Join-Path $KiraHome 'instructions'
 
 function Remove-EmptyDirectory {
     param(
@@ -65,6 +67,7 @@ Write-Host "Removing KIRA files from $KiraHome..."
 $agentCount = 0
 $skillCount = 0
 $promptCount = 0
+$instructionCount = 0
 $cleanedCount = 0
 
 if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
@@ -130,7 +133,24 @@ if (Test-Path -LiteralPath $PromptsDst -PathType Container) {
     }
 }
 
-foreach ($path in @($AgentsDst, $SkillsDst, $PromptsDst, $KiraHome)) {
+if (Test-Path -LiteralPath $InstructionsDst -PathType Container) {
+    if (Test-Path -LiteralPath $InstructionsSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $InstructionsSrc -File -Filter '*.instructions.md' |
+            ForEach-Object {
+                if (Remove-FileIfPresent -Path (Join-Path $InstructionsDst $_.Name)) {
+                    $instructionCount++
+                }
+            }
+    }
+
+    @(Get-ChildItem -LiteralPath $InstructionsDst -File -Filter 'kira*.instructions.md') | ForEach-Object {
+        if (Remove-FileIfPresent -Path $_.FullName) {
+            $instructionCount++
+        }
+    }
+}
+
+foreach ($path in @($AgentsDst, $SkillsDst, $PromptsDst, $InstructionsDst, $KiraHome)) {
     if (Remove-EmptyDirectory -Path $path) {
         $cleanedCount++
     }
@@ -141,8 +161,9 @@ Write-Host 'KIRA uninstall complete'
 Write-Host "  Agents removed  : $agentCount files"
 Write-Host "  Skills removed  : $skillCount folders"
 Write-Host "  Prompts removed : $promptCount files"
+Write-Host "  Instructions removed : $instructionCount files"
 Write-Host "  Empty dirs pruned: $cleanedCount"
 
-if (($agentCount + $skillCount + $promptCount) -eq 0) {
+if (($agentCount + $skillCount + $promptCount + $instructionCount) -eq 0) {
     Write-Host '  No KIRA files or folders were found.'
 }

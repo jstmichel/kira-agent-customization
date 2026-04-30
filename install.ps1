@@ -8,14 +8,16 @@ $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $AgentsSrc = Join-Path $ScriptRoot 'copilot\agents'
 $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
+$InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
 $KiraHome  = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
 $PromptsDst = Join-Path $KiraHome 'prompts'
+$InstructionsDst = Join-Path $KiraHome 'instructions'
 
 # Ensure destination directories exist
-@($AgentsDst, $SkillsDst, $PromptsDst) | ForEach-Object {
+@($AgentsDst, $SkillsDst, $PromptsDst, $InstructionsDst) | ForEach-Object {
     New-Item -ItemType Directory -Force -Path $_ | Out-Null
 }
 
@@ -41,9 +43,14 @@ Get-ChildItem -Path $SkillsDst -Directory |
 Get-ChildItem -Path $PromptsDst -File -Filter 'kira-*.prompt.md' |
     Remove-Item -Force
 
+# Instructions — kira*.instructions.md
+Get-ChildItem -Path $InstructionsDst -File -Filter 'kira*.instructions.md' |
+    Remove-Item -Force
+
 $agentCount = 0
 $skillCount = 0
 $promptCount = 0
+$instructionCount = 0
 
 Write-Host 'Installing KIRA agents...'
 if (Test-Path -LiteralPath $AgentsSrc -PathType Container) {
@@ -77,8 +84,18 @@ if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
         }
 }
 
+Write-Host 'Installing KIRA instructions...'
+if (Test-Path -LiteralPath $InstructionsSrc -PathType Container) {
+    Get-ChildItem -LiteralPath $InstructionsSrc -File -Filter '*.instructions.md' |
+        ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination $InstructionsDst
+            $instructionCount++
+        }
+}
+
 Write-Host ''
 Write-Host "KIRA installed to $KiraHome"
 Write-Host "  Agents  : $agentCount files"
 Write-Host "  Skills  : $skillCount folders"
 Write-Host "  Prompts : $promptCount files"
+Write-Host "  Instructions : $instructionCount files"

@@ -5,6 +5,7 @@
 This repository is the source of truth for **KIRA** (Knowledge, Intelligence & Reasoning Assistant) — a personal multi-agent AI customization system for VS Code Copilot. It contains all agent definitions, skills, and prompts that make up the KIRA system.
 
 Files are authored here and deployed to `~/.copilot/` for user-level activation in VS Code Copilot Chat.
+Shared instructions can also be deployed to `~/.copilot/instructions/`.
 
 ---
 
@@ -13,6 +14,7 @@ Files are authored here and deployed to `~/.copilot/` for user-level activation 
 ```
 copilot/
   agents/     → Custom agent definitions (*.agent.md)
+  instructions/ → Shared instruction files (*.instructions.md)
   skills/     → Skill packages, each in its own named folder containing a SKILL.md
   prompts/    → Prompt templates (*.prompt.md)
 
@@ -77,9 +79,16 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 ## Naming Conventions
 
 - Agent files: `kira-<subsystem>.agent.md` in `copilot/agents/` — kebab-case, lowercase
+- Instruction files: `kira*.instructions.md` in `copilot/instructions/` — kebab-case, lowercase
 - Skill folders: `kira-<name>/SKILL.md` in `copilot/skills/` — folder name must match `name` frontmatter exactly
 - Prompt files: `kira-<subsystem>.prompt.md` in `copilot/prompts/` — kebab-case, lowercase
 - All YAML `description` values must be quoted (they commonly contain colons)
+
+### New Instruction
+
+1. Create `copilot/instructions/kira*.instructions.md`
+2. Include `applyTo` frontmatter with the narrowest pattern that fits the use case
+3. Keep shared persona or workflow guidance concise to avoid wasting context across requests
 
 ---
 

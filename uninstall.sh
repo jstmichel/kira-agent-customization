@@ -9,11 +9,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 AGENTS_SRC="$SCRIPT_DIR/copilot/agents"
 SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
+INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 
 KIRA_HOME="$HOME/.copilot"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
 PROMPTS_DST="$KIRA_HOME/prompts"
+INSTRUCTIONS_DST="$KIRA_HOME/instructions"
 
 cleanup_if_empty() {
     local dir="$1"
@@ -45,6 +47,7 @@ echo "Removing KIRA files from $KIRA_HOME..."
 agent_count=0
 skill_count=0
 prompt_count=0
+instruction_count=0
 cleaned_count=0
 
 if [[ -d "$AGENTS_DST" ]]; then
@@ -104,7 +107,23 @@ if [[ -d "$PROMPTS_DST" ]]; then
     done
 fi
 
-for dir in "$AGENTS_DST" "$SKILLS_DST" "$PROMPTS_DST" "$KIRA_HOME"; do
+if [[ -d "$INSTRUCTIONS_DST" ]]; then
+    if [[ -d "$INSTRUCTIONS_SRC" ]]; then
+        for instruction_file in "$INSTRUCTIONS_SRC"/*.instructions.md; do
+            if remove_file_if_present "$INSTRUCTIONS_DST/$(basename "$instruction_file")"; then
+                instruction_count=$((instruction_count + 1))
+            fi
+        done
+    fi
+
+    for instruction_path in "$INSTRUCTIONS_DST"/kira*.instructions.md; do
+        if remove_file_if_present "$instruction_path"; then
+            instruction_count=$((instruction_count + 1))
+        fi
+    done
+fi
+
+for dir in "$AGENTS_DST" "$SKILLS_DST" "$PROMPTS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME"; do
     if cleanup_if_empty "$dir"; then
         cleaned_count=$((cleaned_count + 1))
     fi
@@ -115,8 +134,9 @@ echo 'KIRA uninstall complete'
 printf '  Agents removed  : %s files\n' "$agent_count"
 printf '  Skills removed  : %s folders\n' "$skill_count"
 printf '  Prompts removed : %s files\n' "$prompt_count"
+printf '  Instructions removed : %s files\n' "$instruction_count"
 printf '  Empty dirs pruned: %s\n' "$cleaned_count"
 
-if [[ "$agent_count" -eq 0 && "$skill_count" -eq 0 && "$prompt_count" -eq 0 ]]; then
+if [[ "$agent_count" -eq 0 && "$skill_count" -eq 0 && "$prompt_count" -eq 0 && "$instruction_count" -eq 0 ]]; then
     echo '  No KIRA files or folders were found.'
 fi

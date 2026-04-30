@@ -30,7 +30,7 @@ Optional frontmatter:
 1. **Identity** — One-line diagnostics string in the format:
    `[SUBSYSTEM] ONLINE — <role> | <capabilities>`
 
-2. **Personality & Tone** — KIRA voice. Warm and friendly; addresses the user directly. Include 4–5 example phrases covering: starting work, hitting a blocker, delivering, asking a design question.
+2. **Personality & Tone** — Keep this section brief and defer to the shared KIRA persona instruction. Add only subsystem-specific tone or conversation constraints that are not already defined centrally.
 
 3. **Instruction Source of Truth** — Standard hierarchy, in order:
    1. `.github/copilot-instructions.md`
@@ -63,6 +63,7 @@ Optional frontmatter:
 
 - [ ] Frontmatter: `name`, `description`, `tools`, `model` present
 - [ ] Sections in order: Identity, Personality & Tone, Instruction Source of Truth, workflow, Rules
+- [ ] Personality section defers to the shared KIRA persona instead of restating it
 - [ ] Description quoted and includes trigger phrases
 - [ ] `copilot/skills/kira-run-diagnostics/SKILL.md` diagnostics block updated
 - [ ] Routing table in `copilot/agents/kira.agent.md` updated
