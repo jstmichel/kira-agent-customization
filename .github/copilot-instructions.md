@@ -5,6 +5,7 @@
 This repository is the source of truth for **KIRA** (Knowledge, Intelligence & Reasoning Assistant) — a personal multi-agent AI customization system for VS Code Copilot. It contains all agent definitions, skills, and prompts that make up the KIRA system.
 
 Files are authored here and deployed to `~/.copilot/` for user-level activation in VS Code Copilot Chat.
+Shared instructions can also be deployed to `~/.copilot/instructions/`.
 
 ---
 
@@ -13,6 +14,7 @@ Files are authored here and deployed to `~/.copilot/` for user-level activation 
 ```
 copilot/
   agents/     → Custom agent definitions (*.agent.md)
+  instructions/ → Shared instruction files (*.instructions.md)
   skills/     → Skill packages, each in its own named folder containing a SKILL.md
   prompts/    → Prompt templates (*.prompt.md)
 
@@ -30,11 +32,10 @@ KIRA is a multi-agent coordination system. The root `KIRA` agent routes work to 
 | Agent | Role | File |
 |-------|------|------|
 | KIRA | Coordinator — routing, commit authoring, story drafting, diagnostics | `kira.agent.md` |
-| KIRA :: Architect | Cross-layer architectural analysis and structured spec generation | `kira-architect.agent.md` |
 | KIRA :: Builder | Build validation — `dotnet build` + `dotnet test`, iterative fixes | `kira-builder.agent.md` |
-| KIRA :: Coder | Domain & Application layer — entities, commands, queries, DTOs | `kira-coder.agent.md` |
-| KIRA :: Data | Infrastructure layer — EF Core, repositories, migrations, services | `kira-data.agent.md` |
+| KIRA :: Dev | Domain, Application & Infrastructure — entities, services, commands, queries, DTOs, EF Core, repositories, migrations | `kira-dev.agent.md` |
 | KIRA :: Maintainer | AI customization file review and maintenance (approval-gated) | `kira-maintainer.agent.md` |
+| KIRA :: Reviewer | GitHub and Azure DevOps PR review, branch comparison | `kira-reviewer.agent.md` |
 | KIRA :: Tester | xUnit tests with FluentAssertions, coverage analysis, missing test authoring | `kira-tester.agent.md` |
 | KIRA :: UI | WebApp layer — Blazor components, Razor pages, CSS, localization | `kira-ui.agent.md` |
 
@@ -46,14 +47,15 @@ Each skill lives at `copilot/skills/<name>/SKILL.md`. Skills are loaded on deman
 
 | Skill | Trigger / Purpose |
 |-------|-------------------|
+| `kira-architecture` | Architectural analysis — implementation specs and design reviews / ADRs |
 | `kira-commit-message` | Generate a commit message from the staged diff |
 | `kira-conventional-commit` | Format a conventional commit per spec |
 | `kira-coverage-analysis` | Run full coverage analysis and implement missing tests |
 | `kira-csharp-conventions` | C# constructor and static method conventions |
 | `kira-customization-architecture` | Explain how KIRA primitives interact |
 | `kira-ef-migration-workflow` | Generate and configure an EF Core migration |
-| `kira-plan-gate` | Output a plan table before writing files, then immediately proceed |
 | `kira-publish-github-issue` | Publish a drafted GitHub issue via the GitHub CLI |
+| `kira-review-diff` | Fetch PR or branch diff content for GitHub, Azure DevOps, or git |
 | `kira-run-diagnostics` | Output the full KIRA system status report |
 | `kira-squash-commit-message` | Generate a squash / merge commit message |
 | `kira-user-story-draft` | Draft a GitHub issue or user story |
@@ -66,9 +68,8 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 
 | Prompt file | Agent | Purpose |
 |-------------|-------|---------|
-| `kira-architecture.prompt.md` | KIRA :: Architect | Deep architecture review, ADRs, tradeoff analysis, and migration / refactor planning |
-| `kira-domain.prompt.md` | KIRA :: Coder | Implement Domain / Application layer changes |
-| `kira-infrastructure.prompt.md` | KIRA :: Data | Implement Infrastructure layer changes |
+| `kira-architecture.prompt.md` | KIRA | Deep architecture review, ADRs, tradeoff analysis, and migration / refactor planning |
+| `kira-dev.prompt.md` | KIRA :: Dev | Implement Domain, Application, and Infrastructure layer changes |
 | `kira-maintenance.prompt.md` | KIRA :: Maintainer | Review an AI customization file |
 | `kira-tests.prompt.md` | KIRA :: Tester | Write or improve tests |
 | `kira-ui.prompt.md` | KIRA :: UI | Implement WebApp UI changes |
@@ -78,9 +79,16 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 ## Naming Conventions
 
 - Agent files: `kira-<subsystem>.agent.md` in `copilot/agents/` — kebab-case, lowercase
+- Instruction files: `kira*.instructions.md` in `copilot/instructions/` — kebab-case, lowercase
 - Skill folders: `kira-<name>/SKILL.md` in `copilot/skills/` — folder name must match `name` frontmatter exactly
 - Prompt files: `kira-<subsystem>.prompt.md` in `copilot/prompts/` — kebab-case, lowercase
 - All YAML `description` values must be quoted (they commonly contain colons)
+
+### New Instruction
+
+1. Create `copilot/instructions/kira*.instructions.md`
+2. Include `applyTo` frontmatter with the narrowest pattern that fits the use case
+3. Keep shared persona or workflow guidance concise to avoid wasting context across requests
 
 ---
 
@@ -114,5 +122,5 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 - **Project instructions beat personal skills**: When a project has its own `.github/copilot-instructions.md` and `.github/instructions/` files, those always override personal skills.
 - **Dynamic instruction discovery**: Subsystems load instructions from `.github/instructions/` dynamically — never use hardcoded lists.
 - **No silent edits** (Maintainer rule): Every change proposed by `KIRA :: Maintainer` requires explicit approval before any file is written.
-- **Plan gate**: Any task that creates or modifies source files must output a plan table first (via `kira-plan-gate` skill), then immediately proceed.
+- **Plan handoff**: Default implementation flows continue automatically. Only approval-first requests pause after a human-readable plan is produced.
 - **Skills are on-demand**: Skills are loaded only when triggered — `applyTo` is not used in skill files.

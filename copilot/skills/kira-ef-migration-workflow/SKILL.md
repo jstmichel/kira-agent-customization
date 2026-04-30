@@ -1,6 +1,6 @@
 ---
 name: kira-ef-migration-workflow
-description: "Generate and configure an EF Core migration. Use when adding or modifying DbSet properties, entity configurations, or Fluent API mappings in a DbContext. Covers command, migration naming, Up/Down review, and coverage exclusion. For project-specific paths and rules, check the project EF Core instruction file first."
+description: "Generate and configure an EF Core migration. Use when adding or modifying DbSet properties, entity configurations, or Fluent API mappings in a DbContext."
 ---
 
 # EF Core Migration Workflow
