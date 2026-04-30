@@ -30,11 +30,10 @@ KIRA is a multi-agent coordination system. The root `KIRA` agent routes work to 
 | Agent | Role | File |
 |-------|------|------|
 | KIRA | Coordinator — routing, commit authoring, story drafting, diagnostics | `kira.agent.md` |
-| KIRA :: Architect | Cross-layer architectural analysis and structured spec generation | `kira-architect.agent.md` |
 | KIRA :: Builder | Build validation — `dotnet build` + `dotnet test`, iterative fixes | `kira-builder.agent.md` |
-| KIRA :: Coder | Domain & Application layer — entities, commands, queries, DTOs | `kira-coder.agent.md` |
-| KIRA :: Data | Infrastructure layer — EF Core, repositories, migrations, services | `kira-data.agent.md` |
+| KIRA :: Dev | Domain, Application & Infrastructure — entities, services, commands, queries, DTOs, EF Core, repositories, migrations | `kira-dev.agent.md` |
 | KIRA :: Maintainer | AI customization file review and maintenance (approval-gated) | `kira-maintainer.agent.md` |
+| KIRA :: Reviewer | GitHub and Azure DevOps PR review, branch comparison | `kira-reviewer.agent.md` |
 | KIRA :: Tester | xUnit tests with FluentAssertions, coverage analysis, missing test authoring | `kira-tester.agent.md` |
 | KIRA :: UI | WebApp layer — Blazor components, Razor pages, CSS, localization | `kira-ui.agent.md` |
 
@@ -46,6 +45,7 @@ Each skill lives at `copilot/skills/<name>/SKILL.md`. Skills are loaded on deman
 
 | Skill | Trigger / Purpose |
 |-------|-------------------|
+| `kira-architecture` | Architectural analysis — implementation specs and design reviews / ADRs |
 | `kira-commit-message` | Generate a commit message from the staged diff |
 | `kira-conventional-commit` | Format a conventional commit per spec |
 | `kira-coverage-analysis` | Run full coverage analysis and implement missing tests |
@@ -67,9 +67,8 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 
 | Prompt file | Agent | Purpose |
 |-------------|-------|---------|
-| `kira-architecture.prompt.md` | KIRA :: Architect | Deep architecture review, ADRs, tradeoff analysis, and migration / refactor planning |
-| `kira-domain.prompt.md` | KIRA :: Coder | Implement Domain / Application layer changes |
-| `kira-infrastructure.prompt.md` | KIRA :: Data | Implement Infrastructure layer changes |
+| `kira-architecture.prompt.md` | KIRA | Deep architecture review, ADRs, tradeoff analysis, and migration / refactor planning |
+| `kira-dev.prompt.md` | KIRA :: Dev | Implement Domain, Application, and Infrastructure layer changes |
 | `kira-maintenance.prompt.md` | KIRA :: Maintainer | Review an AI customization file |
 | `kira-tests.prompt.md` | KIRA :: Tester | Write or improve tests |
 | `kira-ui.prompt.md` | KIRA :: UI | Implement WebApp UI changes |
