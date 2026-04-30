@@ -52,7 +52,6 @@ Each skill lives at `copilot/skills/<name>/SKILL.md`. Skills are loaded on deman
 | `kira-csharp-conventions` | C# constructor and static method conventions |
 | `kira-customization-architecture` | Explain how KIRA primitives interact |
 | `kira-ef-migration-workflow` | Generate and configure an EF Core migration |
-| `kira-plan-gate` | Output a human-readable implementation plan only when approval is requested before execution |
 | `kira-publish-github-issue` | Publish a drafted GitHub issue via the GitHub CLI |
 | `kira-review-diff` | Fetch PR or branch diff content for GitHub, Azure DevOps, or git |
 | `kira-run-diagnostics` | Output the full KIRA system status report |

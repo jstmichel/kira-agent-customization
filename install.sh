@@ -35,6 +35,7 @@ cp copilot/agents/*.agent.md "$AGENTS_DST/"
 echo "Installing KIRA skills..."
 for skill_dir in copilot/skills/kira-*/; do
     name=$(basename "$skill_dir")
+    [[ -f "$skill_dir/SKILL.md" ]] || continue
     mkdir -p "$SKILLS_DST/$name"
     cp "$skill_dir/SKILL.md" "$SKILLS_DST/$name/SKILL.md"
 done
