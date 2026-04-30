@@ -4,6 +4,11 @@
 #   .\install.ps1
 $ErrorActionPreference = 'Stop'
 
+$ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$AgentsSrc = Join-Path $ScriptRoot 'copilot\agents'
+$SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
+$PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
+
 $KiraHome  = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
@@ -36,26 +41,41 @@ Get-ChildItem -Path $SkillsDst -Directory |
 Get-ChildItem -Path $PromptsDst -File -Filter 'kira-*.prompt.md' |
     Remove-Item -Force
 
+$agentCount = 0
+$skillCount = 0
+$promptCount = 0
+
 Write-Host 'Installing KIRA agents...'
-Get-ChildItem -Path 'copilot\agents' -Filter '*.agent.md' |
-    Copy-Item -Destination $AgentsDst
+if (Test-Path -LiteralPath $AgentsSrc -PathType Container) {
+    Get-ChildItem -LiteralPath $AgentsSrc -File -Filter '*.agent.md' |
+        ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination $AgentsDst
+            $agentCount++
+        }
+}
 
 Write-Host 'Installing KIRA skills...'
-Get-ChildItem -Path 'copilot\skills' -Directory |
-    Where-Object { $_.Name -like 'kira-*' } |
-    ForEach-Object {
-        $dest = Join-Path $SkillsDst $_.Name
-        New-Item -ItemType Directory -Force -Path $dest | Out-Null
-        Copy-Item -Path (Join-Path $_.FullName 'SKILL.md') -Destination $dest
-    }
+if (Test-Path -LiteralPath $SkillsSrc -PathType Container) {
+    Get-ChildItem -LiteralPath $SkillsSrc -Directory |
+        ForEach-Object {
+            $skillFile = Join-Path $_.FullName 'SKILL.md'
+            if (Test-Path -LiteralPath $skillFile -PathType Leaf) {
+                $dest = Join-Path $SkillsDst $_.Name
+                New-Item -ItemType Directory -Force -Path $dest | Out-Null
+                Copy-Item -LiteralPath $skillFile -Destination $dest
+                $skillCount++
+            }
+        }
+}
 
 Write-Host 'Installing KIRA prompts...'
-Get-ChildItem -Path 'copilot\prompts' -Filter '*.prompt.md' |
-    Copy-Item -Destination $PromptsDst
-
-$agentCount  = (Get-ChildItem -Path $AgentsDst -File | Where-Object { $_.Name -like 'kira*.agent.md' }).Count
-$skillCount  = (Get-ChildItem -Path $SkillsDst -Directory | Where-Object { $_.Name -like 'kira-*' }).Count
-$promptCount = (Get-ChildItem -Path $PromptsDst -File -Filter 'kira-*.prompt.md').Count
+if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
+    Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
+        ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination $PromptsDst
+            $promptCount++
+        }
+}
 
 Write-Host ''
 Write-Host "KIRA installed to $KiraHome"

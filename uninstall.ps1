@@ -4,6 +4,11 @@
 #   .\uninstall.ps1
 $ErrorActionPreference = 'Stop'
 
+$ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$AgentsSrc = Join-Path $ScriptRoot 'copilot\agents'
+$SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
+$PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
+
 $KiraHome = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
@@ -27,42 +32,101 @@ function Remove-EmptyDirectory {
     return $true
 }
 
+function Remove-FileIfPresent {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        return $false
+    }
+
+    Remove-Item -LiteralPath $Path -Force
+    return $true
+}
+
+function Remove-DirectoryIfPresent {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Container)) {
+        return $false
+    }
+
+    Remove-Item -LiteralPath $Path -Recurse -Force
+    return $true
+}
+
 Write-Host "Removing KIRA files from $KiraHome..."
 
-$agentItems = @()
-$skillItems = @()
-$promptItems = @()
+$agentCount = 0
+$skillCount = 0
+$promptCount = 0
 $cleanedCount = 0
 
 if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
-    $agentItems = @(Get-ChildItem -LiteralPath $AgentsDst -File | Where-Object {
-        $_.Name -eq 'kira.agent.md' -or
-        $_.Name -like 'kira-*.agent.md' -or
-        $_.Name -eq 'kira-aura.agent.md' -or
-        $_.Name -eq 'kira-companion.agent.md' -or
-        $_.Name -eq 'mila.agent.md'
-    })
+    if (Test-Path -LiteralPath $AgentsSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $AgentsSrc -File -Filter '*.agent.md' |
+            ForEach-Object {
+                if (Remove-FileIfPresent -Path (Join-Path $AgentsDst $_.Name)) {
+                    $agentCount++
+                }
+            }
+    }
 
-    if ($agentItems.Count -gt 0) {
-        $agentItems | Remove-Item -Force
+    foreach ($legacyAgent in @('kira-aura.agent.md', 'kira-companion.agent.md', 'mila.agent.md')) {
+        if (Remove-FileIfPresent -Path (Join-Path $AgentsDst $legacyAgent)) {
+            $agentCount++
+        }
+    }
+
+    @(Get-ChildItem -LiteralPath $AgentsDst -File | Where-Object {
+        $_.Name -eq 'kira.agent.md' -or
+        $_.Name -like 'kira-*.agent.md'
+    }) | ForEach-Object {
+        if (Remove-FileIfPresent -Path $_.FullName) {
+            $agentCount++
+        }
     }
 }
 
 if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
-    $skillItems = @(Get-ChildItem -LiteralPath $SkillsDst -Directory | Where-Object {
-        $_.Name -like 'kira-*'
-    })
+    if (Test-Path -LiteralPath $SkillsSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $SkillsSrc -Directory |
+            ForEach-Object {
+                $skillFile = Join-Path $_.FullName 'SKILL.md'
+                if ((Test-Path -LiteralPath $skillFile -PathType Leaf) -and (Remove-DirectoryIfPresent -Path (Join-Path $SkillsDst $_.Name))) {
+                    $skillCount++
+                }
+            }
+    }
 
-    if ($skillItems.Count -gt 0) {
-        $skillItems | Remove-Item -Recurse -Force
+    @(Get-ChildItem -LiteralPath $SkillsDst -Directory | Where-Object {
+        $_.Name -like 'kira-*'
+    }) | ForEach-Object {
+        if (Remove-DirectoryIfPresent -Path $_.FullName) {
+            $skillCount++
+        }
     }
 }
 
 if (Test-Path -LiteralPath $PromptsDst -PathType Container) {
-    $promptItems = @(Get-ChildItem -LiteralPath $PromptsDst -File -Filter 'kira-*.prompt.md')
+    if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
+            ForEach-Object {
+                if (Remove-FileIfPresent -Path (Join-Path $PromptsDst $_.Name)) {
+                    $promptCount++
+                }
+            }
+    }
 
-    if ($promptItems.Count -gt 0) {
-        $promptItems | Remove-Item -Force
+    @(Get-ChildItem -LiteralPath $PromptsDst -File -Filter 'kira-*.prompt.md') | ForEach-Object {
+        if (Remove-FileIfPresent -Path $_.FullName) {
+            $promptCount++
+        }
     }
 }
 
@@ -74,11 +138,11 @@ foreach ($path in @($AgentsDst, $SkillsDst, $PromptsDst, $KiraHome)) {
 
 Write-Host ''
 Write-Host 'KIRA uninstall complete'
-Write-Host "  Agents removed  : $($agentItems.Count) files"
-Write-Host "  Skills removed  : $($skillItems.Count) folders"
-Write-Host "  Prompts removed : $($promptItems.Count) files"
+Write-Host "  Agents removed  : $agentCount files"
+Write-Host "  Skills removed  : $skillCount folders"
+Write-Host "  Prompts removed : $promptCount files"
 Write-Host "  Empty dirs pruned: $cleanedCount"
 
-if (($agentItems.Count + $skillItems.Count + $promptItems.Count) -eq 0) {
+if (($agentCount + $skillCount + $promptCount) -eq 0) {
     Write-Host '  No KIRA files or folders were found.'
 }
