@@ -20,7 +20,8 @@ Discover `.github/instructions/` files relevant to the task only if not already 
 ## Request Routing
 
 - Route immediately when a request clearly matches a lightweight workflow or a single subsystem.
-- Do not perform deep architectural analysis in KIRA; escalate ambiguous or cross-layer work to `KIRA :: Architect`.
+- Use `kira-architecture` for ambiguous or cross-layer work that needs deep analysis.
+- If the user explicitly asks to review, approve, or refine the plan first, stop after planning and wait.
 - For commit, squash, user story, publish, diagnostics, and other short bounded workflows, execute directly unless a blocker requires handoff.
 
 ### COMMIT MESSAGE
@@ -53,7 +54,7 @@ Discover `.github/instructions/` files relevant to the task only if not already 
 ### TARGETED LAYER WORK
 **Trigger**: explicit single-layer requests with clear scope and a named layer, artifact, or file
 
-Use the table below to route directly — **do not invoke `KIRA :: Architect`** when the user has already named the layer or the concrete artifact to change:
+Use the table below to route directly — **do not run `kira-architecture`** when the user has already named the layer or the concrete artifact to change:
 
 | Request pattern | Route to |
 |---|---|
@@ -64,7 +65,7 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
 | "review PR", "review branch", "compare branches", "what changed" | `KIRA :: Reviewer` |
 
 1. Identify subsystem from table. Read relevant source files.
-2. Code-writing tasks (Coder, Data, UI, Tester): present PLAN GATE → call subsystem immediately.
+2. Code-writing tasks (Dev, UI, Tester): call the subsystem immediately unless the user explicitly asked to review the plan first; in that case, return a short human-readable layer plan and stop with: `Reply with: continue | revise: <change> | cancel`.
 3. Pass discovered `.github/instructions/` files relevant to the layer — no hardcoded list.
 4. `KIRA :: Tester`: mandate best-possible unit coverage; tests blocked by refactoring → Deferred Tests Report.
 5. After code work: call `KIRA :: Builder` only when `.sln`/`.csproj` present; skip for read-only and Builder itself.
@@ -76,22 +77,26 @@ Use the table below to route directly — **do not invoke `KIRA :: Architect`** 
 1. Resolve platform (wording, URL, or `git remote`).
 2. Fetch GitHub issue or ADO work item; if unavailable, use provided description as spec.
 3. Validate against `README.md` scope — surface conflicts and stop.
-4. Apply the `kira-architecture` skill — returns structured spec with per-layer deliverables in dependency order.
-5. Present PLAN GATE, build todo list, execute in order (Dev → UI → Tester). Tester: best-possible unit coverage; blocked tests → Deferred Tests Report.
-6. Call `KIRA :: Builder` — iterate until green.
-7. Report per-layer summary. Surface Deferred Tests Report if present.
+4. Apply the `kira-architecture` skill.
+5. If the user explicitly asked to review, approve, or refine the plan first, return the human-readable implementation plan and stop with: `Reply with: continue | revise: <change> | cancel`.
+6. Otherwise use the machine-readable spec internally and execute in order (Dev → UI → Tester). Tester: best-possible unit coverage; blocked tests → Deferred Tests Report.
+7. Call `KIRA :: Builder` — iterate until green.
+8. Report per-layer summary. Surface Deferred Tests Report if present.
 
 
-## Plan Gate
+## Plan Handoff
 
-Apply `kira-plan-gate` before any code-writing subsystem (Coder, Data, UI, Tester). Required for file writes/creates/deletes. Skipped for commits, stories, coverage reports, Builder-only, and read-only tasks.
+Default behavior: do not stop for plan approval on implementation requests. Use deep analysis internally and continue execution.
+
+Pause only when the user explicitly asks to review, approve, or refine the plan first. For deep-analysis work, return a human-readable implementation plan. For explicit single-layer work, return a short human-readable layer plan. In both cases, stop with: `Reply with: continue | revise: <change> | cancel`.
 
 ## Sub-Agent Routing Rules
 
 - Call subsystems only for layers actually touched.
 - Pass each subsystem: task summary, affected files, relevant `.github/instructions/` files.
 - Collect each subsystem's output before calling the next. Surface blockers immediately.
-- If Data made schema changes, verify migration before calling Coder.
+- If Dev made schema changes, surface the migration decision before Builder runs.
 - Apply `kira-architecture` skill for full issue implementation or ambiguous multi-layer scope — never for targeted single-layer tasks.
+- If the user replies `continue`, resume from the approved plan. If the user replies `revise: <change>`, update the plan first. If the user replies `cancel`, stop. Only rerun `kira-architecture` when scope changed materially.
 - Always surface `KIRA :: Tester` Deferred Tests Reports to the user.
 - Never commit or push unless the request explicitly includes that intent; if so, apply `kira-commit-message` after Builder passes.

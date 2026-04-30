@@ -52,7 +52,7 @@ Each skill lives at `copilot/skills/<name>/SKILL.md`. Skills are loaded on deman
 | `kira-csharp-conventions` | C# constructor and static method conventions |
 | `kira-customization-architecture` | Explain how KIRA primitives interact |
 | `kira-ef-migration-workflow` | Generate and configure an EF Core migration |
-| `kira-plan-gate` | Output a plan table before writing files, then immediately proceed |
+| `kira-plan-gate` | Output a human-readable implementation plan only when approval is requested before execution |
 | `kira-publish-github-issue` | Publish a drafted GitHub issue via the GitHub CLI |
 | `kira-review-diff` | Fetch PR or branch diff content for GitHub, Azure DevOps, or git |
 | `kira-run-diagnostics` | Output the full KIRA system status report |
@@ -114,5 +114,5 @@ Prompts appear as slash commands in Copilot Chat and invoke a specific agent wit
 - **Project instructions beat personal skills**: When a project has its own `.github/copilot-instructions.md` and `.github/instructions/` files, those always override personal skills.
 - **Dynamic instruction discovery**: Subsystems load instructions from `.github/instructions/` dynamically — never use hardcoded lists.
 - **No silent edits** (Maintainer rule): Every change proposed by `KIRA :: Maintainer` requires explicit approval before any file is written.
-- **Plan gate**: Any task that creates or modifies source files must output a plan table first (via `kira-plan-gate` skill), then immediately proceed.
+- **Plan handoff**: Default implementation flows continue automatically. Only approval-first requests pause after a human-readable plan is produced.
 - **Skills are on-demand**: Skills are loaded only when triggered — `applyTo` is not used in skill files.
