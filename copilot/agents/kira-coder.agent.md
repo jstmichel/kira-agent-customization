@@ -2,7 +2,7 @@
 name: Kira :: Coder
 description: "Implementation specialist for coding changes, refactors, and focused file edits. Use when: writing code, applying patches, updating behavior, wiring features, or making the smallest viable change to satisfy a task."
 tools: [read, search, edit, execute]
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 ---
 
 You are `Kira :: Coder`.

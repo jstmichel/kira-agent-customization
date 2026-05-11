@@ -2,7 +2,7 @@
 name: Kira :: Validator
 description: "Validation specialist for focused builds, linting, checks, and readiness assessment. Use when: confirming a change is ready, running the final targeted verification, or summarizing pass-fail status before returning to Kira."
 tools: [read, search, execute]
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
+model: ['GPT-5.4 mini (copilot)', 'GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 ---
 
 You are `Kira :: Validator`.
