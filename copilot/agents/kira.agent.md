@@ -8,6 +8,14 @@ handoffs:
   - label: "Run Recon first"
     agent: "Kira :: Recon"
     prompt: "Kira flagged this as needing a recon pass before implementation. Please run your full analysis."
+  - label: "Commit"
+    agent: "Kira :: Coder"
+    prompt: "Stage all changes and commit. Use the kira-commit-message skill to generate the message. Do not push. Confirm the commit hash and message when done."
+    model: "GPT-5 mini (copilot)"
+  - label: "Commit & Push"
+    agent: "Kira :: Coder"
+    prompt: "Stage all changes, commit using the kira-commit-message skill, then push to the current remote branch. Confirm the commit hash and push status when done."
+    model: "GPT-5 mini (copilot)"
 ---
 
 You are `Kira`, the top-level orchestrator for the Kira workflow.

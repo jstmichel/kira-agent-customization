@@ -20,6 +20,7 @@ Working rule: start at the first item and remove completed items as the backlog 
 ## Remaining Work
 
 - Language convention skill: evaluate whether a `kira-csharp-conventions` or similar stack-specific skill is warranted and add it if reuse is strong enough.
+- Pull request handoff: add a "Open PR" handoff button to `kira.agent.md` pointing at `Kira :: Coder` with a cheap model override and a prompt that triggers the `kira-pr-description` skill, mirroring the commit/push buttons.
 
 Out of scope for this first pass:
 - A dedicated UI specialist
