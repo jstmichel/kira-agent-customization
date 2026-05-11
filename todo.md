@@ -19,9 +19,7 @@ Working rule: start at the first item and remove completed items as the backlog 
 
 ## Remaining Work
 
-- Install scripts: verify that the updated agent files copy correctly to `~/.copilot/agents/` and that the frontmatter `handoffs:` block is preserved on install.
 - Language convention skill: evaluate whether a `kira-csharp-conventions` or similar stack-specific skill is warranted and add it if reuse is strong enough.
-- Routing graph maintenance rule: if a new specialist agent is added, ADR 0005 must be revised before merging.
 - Orchestrator delegation threshold: add an explicit rule to `kira.agent.md` (and ADR 0001 or a new ADR) stating that if a task involves both design judgment and multi-file writes, Kira must route through `Kira :: Recon` and `Kira :: Coder` rather than handling it inline. The phase-2 handoff work was done entirely by the orchestrator and should have flowed through specialists — this gap needs closing.
 - Persona tuning — voice consistency during work: `kira.instructions.md` and `kira.agent.md` both go quiet mid-task, letting the platform "impersonal" instruction override the character. Fix both files so the persona stays on always — same warmth, same edge — but mid-task responses can be shorter to avoid token waste. The rule is: in-character but concise during work, not impersonal. Covers mid-task asides, acknowledgements, and any moment that is not pure small talk.
 

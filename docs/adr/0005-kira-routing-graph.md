@@ -16,7 +16,8 @@ machine:
   phase: explicit-handoffs
   related_files:
     - copilot/agents/kira.agent.md
-    - copilot/agents/kira-architect.agent.md
+    - copilot/agents/kira-recon.agent.md
+    - copilot/agents/kira-scribe.agent.md
     - copilot/agents/kira-coder.agent.md
     - copilot/agents/kira-debugger.agent.md
     - copilot/agents/kira-tester.agent.md
@@ -66,6 +67,20 @@ Kira → Kira :: Debugger (reproduce, isolate, fix)
 
 `Kira :: Debugger` may call `Kira :: Coder` if the fix is large enough to warrant a dedicated implementation pass. Debugger does not call Recon unless the root cause reveals a structural problem, in which case it escalates to `Kira` first.
 
+### Persistence Path
+
+When a knowledge artifact (ADR, instruction file, agent file, prompt file) needs to be written to disk:
+
+```
+Kira → Kira :: Scribe (programmatic, via agent tool — Kira continues after)
+Kira :: Recon → Kira :: Scribe (via handoff button — to persist a drafted ADR)
+             → Kira (via handoff button — to continue to implementation)
+Kira :: Scribe → Kira (via handoff button — artifact persisted, ready to continue)
+```
+
+`Kira` always routes to Scribe programmatically for inline write tasks. The Recon → Scribe handoff exists for the case where a recon report produces an ADR draft that the user wants persisted before continuing.
+
+
 ### Failure Feedback Loop
 
 When `Kira :: Validator` returns `validation_state: failed`:
@@ -91,26 +106,25 @@ Escalation is not a failure state. It is the correct signal for a scope or routi
 
 ### Frontmatter Encoding
 
-Each agent file must carry a `handoffs:` frontmatter block listing its recurring downstream transitions. The block uses two keys:
+Agent files use a `handoffs:` frontmatter block to declare their recurring user-triggered transitions. Each entry uses three keys:
 
-- `downstream`: agents this agent sends work to as part of normal flow
-- `escalate`: agents this agent routes to when blocked or when scope changes
+- `label`: the button text shown to the user
+- `agent`: the target agent name
+- `prompt`: the prompt sent to the target agent when the button is clicked
 
-Example for `Kira :: Coder`:
+Example for `Kira :: Recon`:
 
 ```yaml
 handoffs:
-  downstream:
-    - agent: "Kira :: Tester"
-      when: "implementation is complete and tests are needed"
-    - agent: "Kira :: Validator"
-      when: "implementation is complete and no new tests are needed"
-    - agent: "Kira"
-      when: "task is fully done or a synthesis decision is required"
-  escalate:
-    - agent: "Kira"
-      when: "scope changed, two approaches failed, or a routing decision is required"
+  - label: "Return to Kira"
+    agent: "Kira"
+    prompt: "Recon complete. Here is the full report — ready to continue to implementation."
+  - label: "Write ADR with Scribe"
+    agent: "Kira :: Scribe"
+    prompt: "Please commit the ADR draft from this recon report to disk."
 ```
+
+Programmatic delegation (via the `agent` tool) does not require a frontmatter entry — it is invisible to the user and returns control to the calling agent automatically.
 
 ## Consequences
 
@@ -129,6 +143,5 @@ handoffs:
 
 ## Next Actions
 
-- Add `handoffs:` frontmatter to each of the five specialist agent files and to `kira.agent.md`.
-- Update each agent's `## Output` section to reference the failure feedback path where relevant.
-- Record in `todo.md` that the routing graph must be revisited if a new specialist is added.
+- If a new specialist agent is added, revise this ADR before merging the agent file.
+- The `handoffs:` frontmatter schema (`label` / `agent` / `prompt`) must be kept consistent across all agent files.
