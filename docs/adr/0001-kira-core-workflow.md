@@ -32,7 +32,7 @@ The current requirements also confirm that a dedicated UI specialist is not in s
 Use `Kira` as the only top-level orchestrator.
 
 Start with a lean specialist set:
-- `Kira :: Architect`
+- `Kira :: Recon`
 - `Kira :: Coder`
 - `Kira :: Debugger`
 - `Kira :: Tester`
