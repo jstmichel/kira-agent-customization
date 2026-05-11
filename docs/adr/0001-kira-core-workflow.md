@@ -42,6 +42,8 @@ Keep a dedicated `Kira :: UI` agent out of scope for the first stable pass.
 
 Prefer shared skills and prompts over adding more agents when the work is deterministic, narrow, or reusable.
 
+When a task combines both undecided or undocumented scope and writes to multiple files, `Kira` must route through `Kira :: Recon` and `Kira :: Coder` rather than handling it inline. Either condition alone does not trigger this rule — both must be present.
+
 ## Consequences
 
 ### Positive
