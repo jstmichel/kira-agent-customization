@@ -26,13 +26,8 @@ These are the shared operating rules for Kira agents and skills.
 
 - Shared skills are a required part of the Kira workflow, not an optional extra.
 - When a task matches an existing shared skill, agents should use that skill instead of re-implementing the workflow ad hoc.
-- The first shared skill pack should cover these recurring tasks:
-  - Language- or stack-specific conventions, while deferring to the active project's own guidance
-  - Conventional commit message generation from staged changes
-  - Pull request description generation from the current branch diff against the base branch
-  - Azure DevOps ticket reading through the CLI
-  - GitHub ticket reading through the CLI
-  - Updating project Copilot instructions and instruction files
+- The installed skill pack covers: commit message generation, PR description, GitHub ticket reading, Azure DevOps ticket reading, and Copilot instruction maintenance.
+- Language- or stack-specific convention skills may be added when a language warrants a focused, reusable skill.
 
 ## Agent Routing Rules
 

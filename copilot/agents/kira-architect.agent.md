@@ -29,3 +29,4 @@ Return:
 - the main risks or assumptions
 - the smallest useful next step
 - the recommended next agent
+- Hand off to the recommended next agent or return to `Kira` if no specialist is needed.

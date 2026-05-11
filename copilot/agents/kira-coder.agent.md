@@ -28,3 +28,4 @@ Return:
 - which files were touched
 - the focused validation you ran
 - any remaining blocker or follow-up
+- Return to `Kira` for synthesis or route to `Kira :: Validator` if a final check is warranted.

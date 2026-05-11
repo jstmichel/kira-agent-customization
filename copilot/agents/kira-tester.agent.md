@@ -27,3 +27,4 @@ Return:
 - the commands you ran
 - the outcome
 - any remaining coverage gap or handoff recommendation
+- Return to `Kira` or route to `Kira :: Validator` for final readiness confirmation.

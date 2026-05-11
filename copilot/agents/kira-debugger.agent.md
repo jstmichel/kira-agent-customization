@@ -28,3 +28,4 @@ Return:
 - the fix applied
 - the validation result
 - any residual risk
+- Return to `Kira` for synthesis or route through the normal validation path before closing.
