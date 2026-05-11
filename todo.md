@@ -6,11 +6,12 @@ Goal: deliver a lean, portable, cost-aware Kira workflow with a clear orchestrat
 
 ## Updated Analysis
 
-- The repository packaging is already in place, but the runtime workflow is still mostly empty.
-- The first missing capability is not another agent; it is a shared contract for instruction precedence, shared skills, and persona inheritance.
+- The repository packaging is already in place, and the first runtime workflow slice now exists in-repo.
+- The installable layer now includes a shared runtime contract, the core Kira agent set, the first shared skill pack, explicit handoffs, and initial per-agent model preferences.
 - Generic language best practices must be subordinate to what the active project says in `README.md`, Copilot instructions, and other project instruction files.
-- Shared workflow skills are first-class requirements because they remove duplication across agents for commit text, PR text, ticket reading, and instruction maintenance.
+- Shared workflow skills are now first-class runtime capabilities for commit text, PR text, ticket reading, and instruction maintenance.
 - The Kira persona should stay global and consistent across agents; specialist agents should add role boundaries, not invent separate personalities.
+- The next meaningful risk is validation, not structure: the packaging install and one real end-to-end run still need to be proven.
 - A dedicated UI specialist remains out of scope for the first stable pass.
 
 Working rule: start at the first item and remove completed items as the backlog advances.
@@ -19,107 +20,6 @@ Out of scope for this first pass:
 - A dedicated UI specialist
 - Extra agents without a durable responsibility boundary
 - Any workflow that depends on GPT 5.5 or Opus 4.7
-
-## Priority 1: Ship the Shared Runtime Contract
-
-User story:
-As the maintainer, I want the installable instruction layer to define instruction precedence, persona inheritance, and shared-skill expectations so that every future agent and skill starts from the same operating rules.
-
-Implementation notes:
-- Finalize `copilot/instructions/kira.instructions.md` as the shared Kira persona source
-- Add installable instructions that tell agents to respect target-project guidance over generic best practices
-- State that shared skills are a normal part of the workflow and not an optional extra
-
-Acceptance criteria:
-- The runtime instruction layer defines a clear precedence order for conventions and best practices
-- The Kira persona is treated as shared across all agents
-- Agents and skills are told to defer to the target project's local instructions when present
-- The contract is installable and portable
-
-Definition of done:
-- New runtime assets can be authored against one stable ruleset instead of ad hoc assumptions
-
-## Priority 2: Establish the Core Agent Workflow
-
-User story:
-As the maintainer, I want a minimal but complete Kira agent set so that the workflow is usable end to end without creating unnecessary orchestration overhead.
-
-Implementation notes:
-- Create the main orchestrator in `copilot/agents/kira.agent.md`
-- Create the first specialist agents in `copilot/agents/`
-- Start with `Kira :: Architect`, `Kira :: Coder`, `Kira :: Debugger`, `Kira :: Tester`, and `Kira :: Validator`
-- Keep `Kira` as the only top-level entry point and final synthesizer
-
-Acceptance criteria:
-- Each agent owns one clear and non-overlapping responsibility
-- `Kira` routes work instead of trying to perform every specialized task itself
-- The specialist set is small enough to understand at a glance
-- No UI-specific agent is introduced in this first cut
-
-Definition of done:
-- The repo contains the core agent files with clear purpose, scope, and exit conditions
-
-## Priority 3: Build the Shared Skill Pack
-
-User story:
-As the maintainer, I want the recurring utility workflows implemented as installable Kira skills so that agents can reuse them instead of duplicating instructions and logic.
-
-Implementation notes:
-- Create a commit-message skill that generates a conventional commit from staged changes
-- Create a PR-description skill that uses the current branch diff against the base branch
-- Create Azure DevOps and GitHub ticket-reader skills that use the CLI
-- Create a customization-maintenance skill for updating Copilot instructions and instruction files
-- Add language- or stack-specific convention skills only where they are durable and genuinely reusable
-
-Acceptance criteria:
-- The initial skill pack covers commit text, PR text, ticket reading, and instruction maintenance
-- Any language-convention skill explicitly defers to the target project's local documentation and instruction files
-- Skill names follow the Kira naming convention
-- The skill set is small, useful, and not padded with decorative capabilities
-
-Definition of done:
-- Agents have a reusable capability layer for the workflows they should not keep re-implementing
-
-## Priority 4: Define Explicit Handoffs Between Core Roles and Skills
-
-User story:
-As the maintainer, I want explicit handoffs between the core agents and shared skills so that delegation is understandable, predictable, and easy to debug.
-
-Implementation notes:
-- Add frontmatter handoffs only where the transition is recurring and valuable
-- Use handoffs for planning to implementation, debugging to repair, and implementation to verification
-- Allow direct skill usage from `Kira` and specialist agents when a reusable workflow already exists
-- Keep the return path back to `Kira` explicit
-
-Acceptance criteria:
-- The normal flow is visible in the agent definitions
-- Handoffs do not create circular or redundant routing
-- Each specialist agent states when work should return to `Kira`
-- Shared skills are part of the readable workflow rather than hidden side behavior
-- Handoffs improve clarity instead of adding ceremony
-
-Definition of done:
-- The core agents can be read in order and the default workflow is obvious
-
-## Priority 5: Add Per-Agent Model Strategy With Fallbacks
-
-User story:
-As the maintainer, I want each agent to define an appropriate model strategy so that the system stays cost effective at work and still works at home on Copilot Pro+.
-
-Implementation notes:
-- Choose the cheapest model that can do the job reliably
-- Reserve premium models for architecture-heavy, ambiguous, or deeply cross-cutting tasks
-- Document a fallback for every premium choice
-- Avoid models that are explicitly out of scope
-
-Acceptance criteria:
-- Every agent includes a default model choice or clear model policy
-- Premium-model usage is justified, limited, and optional
-- The workflow remains usable without enterprise-only access
-- GPT 5.5 and Opus 4.7 are not required anywhere
-
-Definition of done:
-- A contributor can understand which model to use and why without guessing
 
 ## Priority 6: Validate Packaging and End-to-End Task Flows
 
