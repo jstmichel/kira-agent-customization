@@ -69,6 +69,6 @@ The short daily routing reference lives in [docs/copilot-workflow-cheat-sheet.md
 
 The comparison between built-in Plan and custom planning agents lives in [docs/copilot-plan-vs-custom-agent.md](docs/copilot-plan-vs-custom-agent.md).
 
-Concrete sample planning and implementation handoff agents live in [copilot/agents/plan-review-sample.agent.md](copilot/agents/plan-review-sample.agent.md) and [copilot/agents/implement-from-plan-sample.agent.md](copilot/agents/implement-from-plan-sample.agent.md).
+Concrete sample planning and implementation handoff agents live in [docs/examples/agents/plan-review-sample.agent.md](docs/examples/agents/plan-review-sample.agent.md) and [docs/examples/agents/implement-from-plan-sample.agent.md](docs/examples/agents/implement-from-plan-sample.agent.md).
 
-These sample agent files are stored in the repo's reference layout. If you want VS Code to load them directly, move or mirror them into a supported custom-agent location such as `.github/agents`, or point `chat.agentFilesLocations` at the path you want to use.
+These sample agent files are documentation examples, not active repo agent configuration. If you want VS Code to load them directly, copy or mirror them into a supported custom-agent location such as `.github/agents`, or point `chat.agentFilesLocations` at the path you want to use.

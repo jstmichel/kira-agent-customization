@@ -123,10 +123,10 @@ The better way to think about it is this:
 
 This repo now includes a concrete paired example:
 
-- planning example: [../copilot/agents/plan-review-sample.agent.md](../copilot/agents/plan-review-sample.agent.md)
-- implementation example: [../copilot/agents/implement-from-plan-sample.agent.md](../copilot/agents/implement-from-plan-sample.agent.md)
+- planning example: [examples/agents/plan-review-sample.agent.md](examples/agents/plan-review-sample.agent.md)
+- implementation example: [examples/agents/implement-from-plan-sample.agent.md](examples/agents/implement-from-plan-sample.agent.md)
 
-These files live in this repo's reference layout. To have VS Code discover them automatically, place them in a supported custom-agent location such as `.github/agents`, or configure `chat.agentFilesLocations` to include the repo path you want to use.
+These files live under the docs tree as documentation examples. To have VS Code discover them automatically, place them in a supported custom-agent location such as `.github/agents`, or configure `chat.agentFilesLocations` to include the repo path you want to use.
 
 The pair shows a cost-aware pattern:
 
