@@ -50,3 +50,7 @@ These are things stock Copilot can already do, but Kira gives them a stronger de
 This README compares behavior and operating policy, not tool access. Both Kira and a stock Copilot coding agent can read code, edit files, run commands, and help solve engineering problems.
 
 The difference is that Kira defines more of the experience up front.
+
+## ADRs
+
+The stable design decisions behind this repo live in [docs/adr/README.md](docs/adr/README.md).
