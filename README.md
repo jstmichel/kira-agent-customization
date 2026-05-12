@@ -54,3 +54,21 @@ The difference is that Kira defines more of the experience up front.
 ## ADRs
 
 The stable design decisions behind this repo live in [docs/adr/README.md](docs/adr/README.md).
+
+## Supporting Analysis
+
+Volatile pricing and billing references for the June 1 Copilot transition live in [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md).
+
+The personal-use model catalog, including per-model costs, annual before-and-after multiplier changes, and use-case guidance, lives in [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md).
+
+The workflow comparison, including agentic work versus non-agentic flows, lives in [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md).
+
+The prescriptive personal workflow policy lives in [docs/copilot-personal-workflow-policy.md](docs/copilot-personal-workflow-policy.md).
+
+The short daily routing reference lives in [docs/copilot-workflow-cheat-sheet.md](docs/copilot-workflow-cheat-sheet.md).
+
+The comparison between built-in Plan and custom planning agents lives in [docs/copilot-plan-vs-custom-agent.md](docs/copilot-plan-vs-custom-agent.md).
+
+Concrete sample planning and implementation handoff agents live in [copilot/agents/plan-review-sample.agent.md](copilot/agents/plan-review-sample.agent.md) and [copilot/agents/implement-from-plan-sample.agent.md](copilot/agents/implement-from-plan-sample.agent.md).
+
+These sample agent files are stored in the repo's reference layout. If you want VS Code to load them directly, move or mirror them into a supported custom-agent location such as `.github/agents`, or point `chat.agentFilesLocations` at the path you want to use.

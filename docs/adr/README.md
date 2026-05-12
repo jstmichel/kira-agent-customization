@@ -13,6 +13,7 @@ These ADRs are intentionally lightweight. They exist to preserve why the repo is
 | [0003](0003-development-cycle-and-analysis-gate.md) | Development Cycle and Analysis Gate | Capture the default implementation flow, analysis depth, and safe fallback rules. |
 | [0004](0004-ticket-driven-implementation-flow.md) | Ticket-Driven Implementation Flow | Define how GitHub issues, Azure work items, and similar tickets should be resolved before coding. |
 | [0005](0005-validation-and-done-criteria.md) | Validation and Done Criteria | Preserve the repo's validation philosophy: tests, focused checks, build, and explicit gaps. |
+| [0006](0006-incremental-ai-customization-workflow.md) | Incremental AI Customization Workflow | Define a cost-aware rollout order for VS Code Copilot customizations ahead of the June 1 workflow changes. |
 
 ## ADR-lite Rules
 
