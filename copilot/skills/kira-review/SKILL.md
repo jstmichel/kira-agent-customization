@@ -1,6 +1,6 @@
 ---
 name: kira-review
-description: "Review a pull request diff, branch diff, or change set and return findings. Use when asked to review code, review a PR, analyze a diff, find bugs, spot regressions, or identify missing tests and risks."
+description: "Code review workflow. Use when the user asks to review this PR, review this branch, review this diff, find bugs or regressions, spot risky changes, or identify missing tests."
 ---
 
 # Code Review Workflow

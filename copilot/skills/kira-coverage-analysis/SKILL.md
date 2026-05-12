@@ -1,6 +1,6 @@
 ---
 name: kira-coverage-analysis
-description: "Run full solution test coverage analysis. Use when checking coverage, finding untested code, running coverage reports, or identifying missing tests. Looks for coverage.runsettings under tests/, analyzes gaps, and immediately implements all tests that require no structural refactoring."
+description: "Test coverage workflow. Use when the user asks to run coverage, improve coverage, find untested code, identify missing tests, or add straightforward tests for coverage gaps. Looks for coverage.runsettings under tests/, analyzes gaps, and immediately implements tests that need no structural refactoring."
 ---
 
 # Coverage Analysis Workflow

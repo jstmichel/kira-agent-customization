@@ -1,6 +1,6 @@
 ---
 name: kira-draft-commit-message
-description: "Draft a commit, squash, or merge commit message from staged changes, the current branch diff, or user-provided change details. Use when asked to write a commit message, draft commit text, generate a squash commit message, or prepare merge commit text without creating the commit."
+description: "Commit message drafting workflow. Use when the user asks to write, draft, suggest, or generate a commit message, squash commit message, or merge commit message without creating the commit."
 ---
 
 # Commit Message Draft Workflow

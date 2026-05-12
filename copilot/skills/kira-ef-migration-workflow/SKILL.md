@@ -1,6 +1,6 @@
 ---
 name: kira-ef-migration-workflow
-description: "Generate, review, and optionally apply an EF Core migration. Use when adding or modifying entity properties, relationships, keys, indexes, owned types, seed data, DbSet properties, value converters, or Fluent API mappings that may affect the EF model or database schema."
+description: "EF Core migration workflow. Use when the user asks to add, create, generate, review, or apply a migration, or when entity, DbContext, relationship, index, seed-data, or Fluent API changes may require one."
 ---
 
 # EF Core Migration Workflow

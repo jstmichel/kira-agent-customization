@@ -1,6 +1,6 @@
 ---
 name: kira-git-commit
-description: "Create a git commit from staged changes. Use when the user explicitly asks to commit, create the commit now, or run git commit for already staged files."
+description: "Git commit execution workflow. Use when the user says commit this, create the commit now, run git commit, or commit the staged changes."
 ---
 
 # Git Commit Workflow

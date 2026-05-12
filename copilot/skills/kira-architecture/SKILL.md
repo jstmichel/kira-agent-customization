@@ -1,6 +1,6 @@
 ---
 name: kira-architecture
-description: "Perform architecture analysis for decision-making, implementation planning, or design review. Use when comparing architectural options, producing an ADR, planning a complex change, evaluating tradeoffs, or answering 'what would you do' / 'what is the plan for' on a cross-component change."
+description: "Architecture decision, planning, and design-review workflow. Use when the user asks what should we do, compare options, write an ADR, pressure-test a design, review a proposal, or produce an implementation plan before coding."
 ---
 
 # Architecture Analysis

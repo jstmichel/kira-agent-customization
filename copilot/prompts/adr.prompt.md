@@ -1,0 +1,13 @@
+---
+name: "Write ADR"
+description: "Write an ADR-style recommendation for a design or technical decision."
+argument-hint: "Describe the decision, proposal, or options"
+agent: "Kira"
+model: "GPT-5.4 (copilot)"
+---
+
+Write an ADR-style recommendation for this decision.
+
+Use the `kira-architecture` workflow in decision mode if available.
+
+Keep it concise and decision-oriented.
