@@ -13,8 +13,10 @@ $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 $KiraHome  = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
-$PromptsDst = Join-Path $KiraHome 'prompts'
 $InstructionsDst = Join-Path $KiraHome 'instructions'
+
+# VS Code reads .prompt.md files from the platform User prompts directory
+$PromptsDst = Join-Path $env:APPDATA 'Code\User\prompts'
 
 # Ensure destination directories exist
 @($AgentsDst, $SkillsDst, $PromptsDst, $InstructionsDst) | ForEach-Object {
@@ -97,5 +99,5 @@ Write-Host ''
 Write-Host "KIRA installed to $KiraHome"
 Write-Host "  Agents  : $agentCount files"
 Write-Host "  Skills  : $skillCount folders"
-Write-Host "  Prompts : $promptCount files"
+Write-Host "  Prompts : $promptCount files -> $PromptsDst"
 Write-Host "  Instructions : $instructionCount files"

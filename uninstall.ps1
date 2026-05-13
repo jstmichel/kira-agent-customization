@@ -13,8 +13,10 @@ $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 $KiraHome = Join-Path $env:USERPROFILE '.copilot'
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
-$PromptsDst = Join-Path $KiraHome 'prompts'
 $InstructionsDst = Join-Path $KiraHome 'instructions'
+
+# VS Code reads .prompt.md files from the platform User prompts directory
+$PromptsDst = Join-Path $env:APPDATA 'Code\User\prompts'
 
 function Remove-EmptyDirectory {
     param(
@@ -150,7 +152,7 @@ if (Test-Path -LiteralPath $InstructionsDst -PathType Container) {
     }
 }
 
-foreach ($path in @($AgentsDst, $SkillsDst, $PromptsDst, $InstructionsDst, $KiraHome)) {
+foreach ($path in @($AgentsDst, $SkillsDst, $InstructionsDst, $KiraHome)) {
     if (Remove-EmptyDirectory -Path $path) {
         $cleanedCount++
     }
