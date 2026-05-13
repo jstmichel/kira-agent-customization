@@ -11,6 +11,11 @@ handoffs:
     prompt: The implementation path became ambiguous or risky. Reassess the goal, constraints, and next steps before more code changes.
     send: false
     model: GPT-5.4 (copilot)
+  - label: Return to Kira
+    agent: Kira
+    prompt: Return to Kira lead mode for follow-up requests.
+    send: false
+    model: GPT-5 mini (copilot)
 ---
 
 # Kira :: Code

@@ -2,8 +2,8 @@
 name: "Review PR"
 description: "Review a pull request and return findings first."
 argument-hint: "PR URL, PR number, or extra review focus"
-agent: "Kira"
-model: "GPT-5.3-Codex (copilot)"
+agent: "Kira :: Code"
+model: "GPT-5.4 mini (copilot)"
 ---
 
 Review the target pull request.

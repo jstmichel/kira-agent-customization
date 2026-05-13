@@ -2,8 +2,8 @@
 name: "Review Branch"
 description: "Review the current branch against its base and return findings first."
 argument-hint: "Optional: base branch, focus areas, or risks to inspect"
-agent: "Kira"
-model: "GPT-5.3-Codex (copilot)"
+agent: "Kira :: Code"
+model: "GPT-5.4 mini (copilot)"
 ---
 
 Review the current branch against its base.

@@ -4,7 +4,7 @@ description: Implement an approved plan in small validated slices with focused e
 argument-hint: Paste or summarize the approved plan, then state what to implement.
 user-invocable: true
 model: GPT-5.3-Codex (copilot)
-tools: [read, search, edit, terminal, todo]
+tools: [read, search, edit, execute, todo]
 ---
 
 # Implement From Plan Sample

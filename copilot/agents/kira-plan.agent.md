@@ -4,13 +4,18 @@ description: Planning-first Kira sub-agent. Use when the task is ambiguous, risk
 argument-hint: Describe the feature, bug, or refactor that needs a plan.
 user-invocable: true
 model: GPT-5.4 (copilot)
-tools: [read, search, web, todo]
+tools: [read, search, web, execute, todo]
 handoffs:
   - label: Start Build
     agent: Kira :: Code
     prompt: Implement the approved plan above in small validated slices. Keep the accepted constraints, start from the nearest concrete anchor, and validate the first substantive change immediately.
     send: false
     model: GPT-5.3-Codex (copilot)
+  - label: Return to Kira
+    agent: Kira
+    prompt: Return to Kira lead mode for the next request.
+    send: false
+    model: GPT-5 mini (copilot)
 ---
 
 # Kira :: Plan

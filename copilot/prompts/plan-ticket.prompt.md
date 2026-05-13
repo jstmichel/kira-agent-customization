@@ -8,9 +8,9 @@ model: "GPT-5.4 (copilot)"
 
 Resolve this ticket-like request before coding.
 
-If the user provides a GitHub or Azure DevOps ticket reference, resolve the provider and retrieve the ticket content when the right tooling is available.
+Use the `kira-ticket-intake` workflow when available.
 
-If the provider or ticket content is ambiguous, ask for the missing context or use pasted ticket content instead of guessing.
+If a provider-specific ticket retrieval path is unavailable, ask for the ticket link or pasted content instead of guessing from a bare identifier.
 
 Extract:
 

@@ -16,16 +16,21 @@ Perform an actual review. Retrieve the diff, inspect the changed files, and retu
 ## Workflow
 
 1. Determine the review source:
-	- GitHub PR number
-	- Azure DevOps PR number
+	- GitHub PR URL or PR number
+	- Azure DevOps PR URL or PR number
 	- explicit branch comparison
 	- current branch against its base when the user asks for a general review
-2. Retrieve enough context to review the change set:
+2. Detect provider before retrieval:
+	- Prefer explicit PR URLs.
+	- If only a bare PR number is given, use remote host context when available.
+	- If the user already states GitHub or Azure DevOps, use that explicit provider context.
+	- If provider is still ambiguous, ask for missing PR context instead of guessing.
+3. Retrieve enough context to review the change set:
 	- PR title and body when available
 	- file list or diff stat
 	- full diff for changed files
-3. Read the most relevant changed files directly when the diff alone is not enough to judge behavior.
-4. Produce findings with concrete evidence. Do not invent issues.
+4. Read the most relevant changed files directly when the diff alone is not enough to judge behavior.
+5. Produce findings with concrete evidence. Do not invent issues.
 
 ## Diff Retrieval
 
@@ -33,7 +38,8 @@ Perform an actual review. Retrieve the diff, inspect the changed files, and retu
 
 1. Run `gh pr view <N> --json title,body,baseRefName,headRefName,files`.
 2. Run `gh pr diff <N>`.
-3. If `gh` is unavailable, use `git fetch origin` then `git diff origin/<base>...origin/<head>` after resolving the branch names.
+3. If `gh` is unavailable, ask for the PR URL or source and target branches.
+4. Use `git fetch origin` then `git diff origin/<base>...origin/<head>` after resolving the branch names.
 
 ### Azure DevOps PR
 

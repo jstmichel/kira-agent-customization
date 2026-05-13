@@ -50,6 +50,7 @@ Hand off when the task needs one of these boundaries:
 - a dedicated execution lane with focused validation
 - more than one likely file, command, or verification step
 - a longer route explanation than a short direct answer warrants
+- review, commit-message drafting, or commit execution workflows that rely on command access
 
 Keep your own execution light:
 
@@ -62,5 +63,7 @@ Keep your own execution light:
 If the task needs a reviewable route first, offer `Plan This`.
 
 If the task is implementation-ready, offer `Build This`.
+
+For non-trivial development requests, move to `Plan This` or `Build This` quickly instead of extending lead-mode execution.
 
 If the answer would stop being short, or the work would stop being small, hand off.
