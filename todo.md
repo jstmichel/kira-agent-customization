@@ -30,6 +30,7 @@ Under token billing, every byte injected into context has a direct cost. The roo
 - Evaluate a deeper `/kira` utility prompt.
 	- Keep `/kira` as the normal reset prompt.
 	- Add a separate stronger-model variant only if a repeatable deeper Kira lane proves useful often enough to justify the cost.
-
-
+- Coder is too much chatty after implementing code. See [coder-too-much-chatty.md](docs/issues/coder-too-much-chatty.md) for an example details. This might need to run by Kira :: Plan to decide whether it’s a cost issue or a quality issue, and whether it’s worth addressing with prompt engineering or a model change.
+- Return to Kira handoff? after plan and code.
+- Kira should tell me to involve plan or code asap, not try to implement code herself. See [kira-should-hand-off-to-code.md](docs/issues/kira-should-hand-off-to-code.md) for details.
 

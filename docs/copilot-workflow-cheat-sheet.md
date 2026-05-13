@@ -93,3 +93,14 @@ Use the lightest flow that can solve the task safely, and use the cheapest model
 - default operating policy: [copilot-personal-workflow-policy.md](copilot-personal-workflow-policy.md)
 - model details: [copilot-model-reference-personal.md](copilot-model-reference-personal.md)
 - billing context: [copilot-billing-cost-analysis.md](copilot-billing-cost-analysis.md)
+
+## Best Practical Flow (Kira ↔ Code)
+
+- **Summary:** Use `Kira` to plan and make decisions; keep `Code` executing contiguous implementation slices until a control-point triggers a return.
+- **Initial step:** Kira defines the next 1–3 slices with clear acceptance criteria.
+- **Execution:** Stay with Code to implement, test, and iterate on those slices without returning to Kira after every small change.
+- **When to return to Kira:** scope change; architectural uncertainty; rising risk; persistent blocker; completion of the planned mini-batch.
+- **Rule of thumb:** Execution mode -> stay with Code. Decision mode -> go to Kira.
+- **Cadence:** Revisit Kira every 2–4 slices or whenever the triggers above occur — not after every slice.
+
+Use the lightest flow and cheapest model that safely solves the task.
