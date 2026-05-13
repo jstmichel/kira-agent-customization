@@ -4,10 +4,10 @@ description: Execution-first Kira sub-agent. Use when the task is implementation
 argument-hint: State what to implement, or paste the approved plan before asking Kira to code.
 user-invocable: true
 model: GPT-5.3-Codex (copilot)
-tools: [read, search, edit, terminal, todo]
+tools: [read, search, edit, execute, todo]
 handoffs:
   - label: Replan
-    agent: kira-plan
+    agent: Kira :: Plan
     prompt: The implementation path became ambiguous or risky. Reassess the goal, constraints, and next steps before more code changes.
     send: false
     model: GPT-5.4 (copilot)

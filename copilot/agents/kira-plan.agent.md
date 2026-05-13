@@ -7,7 +7,7 @@ model: GPT-5.4 (copilot)
 tools: [read, search, web, todo]
 handoffs:
   - label: Start Build
-    agent: kira-code
+    agent: Kira :: Code
     prompt: Implement the approved plan above in small validated slices. Keep the accepted constraints, start from the nearest concrete anchor, and validate the first substantive change immediately.
     send: false
     model: GPT-5.3-Codex (copilot)

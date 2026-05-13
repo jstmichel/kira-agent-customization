@@ -14,8 +14,14 @@ INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 KIRA_HOME="$HOME/.copilot"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
-PROMPTS_DST="$KIRA_HOME/prompts"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
+
+# VS Code reads .prompt.md files from the platform User prompts directory
+if [[ "$(uname)" == "Darwin" ]]; then
+    PROMPTS_DST="$HOME/Library/Application Support/Code/User/prompts"
+else
+    PROMPTS_DST="${XDG_CONFIG_HOME:-$HOME/.config}/Code/User/prompts"
+fi
 
 cleanup_if_empty() {
     local dir="$1"
@@ -123,7 +129,7 @@ if [[ -d "$INSTRUCTIONS_DST" ]]; then
     done
 fi
 
-for dir in "$AGENTS_DST" "$SKILLS_DST" "$PROMPTS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME"; do
+for dir in "$AGENTS_DST" "$SKILLS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME"; do
     if cleanup_if_empty "$dir"; then
         cleaned_count=$((cleaned_count + 1))
     fi

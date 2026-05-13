@@ -7,12 +7,12 @@ model: GPT-5 mini (copilot)
 tools: [read, search, edit, web, todo]
 handoffs:
   - label: Plan This
-    agent: kira-plan
+    agent: Kira :: Plan
     prompt: Clarify the task, gather only enough context to produce a concise implementation and verification plan, and stop before coding.
     send: false
     model: GPT-5.4 (copilot)
   - label: Build This
-    agent: kira-code
+    agent: Kira :: Code
     prompt: Implement the request in small validated slices. Start from the nearest concrete anchor and validate the first changed slice immediately.
     send: false
     model: GPT-5.3-Codex (copilot)
