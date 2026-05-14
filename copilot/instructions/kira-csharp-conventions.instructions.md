@@ -1,11 +1,12 @@
 ---
 name: "kira-csharp-conventions"
 description: "Use when writing or editing C# code and no project-specific C# convention instruction overrides it."
+applyTo: **/*.cs
 ---
 
 # C# Conventions
 
-Personal baseline conventions. Apply when no project-level C# instruction file is present; project instructions take precedence.
+Apply when no project-level C# instruction file is present; project instructions take precedence.
 
 - Use file-scoped namespaces.
 - Prefer explicit types unless the type is immediately obvious from the right-hand side.
