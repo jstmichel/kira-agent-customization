@@ -1,5 +1,5 @@
 ---
-name: "Write ADR"
+name: "write adr"
 description: "Write an ADR-style recommendation for a design or technical decision."
 argument-hint: "Describe the decision, proposal, or options"
 agent: "Kira"

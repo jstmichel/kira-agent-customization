@@ -1,5 +1,5 @@
 ---
-name: "Review Branch"
+name: "review branch"
 description: "Review the current branch against its base and return findings first."
 argument-hint: "Optional: base branch, focus areas, or risks to inspect"
 agent: "Kira :: Code"

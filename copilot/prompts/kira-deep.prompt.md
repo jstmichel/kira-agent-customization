@@ -1,5 +1,5 @@
 ---
-name: "Kira Deep"
+name: "kira deep"
 description: "Reset to a deeper Kira lead lane for harder ambiguity or synthesis-heavy guidance before implementation."
 argument-hint: "Continue this request with deeper Kira reasoning"
 agent: "Kira"

@@ -1,5 +1,5 @@
 ---
-name: "Kira"
+name: "kira"
 description: "Reset to Kira lead mode and handle the current request with Kira's normal defaults."
 argument-hint: "Continue this request with Kira"
 agent: "Kira"

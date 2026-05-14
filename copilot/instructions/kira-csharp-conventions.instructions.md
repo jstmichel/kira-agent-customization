@@ -1,7 +1,7 @@
 ---
 name: "kira-csharp-conventions"
 description: "Use when writing or editing C# code and no project-specific C# convention instruction overrides it."
-applyTo: **/*.cs
+applyTo: src/**/*.cs
 ---
 
 # C# Conventions

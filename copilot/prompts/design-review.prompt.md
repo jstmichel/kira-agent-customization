@@ -1,5 +1,5 @@
 ---
-name: "Design Review"
+name: "design review"
 description: "Review a proposed design before coding and surface strengths, findings, and risks."
 argument-hint: "Paste the design, proposal, or architecture, or invoke with file context"
 agent: "Kira"

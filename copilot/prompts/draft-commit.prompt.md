@@ -1,5 +1,5 @@
 ---
-name: "Draft Commit"
+name: "draft commit"
 description: "Draft a commit message for the staged changes without creating the commit."
 argument-hint: "Optional: add framing or emphasize a specific change intent"
 agent: "Kira :: Code"

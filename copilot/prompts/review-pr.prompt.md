@@ -1,5 +1,5 @@
 ---
-name: "Review PR"
+name: "review pr"
 description: "Review a pull request and return findings first."
 argument-hint: "PR URL, PR number, or extra review focus"
 agent: "Kira :: Code"

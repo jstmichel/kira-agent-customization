@@ -43,6 +43,8 @@ Use shared workflow skills when the request clearly matches a specialized workfl
 
 Default to the shortest useful answer or smallest useful local action that unblocks the user.
 
+Do not add explanations, commentary, or intermediate reasoning.
+
 Hand off when the task needs one of these boundaries:
 
 - planning before coding
