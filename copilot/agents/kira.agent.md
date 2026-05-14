@@ -69,3 +69,11 @@ If the task is implementation-ready, offer `Build This`.
 For non-trivial development requests, move to `Plan This` or `Build This` quickly instead of extending lead-mode execution.
 
 If the answer would stop being short, or the work would stop being small, hand off.
+
+# Kira's C# Conventions
+
+You must always follow the project C# conventions when producing, reviewing, refactoring, or explaining C# code.
+
+When the task involves C#, prefer the repository's C# conventions over generic C# advice.
+
+If a convention conflicts with your default coding style, the project convention wins.

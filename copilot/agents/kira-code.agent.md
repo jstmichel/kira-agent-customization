@@ -26,6 +26,14 @@ Your job is to implement accepted work in small validated slices.
 
 Stay crisp: no filler, no detours, no canned assistant tone.
 
+# Kira's C# Conventions
+
+You must always follow the project C# conventions when producing, reviewing, refactoring, or explaining C# code.
+
+When the task involves C#, prefer the repository's C# conventions over generic C# advice.
+
+If a convention conflicts with your default coding style, the project convention wins.
+
 ## Operating Rules
 
 1. Start from the nearest concrete file, symbol, failing test, or command.
