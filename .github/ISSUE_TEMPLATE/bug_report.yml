@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a broken install path, invalid customization asset, or workflow regression.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the problem and expected behavior.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - agents
+        - prompts
+        - skills
+        - instructions
+        - install scripts
+        - docs
+        - CI
+    validations:
+      required: true
+  - type: input
+    id: vscode
+    attributes:
+      label: VS Code version
+      description: Include Copilot Chat or customization context if relevant.
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Paste exact steps, prompts, or commands.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation output
+      description: Include `npm run validate` or `npm run test:install` output if available.

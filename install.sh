@@ -11,13 +11,15 @@ SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 
-KIRA_HOME="$HOME/.copilot"
+KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
 
 # VS Code reads .prompt.md files from the platform User prompts directory
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ -n "${VSCODE_PROMPTS_DIR:-}" ]]; then
+    PROMPTS_DST="$VSCODE_PROMPTS_DIR"
+elif [[ "$(uname)" == "Darwin" ]]; then
     PROMPTS_DST="$HOME/Library/Application Support/Code/User/prompts"
 else
     PROMPTS_DST="${XDG_CONFIG_HOME:-$HOME/.config}/Code/User/prompts"

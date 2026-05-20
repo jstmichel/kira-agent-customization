@@ -1,0 +1,17 @@
+{
+  "name": "kira-agent-customization",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Validation and smoke tests for the Kira Copilot customization pack.",
+  "type": "module",
+  "scripts": {
+    "ci": "npm test",
+    "lint": "npm run validate",
+    "validate": "node scripts/validate-assets.mjs",
+    "test:install": "node scripts/test-install.mjs",
+    "test": "npm run validate && npm run test:install"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

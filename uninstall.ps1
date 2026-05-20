@@ -10,13 +10,13 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
-$KiraHome = Join-Path $env:USERPROFILE '.copilot'
+$KiraHome = if ($env:KIRA_HOME) { $env:KIRA_HOME } else { Join-Path $env:USERPROFILE '.copilot' }
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
 $InstructionsDst = Join-Path $KiraHome 'instructions'
 
 # VS Code reads .prompt.md files from the platform User prompts directory
-$PromptsDst = Join-Path $env:APPDATA 'Code\User\prompts'
+$PromptsDst = if ($env:VSCODE_PROMPTS_DIR) { $env:VSCODE_PROMPTS_DIR } else { Join-Path $env:APPDATA 'Code\User\prompts' }
 
 function Remove-EmptyDirectory {
     param(
