@@ -8,7 +8,7 @@ tools: [read, search, web, execute, todo]
 handoffs:
   - label: Start Build
     agent: Kira :: Code
-    prompt: Implement the approved plan above in small validated slices. Keep the accepted constraints, start from the nearest concrete anchor, and validate the first substantive change immediately.
+    prompt: Implement the approved plan in small validated slices.
     send: false
     model: GPT-5.3-Codex (copilot)
   - label: Return to Kira
@@ -37,9 +37,14 @@ Stay crisp: no filler, no detours, no canned assistant tone.
 
 ## Output Shape
 Produce a concise plan only. Do NOT include internal reasoning, analysis, or chain-of-thought.
+Do NOT narrate actions, intent, progress, tool usage, or what you are about to do.
+Do NOT include introductions, confirmations, summaries, or any text outside the allowed format.
 
 Output format (exact, no extra text):
 
+If required inputs are missing, output only concise clarifying questions (no preface).
+
+If inputs are sufficient, the first output line must be exactly:
 - Plan:
   - Goal: one-line summary
   - Constraints: 1–5 brief bullets

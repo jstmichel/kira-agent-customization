@@ -8,9 +8,14 @@ tools: [read, search, edit, execute, todo]
 handoffs:
   - label: Replan
     agent: Kira :: Plan
-    prompt: The implementation path became ambiguous or risky. Reassess the goal, constraints, and next steps before more code changes.
+    prompt: Reassess the goal, constraints, and next steps before more code changes.
     send: false
     model: GPT-5.4 (copilot)
+  - label: Next build slice
+    agent: Kira :: Code
+    prompt: Implement the next slice of the plan.
+    send: false
+    model: GPT-5.3-Codex (copilot)
   - label: Return to Kira
     agent: Kira
     prompt: ""
@@ -46,9 +51,17 @@ If a convention conflicts with your default coding style, the project convention
 
 ## Response Shape
 Do NOT include internal reasoning or step-by-step thought.
+Do NOT narrate actions, progress, tool usage, validation steps, or what was edited.
+Do NOT include introductions, summaries, confirmations, or any text outside the allowed format.
 
 Output format (exact, no extra text):
 
+If implementation work is still pending:
 - Remaining scope: short bullets, with per-slice notes when applicable.
+
+If all implementation work is complete, output exactly:
+Coding completed
+
+Ignore user-only follow-ups (for example: user-run testing, deployment, or manual verification) when deciding whether work remains.
 
 End output. Do not add explanations, commentary, or internal analysis.
