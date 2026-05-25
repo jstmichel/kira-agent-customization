@@ -7,9 +7,9 @@ description: "Test coverage workflow. Use when the user asks to run coverage, im
 
 ## Procedure
 
-1. Run `dotnet test` with the coverage settings file — look for `coverage.runsettings` under `tests/` in the active project.
+1. Run `dotnet test` with the coverage settings file. Look for `coverage.runsettings` under `tests/` in the active project.
 2. Analyze the coverage report for untested public methods, branches, and paths.
 3. For each gap, determine if a new test can be written without structural refactoring:
    - **Yes**: write and add the test immediately.
    - **No**: document the gap with a recommended refactoring approach.
-4. Return a summary: coverage baseline, tests added, and remaining gaps with recommended actions.
+4. Return a summary with the coverage baseline, tests added, and remaining gaps with recommended actions.

@@ -69,19 +69,56 @@ async function main() {
   const installArgs = process.platform === 'win32' ? ['-File', 'install.ps1'] : ['install.sh'];
   const uninstallArgs = process.platform === 'win32' ? ['-File', 'uninstall.ps1'] : ['uninstall.sh'];
 
-  await run(command, installArgs, {
+  const sharedEnv = {
     KIRA_HOME: kiraHome,
     VSCODE_PROMPTS_DIR: promptsDir,
     USERPROFILE: process.platform === 'win32' ? tempRoot : process.env.USERPROFILE,
     APPDATA: process.platform === 'win32' ? tempRoot : process.env.APPDATA,
     HOME: process.platform === 'win32' ? process.env.HOME : tempRoot,
     XDG_CONFIG_HOME: tempRoot
-  });
+  };
+
+  await run(command, installArgs, sharedEnv);
 
   await assertExists(path.join(kiraHome, 'agents'), [
     'kira.agent.md',
     'kira-build.agent.md'
   ]);
+  await assertExists(path.join(kiraHome, 'skills'), [
+    'kira-architecture',
+    'kira-draft-commit-message',
+    'kira-git-commit',
+    'kira-review',
+    'kira-ticket-intake'
+  ]);
+  await assertNotExists(path.join(kiraHome, 'skills'), 'kira-coverage-analysis');
+  await assertNotExists(path.join(kiraHome, 'skills'), 'kira-ef-migration-workflow');
+  await assertExists(promptsDir, [
+    'architecture.prompt.md',
+    'plan.prompt.md',
+    'review.prompt.md',
+    'draft-commit.prompt.md'
+  ]);
+  await assertExists(path.join(kiraHome, 'instructions'), [
+    'kira-conventional-commit.instructions.md'
+  ]);
+  await assertNotExists(path.join(kiraHome, 'instructions'), 'kira-csharp-conventions');
+
+  await run(command, uninstallArgs, sharedEnv);
+
+  await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
+  await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
+  await assertNotExists(promptsDir, 'architecture');
+  await assertNotExists(promptsDir, 'plan');
+  await assertNotExists(promptsDir, 'review');
+  await assertNotExists(promptsDir, 'draft-commit');
+  await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
+
+  await run(command, installArgs, {
+    ...sharedEnv,
+    KIRA_INCLUDE_DOTNET: '1'
+  });
+
   await assertExists(path.join(kiraHome, 'skills'), [
     'kira-architecture',
     'kira-coverage-analysis',
@@ -91,32 +128,19 @@ async function main() {
     'kira-review',
     'kira-ticket-intake'
   ]);
-  await assertExists(promptsDir, [
-    'adr.prompt.md',
-    'kira.prompt.md',
-    'plan-change.prompt.md',
-    'draft-commit.prompt.md'
-  ]);
   await assertExists(path.join(kiraHome, 'instructions'), [
     'kira-conventional-commit.instructions.md',
     'kira-csharp-conventions.instructions.md'
   ]);
 
-  await run(command, uninstallArgs, {
-    KIRA_HOME: kiraHome,
-    VSCODE_PROMPTS_DIR: promptsDir,
-    USERPROFILE: process.platform === 'win32' ? tempRoot : process.env.USERPROFILE,
-    APPDATA: process.platform === 'win32' ? tempRoot : process.env.APPDATA,
-    HOME: process.platform === 'win32' ? process.env.HOME : tempRoot,
-    XDG_CONFIG_HOME: tempRoot
-  });
+  await run(command, uninstallArgs, sharedEnv);
 
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
-  await assertNotExists(promptsDir, 'kira');
-  await assertNotExists(promptsDir, 'adr');
-  await assertNotExists(promptsDir, 'plan-');
-  await assertNotExists(promptsDir, 'draft-');
+  await assertNotExists(promptsDir, 'architecture');
+  await assertNotExists(promptsDir, 'plan');
+  await assertNotExists(promptsDir, 'review');
+  await assertNotExists(promptsDir, 'draft-commit');
   await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
 
   console.log('Install smoke test passed.');

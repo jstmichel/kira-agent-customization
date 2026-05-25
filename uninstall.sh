@@ -11,6 +11,21 @@ SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 
+prompt_cleanup_names=(
+    architecture.prompt.md
+    draft-commit.prompt.md
+    plan.prompt.md
+    review.prompt.md
+    adr.prompt.md
+    design-review.prompt.md
+    draft-squash.prompt.md
+    kira.prompt.md
+    plan-change.prompt.md
+    plan-ticket.prompt.md
+    review-branch.prompt.md
+    review-pr.prompt.md
+)
+
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
@@ -100,13 +115,11 @@ if [[ -d "$SKILLS_DST" ]]; then
 fi
 
 if [[ -d "$PROMPTS_DST" ]]; then
-    if [[ -d "$PROMPTS_SRC" ]]; then
-        for prompt_file in "$PROMPTS_SRC"/*.prompt.md; do
-            if remove_file_if_present "$PROMPTS_DST/$(basename "$prompt_file")"; then
-                prompt_count=$((prompt_count + 1))
-            fi
-        done
-    fi
+    for prompt_name in "${prompt_cleanup_names[@]}"; do
+        if remove_file_if_present "$PROMPTS_DST/$prompt_name"; then
+            prompt_count=$((prompt_count + 1))
+        fi
+    done
 
     for prompt_path in "$PROMPTS_DST"/kira-*.prompt.md; do
         if remove_file_if_present "$prompt_path"; then

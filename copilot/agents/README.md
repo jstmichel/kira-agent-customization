@@ -1,5 +1,7 @@
 # Kira Agent Authoring Notes
 
+For the shipped runtime surface and prompt map, see [../README.md](../README.md).
+
 This file is a small source-of-truth note for creating or updating Kira custom
 agents.
 

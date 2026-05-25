@@ -10,11 +10,35 @@ AGENTS_SRC="$SCRIPT_DIR/copilot/agents"
 SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
+OPTIONAL_DOTNET_SKILLS_SRC="$SCRIPT_DIR/copilot/optional/dotnet/skills"
+OPTIONAL_DOTNET_INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/optional/dotnet/instructions"
 
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
+
+prompt_cleanup_names=(
+    architecture.prompt.md
+    draft-commit.prompt.md
+    plan.prompt.md
+    review.prompt.md
+    adr.prompt.md
+    design-review.prompt.md
+    draft-squash.prompt.md
+    kira.prompt.md
+    plan-change.prompt.md
+    plan-ticket.prompt.md
+    review-branch.prompt.md
+    review-pr.prompt.md
+)
+
+include_dotnet=0
+case "${KIRA_INCLUDE_DOTNET:-0}" in
+    1|true|TRUE|yes|YES|on|ON)
+        include_dotnet=1
+        ;;
+esac
 
 # VS Code reads .prompt.md files from the platform User prompts directory
 if [[ -n "${VSCODE_PROMPTS_DIR:-}" ]]; then
@@ -42,7 +66,10 @@ find "$AGENTS_DST" -maxdepth 1 -type f \( \
 # Skills — any folder named kira-*
 find "$SKILLS_DST" -maxdepth 1 -type d -name "kira-*" -exec rm -rf {} +
 
-# Prompts — kira-*.prompt.md
+# Prompts — current surface plus legacy prompt names
+for prompt_name in "${prompt_cleanup_names[@]}"; do
+    rm -f "$PROMPTS_DST/$prompt_name"
+done
 find "$PROMPTS_DST" -maxdepth 1 -type f -name "kira-*.prompt.md" -delete
 
 # Instructions — kira*.instructions.md
@@ -73,6 +100,18 @@ if [[ -d "$SKILLS_SRC" ]]; then
     done
 fi
 
+if [[ "$include_dotnet" -eq 1 && -d "$OPTIONAL_DOTNET_SKILLS_SRC" ]]; then
+    echo "Installing optional KIRA .NET skills..."
+    for skill_dir in "$OPTIONAL_DOTNET_SKILLS_SRC"/*; do
+        [[ -d "$skill_dir" ]] || continue
+        [[ -f "$skill_dir/SKILL.md" ]] || continue
+        name=$(basename "$skill_dir")
+        mkdir -p "$SKILLS_DST/$name"
+        cp "$skill_dir/SKILL.md" "$SKILLS_DST/$name/SKILL.md"
+        skill_count=$((skill_count + 1))
+    done
+fi
+
 echo "Installing KIRA prompts..."
 if [[ -d "$PROMPTS_SRC" ]]; then
     for prompt_file in "$PROMPTS_SRC"/*.prompt.md; do
@@ -84,6 +123,14 @@ fi
 echo "Installing KIRA instructions..."
 if [[ -d "$INSTRUCTIONS_SRC" ]]; then
     for instruction_file in "$INSTRUCTIONS_SRC"/*.instructions.md; do
+        cp "$instruction_file" "$INSTRUCTIONS_DST/"
+        instruction_count=$((instruction_count + 1))
+    done
+fi
+
+if [[ "$include_dotnet" -eq 1 && -d "$OPTIONAL_DOTNET_INSTRUCTIONS_SRC" ]]; then
+    echo "Installing optional KIRA .NET instructions..."
+    for instruction_file in "$OPTIONAL_DOTNET_INSTRUCTIONS_SRC"/*.instructions.md; do
         cp "$instruction_file" "$INSTRUCTIONS_DST/"
         instruction_count=$((instruction_count + 1))
     done

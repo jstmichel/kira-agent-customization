@@ -1,6 +1,6 @@
 ---
 name: Build
-description: Tool-enabled execution lane for implementation, review, validation, and git-backed local workflows.
+description: Tool-enabled local execution lane for implementation, validation, review, and explicit git workflows.
 argument-hint: Describe the bug, feature, refactor, review, or execution task to run locally
 user-invocable: true
 model: GPT-5.4 mini (copilot)

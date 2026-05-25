@@ -9,10 +9,12 @@ This repository ships installable agents, prompts, instructions, and shared skil
 | Area | Path | Purpose |
 | --- | --- | --- |
 | Agents | `copilot/agents` | Kira for read-only guidance and Build for execution-heavy local work |
-| Prompts | `copilot/prompts` | Reusable entrypoints for planning, review, ADRs, and commit drafting |
-| Skills | `copilot/skills` | Shared workflows such as review, architecture, coverage, and ticket intake |
-| Instructions | `copilot/instructions` | Reusable convention files for commit style and C# guidance |
-| ADRs and docs | `docs` | Decision records, comparisons, issue notes, and examples |
+| Prompts | `copilot/prompts` | Reusable entrypoints for planning, review, architecture, and commit drafting |
+| Skills | `copilot/skills` | Shared cross-language workflows such as review, architecture, ticket intake, and commit handling |
+| Instructions | `copilot/instructions` | Core convention files for commit style and other language-agnostic behavior |
+| Optional .NET pack | `copilot/optional/dotnet` | EF migration, coverage, and C# conventions that are not installed by default |
+| Customization guide | `copilot/README.md` | Runtime surface, prompt map, and feature-preserving redesign notes |
+| Docs | `docs` | Billing, model, and workflow reference notes for the shipped customization pack |
 | Validation tooling | `scripts` | Asset validation and install smoke tests |
 
 ## Quickstart
@@ -23,13 +25,26 @@ This repository ships installable agents, prompts, instructions, and shared skil
 ./install.sh
 ```
 
+Optional .NET add-on:
+
+```bash
+KIRA_INCLUDE_DOTNET=1 ./install.sh
+```
+
 ### Windows PowerShell
 
 ```powershell
 .\install.ps1
 ```
 
-The install scripts copy agents, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory.
+Optional .NET add-on:
+
+```powershell
+$env:KIRA_INCLUDE_DOTNET=1
+.\install.ps1
+```
+
+The install scripts copy the core agents, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory. Set `KIRA_INCLUDE_DOTNET=1` to also install the optional .NET pack.
 
 ## Update and Remove
 
@@ -49,6 +64,7 @@ For automation and isolated testing, both install and uninstall scripts also res
 
 - `KIRA_HOME`
 - `VSCODE_PROMPTS_DIR`
+- `KIRA_INCLUDE_DOTNET`
 
 ## Validate Changes
 
@@ -78,23 +94,9 @@ These checks currently verify:
 
 More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Example Workflows
-
-- [Plan to build flow](docs/examples/scenarios/plan-to-build-handoff.md)
-- [Review-first change workflow](docs/examples/scenarios/review-first-change.md)
-- [Ticket to implementation workflow](docs/examples/scenarios/ticket-to-implementation.md)
-
-Concrete sample agent files that are not part of the active shipped configuration live in [docs/examples/agents/plan-review-sample.agent.md](docs/examples/agents/plan-review-sample.agent.md) and [docs/examples/agents/implement-from-plan-sample.agent.md](docs/examples/agents/implement-from-plan-sample.agent.md).
-
-## ADRs
-
-Stable design decisions live in [docs/adr/README.md](docs/adr/README.md).
-
 ## Supporting Analysis
 
 - [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md)
 - [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md)
 - [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md)
-- [docs/copilot-personal-workflow-policy.md](docs/copilot-personal-workflow-policy.md)
-- [docs/copilot-workflow-cheat-sheet.md](docs/copilot-workflow-cheat-sheet.md)
-- [docs/copilot-plan-vs-custom-agent.md](docs/copilot-plan-vs-custom-agent.md)
+- [docs/copilot-local-vscode-workflow-guide.md](docs/copilot-local-vscode-workflow-guide.md)

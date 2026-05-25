@@ -9,6 +9,25 @@ $AgentsSrc = Join-Path $ScriptRoot 'copilot\agents'
 $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
+$OptionalDotnetSkillsSrc = Join-Path $ScriptRoot 'copilot\optional\dotnet\skills'
+$OptionalDotnetInstructionsSrc = Join-Path $ScriptRoot 'copilot\optional\dotnet\instructions'
+
+$PromptCleanupNames = @(
+    'architecture.prompt.md',
+    'draft-commit.prompt.md',
+    'plan.prompt.md',
+    'review.prompt.md',
+    'adr.prompt.md',
+    'design-review.prompt.md',
+    'draft-squash.prompt.md',
+    'kira.prompt.md',
+    'plan-change.prompt.md',
+    'plan-ticket.prompt.md',
+    'review-branch.prompt.md',
+    'review-pr.prompt.md'
+)
+
+$IncludeDotnet = @('1', 'true', 'yes', 'on') -contains ($env:KIRA_INCLUDE_DOTNET ?? '0').ToLowerInvariant()
 
 $KiraHome = if ($env:KIRA_HOME) { $env:KIRA_HOME } else { Join-Path $env:USERPROFILE '.copilot' }
 $AgentsDst = Join-Path $KiraHome 'agents'
@@ -41,7 +60,13 @@ Get-ChildItem -Path $SkillsDst -Directory |
     Where-Object { $_.Name -like 'kira-*' } |
     Remove-Item -Recurse -Force
 
-# Prompts — kira-*.prompt.md
+# Prompts — current surface plus legacy prompt names
+$PromptCleanupNames | ForEach-Object {
+    $promptPath = Join-Path $PromptsDst $_
+    if (Test-Path -LiteralPath $promptPath -PathType Leaf) {
+        Remove-Item -LiteralPath $promptPath -Force
+    }
+}
 Get-ChildItem -Path $PromptsDst -File -Filter 'kira-*.prompt.md' |
     Remove-Item -Force
 
@@ -77,6 +102,20 @@ if (Test-Path -LiteralPath $SkillsSrc -PathType Container) {
         }
 }
 
+if ($IncludeDotnet -and (Test-Path -LiteralPath $OptionalDotnetSkillsSrc -PathType Container)) {
+    Write-Host 'Installing optional KIRA .NET skills...'
+    Get-ChildItem -LiteralPath $OptionalDotnetSkillsSrc -Directory |
+        ForEach-Object {
+            $skillFile = Join-Path $_.FullName 'SKILL.md'
+            if (Test-Path -LiteralPath $skillFile -PathType Leaf) {
+                $dest = Join-Path $SkillsDst $_.Name
+                New-Item -ItemType Directory -Force -Path $dest | Out-Null
+                Copy-Item -LiteralPath $skillFile -Destination $dest
+                $skillCount++
+            }
+        }
+}
+
 Write-Host 'Installing KIRA prompts...'
 if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
     Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
@@ -89,6 +128,15 @@ if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
 Write-Host 'Installing KIRA instructions...'
 if (Test-Path -LiteralPath $InstructionsSrc -PathType Container) {
     Get-ChildItem -LiteralPath $InstructionsSrc -File -Filter '*.instructions.md' |
+        ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination $InstructionsDst
+            $instructionCount++
+        }
+}
+
+if ($IncludeDotnet -and (Test-Path -LiteralPath $OptionalDotnetInstructionsSrc -PathType Container)) {
+    Write-Host 'Installing optional KIRA .NET instructions...'
+    Get-ChildItem -LiteralPath $OptionalDotnetInstructionsSrc -File -Filter '*.instructions.md' |
         ForEach-Object {
             Copy-Item -LiteralPath $_.FullName -Destination $InstructionsDst
             $instructionCount++

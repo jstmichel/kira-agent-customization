@@ -1,20 +1,18 @@
 # GitHub Copilot Workflow Flows Comparison
 
-- Date: 2026-05-12
+- Date: 2026-05-25
 - Status: Point-in-time reference
-- Scope: Personal workflow selection in VS Code and GitHub Copilot, with emphasis on agentic work versus lower-autonomy flows
+- Scope: Personal workflow selection in VS Code, with editor-first local work as the default and background or remote flows included only for contrast
 
 ## Why This Document Exists
 
-"Use Copilot" is too vague to be operational.
+"Use Copilot" is still too vague to be operational.
 
-GitHub Copilot exposes several different workflows, and they are not interchangeable. Some are predictive and stay inside the editor. Some are interactive but non-agentic. Some are explicitly agentic: they can break a goal into steps, use tools, edit across files, run commands, and keep iterating.
-
-If you want a cost-effective and high-quality workflow, you need to choose the lightest flow that can solve the problem.
+VS Code now exposes multiple Copilot surfaces that differ in autonomy, cost, context access, and review style. If you want a high-quality workflow, you need to choose the lightest surface that can solve the problem instead of reaching for full agent mode every time.
 
 ## What Counts As Agentic Work
 
-Based on VS Code's agent overview, agentic work means you give the system a high-level goal and it works autonomously to complete it.
+Based on VS Code's current agent overview, agentic work means you give the system a high-level goal and it works autonomously to complete it.
 
 In practice, that means the flow can do some or all of the following:
 
@@ -65,7 +63,7 @@ These are question-and-answer or exploration flows, not autonomous execution flo
 
 Examples:
 
-- Ask agent in the Chat view
+- Ask in the Chat view
 - Quick Chat
 
 They are strongest when you need explanation, codebase understanding, or fast iteration on ideas before changing code.
@@ -74,7 +72,7 @@ They are strongest when you need explanation, codebase understanding, or fast it
 
 This is an intermediate flow.
 
-The Plan agent researches the task, asks clarifying questions, and produces a structured implementation and verification plan, but it does not jump straight into coding. It is more autonomous than basic Q and A, but it is still a planning flow rather than full implementation work.
+The Plan agent researches the task, asks clarifying questions, and produces a structured implementation and verification plan, but it does not jump straight into coding.
 
 ### 5. Interactive Local Agentic Flow
 
@@ -82,38 +80,29 @@ This is full agentic work inside VS Code.
 
 The local Agent can autonomously plan and implement changes, run terminal commands, and invoke tools while you remain in the loop inside the editor.
 
-### 6. Background Local Agentic Flow
+### 6. Detached Background Or Remote Flow
 
-This is agentic work that runs on your machine, but not as an interactive editor-first loop.
+These are still agentic flows, but they are no longer editor-first.
 
-The main example is Copilot CLI running in the background on your machine.
+Examples:
 
-### 7. Background Remote Agentic Flow
+- Copilot CLI on your machine
+- Copilot cloud agent on GitHub
+- third-party agent harnesses
 
-This is agentic work that runs remotely and fits team workflows on GitHub.
-
-The main example is Copilot cloud agent, which is designed for independently implementing well-defined tasks, issue assignment, and pull-request oriented collaboration.
-
-### 8. Provider-Specific Agentic Flow
-
-This is still agentic work, but you choose a third-party agent because you want a specific provider or model family.
-
-VS Code's agent overview frames this as the path to take when you want a specific AI provider such as Anthropic or OpenAI.
+They matter as a contrast surface, not as the default for this repository's local customization strategy.
 
 ## Comparison Table
 
-| Flow | Agentic? | Where it runs | Typical scope | Human checkpoint style | Best for | Not ideal for |
+| Flow | Agentic? | Where it runs | Typical scope | Human checkpoint style | Best for | Cost pressure |
 | --- | --- | --- | --- | --- | --- | --- |
-| Ghost text suggestions | No | Active editor | Current cursor or immediate continuation | You accept suggestion fragments or whole suggestions | Fast typing, boilerplate, short code completion | Broad reasoning, multi-file changes, debugging across files |
-| Next edit suggestions | No | Active editor | Predicted next edit, sometimes away from cursor | You jump to and accept suggested edits | Local refactors, repeated edits, intent propagation inside a file or nearby code | Open-ended problem solving or autonomous task completion |
-| Editor inline chat | Usually no | Active editor | Visible file or selected code | You review an inline diff with Keep or Undo | Quick targeted edits, rewrite a function, explain or transform selected code | Multi-step codebase work or broad implementation |
-| Terminal inline chat | Usually no | Integrated terminal | One command or short terminal task | You review and run or insert the command | Command generation, shell help, quick terminal tasks | Long autonomous coding sessions |
-| Ask agent / Quick Chat | No | Chat view or lightweight chat panel | Questions, explanations, codebase understanding | Conversational follow-up, no file edits by default | Learning, exploration, root-cause discussion, understanding a codebase | End-to-end implementation |
-| Plan agent | Partially | Chat view | Research plus structured implementation plan | You review and iterate on the plan before implementation | Risky changes, feature planning, verification planning, design before coding | Tiny tasks where planning overhead is wasted |
-| Local Agent | Yes | VS Code on your machine | Multi-file interactive implementation with local tools and editor context | Permission levels, approvals, ongoing interaction in session | Fixing issues with editor context, lint/test failures, multi-file implementation | Tasks you want fully detached in the background or on GitHub |
-| Copilot CLI | Yes | Your machine, background terminal flow | Well-defined background implementation or experiments | You can delegate and check progress later | Background work while you keep coding, proof of concepts, isolated runs | Tasks that depend heavily on VS Code-only tools or rich editor context |
-| Cloud agent | Yes | Remote cloud environment with GitHub integration | Well-defined autonomous task execution tied to issues and PRs | GitHub-oriented review and collaboration checkpoints | Assignable issue work, PR creation, collaboration with team review | Tasks needing your current local editor state or local-only tools |
-| Third-party agent | Yes | Local or cloud depending on provider harness | Agentic work with provider-specific models | Depends on the selected provider and environment | When you specifically want Anthropic or OpenAI agent behavior | Cases where the built-in local or cloud agent already fits and extra provider choice adds complexity |
+| Ghost text suggestions | No | Active editor | Current cursor or immediate continuation | You accept suggestion fragments or whole suggestions | Fast typing, boilerplate, short code completion | Lowest; unbilled on paid plans |
+| Next edit suggestions | No | Active editor | Predicted next edit, sometimes away from cursor | You jump to and accept suggested edits | Local refactors, repeated edits, intent propagation inside a file or nearby code | Lowest; unbilled on paid plans |
+| Editor or terminal inline chat | Usually no | Active editor or integrated terminal | Visible code or one command | You review an inline diff with Keep or Undo, or review a command with Run or Insert | Quick targeted edits, rewrite a function, explain or transform selected code, shell help | Low to moderate |
+| Ask / Quick Chat | No | Chat view or lightweight chat panel | Questions, explanations, codebase understanding | Conversational follow-up, no file edits by default | Learning, exploration, root-cause discussion, understanding a codebase | Moderate |
+| Plan agent | Partially | Chat view | Research plus structured implementation plan | You review and iterate on the plan before implementation | Risky changes, feature planning, verification planning, design before coding | Moderate |
+| Local Agent | Yes | VS Code on your machine | Multi-file interactive implementation with local tools and editor context | Permission levels, approvals, and ongoing session review | Fixing issues with editor context, lint or test failures, multi-file implementation | Highest local cost pressure |
+| Background or remote agents | Yes | Your machine in the background or a remote GitHub environment | Detached well-defined task execution | Later review, PR review, or background monitoring | Tasks you explicitly want detached from the editor-first loop | Highest overall cost and lowest editor-context fidelity |
 
 ## The Practical Difference Between Agentic And Non-Agentic Flows
 
@@ -133,13 +122,13 @@ That makes agentic work more powerful, but also more expensive in attention, tru
 
 ## Oversight And Control Differences
 
-VS Code's agents overview makes the oversight gradient explicit.
+VS Code's current agent docs make the oversight gradient explicit.
 
 - Predictive and inline flows keep you closest to the code and require immediate acceptance.
 - Ask and Quick Chat keep control entirely conversational.
 - Plan keeps implementation paused until the plan is reviewed.
-- Local Agent introduces tool approvals and permission levels.
-- CLI and cloud agent shift more of the work into background execution and later review.
+- Local Agent introduces tool approvals and permission levels such as Default Approvals, Bypass Approvals, and Autopilot.
+- Detached background and remote agents shift more of the work into later review rather than live editor review.
 
 If the task is risky, ambiguous, or easy to overrun, higher-autonomy flows should usually be gated by planning or tighter approvals.
 
@@ -148,30 +137,29 @@ If the task is risky, ambiguous, or easy to overrun, higher-autonomy flows shoul
 The official personal billing docs matter here.
 
 - Code completions and next edit suggestions are not billed in AI credits on paid plans.
-- Copilot Chat, Copilot CLI, Copilot cloud agent, Copilot Spaces, Spark, and third-party coding agents do consume AI credits.
+- Copilot Chat, local agent sessions, Copilot CLI, Copilot cloud agent, Copilot Spaces, Spark, and third-party coding agents do consume AI credits.
 - Longer conversations and more elaborate tasks consume more usage.
-- Agentic features such as agent mode and Copilot cloud agent can involve multiple model calls within one task and can consume significantly more usage than a quick question in chat.
+- Agentic features can involve multiple model calls within one task and can consume significantly more usage than a quick question in chat.
 
 This creates a practical cost ladder:
 
 - lowest cost pressure: suggestions and NES
 - low to moderate cost pressure: short chat interactions and scoped edit sessions
 - moderate cost pressure: planning sessions
-- highest cost pressure: long local agent, CLI, and cloud-agent runs, especially on expensive models
+- highest cost pressure: long local agent sessions and detached background or remote runs, especially on expensive models
 
 For the billing details behind this, see [copilot-billing-cost-analysis.md](copilot-billing-cost-analysis.md).
 
-## Recommended Default Routing
+## Recommended 2026 Default Routing
 
-Use this sequence as a default decision rule:
+Use this sequence as the default decision rule for personal VS Code work:
 
 1. Use inline suggestions or NES when you already know the change and want speed.
 2. Use inline chat when the task is local to visible code or a single terminal command.
 3. Use Ask or Quick Chat when you need explanation, codebase understanding, or problem framing.
 4. Use Plan when the task is important enough to benefit from explicit implementation and verification steps.
 5. Use the local Agent when the task needs autonomous implementation and local editor context.
-6. Use Copilot CLI when the task is well-defined and you want it running in the background on your machine.
-7. Use cloud agent when the task fits a GitHub-native background workflow with issue or PR review checkpoints.
+6. Reach for detached background or remote agents only when you explicitly want work to continue away from the editor-first loop.
 
 ## Simple Rule Of Thumb
 
@@ -183,18 +171,16 @@ If the task is important enough that you want to inspect the route before code c
 
 ## Companion Documents
 
-- default operating policy: [copilot-personal-workflow-policy.md](copilot-personal-workflow-policy.md)
-- quick-reference version: [copilot-workflow-cheat-sheet.md](copilot-workflow-cheat-sheet.md)
-- Plan versus custom-agent planning: [copilot-plan-vs-custom-agent.md](copilot-plan-vs-custom-agent.md)
 - model details: [copilot-model-reference-personal.md](copilot-model-reference-personal.md)
 - billing context: [copilot-billing-cost-analysis.md](copilot-billing-cost-analysis.md)
+- editor-first playbook: [copilot-local-vscode-workflow-guide.md](copilot-local-vscode-workflow-guide.md)
 
 ## Sources
 
 - [Using agents in Visual Studio Code](https://code.visualstudio.com/docs/copilot/agents/overview)
 - [Planning with agents in VS Code](https://code.visualstudio.com/docs/copilot/agents/planning)
+- [Best practices for using AI in VS Code](https://code.visualstudio.com/docs/copilot/best-practices)
 - [Prompt examples](https://code.visualstudio.com/docs/copilot/chat/prompt-examples)
 - [Inline chat](https://code.visualstudio.com/docs/copilot/chat/inline-chat)
 - [Inline suggestions from GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilot/ai-powered-suggestions)
-- [Concepts for GitHub Copilot agents](https://docs.github.com/en/copilot/concepts/agents)
 - [Usage-based billing for individuals](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals)
