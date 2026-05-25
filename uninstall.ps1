@@ -11,6 +11,11 @@ $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
 $PromptCleanupNames = @(
+    'design-with-kira.prompt.md',
+    'draft-commit-with-kira.prompt.md',
+    'implement-with-kira.prompt.md',
+    'plan-with-kira.prompt.md',
+    'review-with-kira.prompt.md',
     'architecture.prompt.md',
     'draft-commit.prompt.md',
     'implement.prompt.md',

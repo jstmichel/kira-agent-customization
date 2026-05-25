@@ -5,7 +5,16 @@ description: "Commit message drafting workflow. Use when the user asks to write,
 
 # Commit Message Draft Workflow
 
-This is a portable personal skill. If the active project defines commit, squash, merge, release, or changelog rules, those project instructions override this workflow.
+## Commit Format
+
+Use conventional commits unless the user explicitly provides a different project rule.
+
+- Format the header as `<type>(<scope>): <subject>` in lowercase and keep it under 72 characters.
+- Valid types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `style`, `build`, `ci`, `perf`.
+- Scope is optional, lowercase, and contains no spaces.
+- Use imperative mood for the subject and do not end it with a period.
+- If a body is needed, separate it from the header with a blank line and use concise bullet points for grouped changes.
+- If the change is breaking, add a blank line and `BREAKING CHANGE: <description>`.
 
 ## Mode Detection
 
@@ -34,8 +43,10 @@ This is a portable personal skill. If the active project defines commit, squash,
 1. Use the change summary, diff text, or bullet list provided by the user.
 2. Ask a follow-up only if the change intent is too ambiguous to name accurately.
 
+## Prompt Handoff Contract
+
+When a prompt delegates to this skill, treat this skill as the canonical source of truth for the draft and return only the final message.
+
 ## Output
 
-1. Apply project-defined commit rules first.
-2. Otherwise follow any active commit-format instruction.
-3. Return the final message as a single markdown code block containing only the message.
+Return the final message as a single markdown code block containing only the message.

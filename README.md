@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around one Kira custom agent, prompt-first task entrypoints, and shared skills behind those workflows.
+Kira is a local GitHub Copilot customization pack built around one Kira custom agent, action-named prompt entrypoints, and shared skills behind those workflows.
 
 This repository ships installable agents, prompts, instructions, and shared skills, plus the validation and smoke-test tooling needed to keep them trustworthy.
 
@@ -9,10 +9,9 @@ This repository ships installable agents, prompts, instructions, and shared skil
 | Area | Path | Purpose |
 | --- | --- | --- |
 | Agents | `copilot/agents` | Single Kira agent for persona, local execution, planning, review, and route advice |
-| Prompts | `copilot/prompts` | Reusable entrypoints for planning, implementation, review, architecture, and commit drafting |
-| Skills | `copilot/skills` | Shared cross-language workflows such as review, architecture, ticket intake, and commit handling |
-| Instructions | `copilot/instructions` | Core convention files for commit style and other language-agnostic behavior |
-| Optional .NET pack | `copilot/optional/dotnet` | EF migration, coverage, and C# conventions that are not installed by default |
+| Prompts | `copilot/prompts` | Thin entrypoints that delegate to the matching workflow skill |
+| Skills | `copilot/skills` | Canonical workflows such as review, architecture, implementation, ticket intake, commit handling, coverage, and EF migrations |
+| Instructions | `copilot/instructions` | File-based conventions such as C# behavior |
 | Customization guide | `copilot/README.md` | Runtime surface, prompt map, and feature-preserving redesign notes |
 | Docs | `docs` | Billing, model, and workflow reference notes for the shipped customization pack |
 | Validation tooling | `scripts` | Asset validation and install smoke tests |
@@ -25,26 +24,13 @@ This repository ships installable agents, prompts, instructions, and shared skil
 ./install.sh
 ```
 
-Optional .NET add-on:
-
-```bash
-KIRA_INCLUDE_DOTNET=1 ./install.sh
-```
-
 ### Windows PowerShell
 
 ```powershell
 .\install.ps1
 ```
 
-Optional .NET add-on:
-
-```powershell
-$env:KIRA_INCLUDE_DOTNET=1
-.\install.ps1
-```
-
-The install scripts copy the core agent, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory. Set `KIRA_INCLUDE_DOTNET=1` to also install the optional .NET pack.
+The install scripts copy the core agent, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory.
 
 ## Update and Remove
 
@@ -64,7 +50,6 @@ For automation and isolated testing, both install and uninstall scripts also res
 
 - `KIRA_HOME`
 - `VSCODE_PROMPTS_DIR`
-- `KIRA_INCLUDE_DOTNET`
 
 ## Validate Changes
 

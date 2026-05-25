@@ -10,8 +10,6 @@ AGENTS_SRC="$SCRIPT_DIR/copilot/agents"
 SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
-OPTIONAL_DOTNET_SKILLS_SRC="$SCRIPT_DIR/copilot/optional/dotnet/skills"
-OPTIONAL_DOTNET_INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/optional/dotnet/instructions"
 
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
@@ -19,6 +17,11 @@ SKILLS_DST="$KIRA_HOME/skills"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
 
 prompt_cleanup_names=(
+    design-with-kira.prompt.md
+    draft-commit-with-kira.prompt.md
+    implement-with-kira.prompt.md
+    plan-with-kira.prompt.md
+    review-with-kira.prompt.md
     architecture.prompt.md
     draft-commit.prompt.md
     implement.prompt.md
@@ -33,13 +36,6 @@ prompt_cleanup_names=(
     review-branch.prompt.md
     review-pr.prompt.md
 )
-
-include_dotnet=0
-case "${KIRA_INCLUDE_DOTNET:-0}" in
-    1|true|TRUE|yes|YES|on|ON)
-        include_dotnet=1
-        ;;
-esac
 
 # VS Code reads .prompt.md files from the platform User prompts directory
 if [[ -n "${VSCODE_PROMPTS_DIR:-}" ]]; then
@@ -101,18 +97,6 @@ if [[ -d "$SKILLS_SRC" ]]; then
     done
 fi
 
-if [[ "$include_dotnet" -eq 1 && -d "$OPTIONAL_DOTNET_SKILLS_SRC" ]]; then
-    echo "Installing optional KIRA .NET skills..."
-    for skill_dir in "$OPTIONAL_DOTNET_SKILLS_SRC"/*; do
-        [[ -d "$skill_dir" ]] || continue
-        [[ -f "$skill_dir/SKILL.md" ]] || continue
-        name=$(basename "$skill_dir")
-        mkdir -p "$SKILLS_DST/$name"
-        cp "$skill_dir/SKILL.md" "$SKILLS_DST/$name/SKILL.md"
-        skill_count=$((skill_count + 1))
-    done
-fi
-
 echo "Installing KIRA prompts..."
 if [[ -d "$PROMPTS_SRC" ]]; then
     for prompt_file in "$PROMPTS_SRC"/*.prompt.md; do
@@ -124,14 +108,6 @@ fi
 echo "Installing KIRA instructions..."
 if [[ -d "$INSTRUCTIONS_SRC" ]]; then
     for instruction_file in "$INSTRUCTIONS_SRC"/*.instructions.md; do
-        cp "$instruction_file" "$INSTRUCTIONS_DST/"
-        instruction_count=$((instruction_count + 1))
-    done
-fi
-
-if [[ "$include_dotnet" -eq 1 && -d "$OPTIONAL_DOTNET_INSTRUCTIONS_SRC" ]]; then
-    echo "Installing optional KIRA .NET instructions..."
-    for instruction_file in "$OPTIONAL_DOTNET_INSTRUCTIONS_SRC"/*.instructions.md; do
         cp "$instruction_file" "$INSTRUCTIONS_DST/"
         instruction_count=$((instruction_count + 1))
     done

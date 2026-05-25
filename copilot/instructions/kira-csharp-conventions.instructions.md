@@ -1,12 +1,13 @@
 ---
 name: "kira-csharp-conventions"
-description: "Use when writing or editing C# code and no project-specific C# convention instruction overrides it."
-applyTo: **/*.cs
+description: "C# conventions for editing workflows when no project-specific C# convention instruction overrides them."
 ---
 
 # C# Conventions
 
-Apply when no project-level C# instruction file is present. Project instructions take precedence.
+Apply these conventions only while editing C# files. Do not use them as a blanket analysis or review policy.
+
+Project-level C# instruction files take precedence.
 
 - Use file-scoped namespaces.
 - Prefer explicit types unless the type is immediately obvious from the right-hand side.
