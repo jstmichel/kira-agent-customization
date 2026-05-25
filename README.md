@@ -81,6 +81,7 @@ More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Supporting Analysis
 
+- [docs/kira-change-flow.md](docs/kira-change-flow.md)
 - [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md)
 - [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md)
 - [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md)
