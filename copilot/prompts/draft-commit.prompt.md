@@ -2,8 +2,9 @@
 name: "draft commit"
 description: "Draft a commit message for the staged changes without creating the commit."
 argument-hint: "Optional: add framing or emphasize a specific change intent"
-agent: "Kira :: Code"
+agent: "Build"
 model: "GPT-5 mini (copilot)"
+tools: [read, search, execute]
 ---
 
 Draft a commit message for the staged changes.

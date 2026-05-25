@@ -80,8 +80,7 @@ async function main() {
 
   await assertExists(path.join(kiraHome, 'agents'), [
     'kira.agent.md',
-    'kira-plan.agent.md',
-    'kira-code.agent.md'
+    'kira-build.agent.md'
   ]);
   await assertExists(path.join(kiraHome, 'skills'), [
     'kira-architecture',
@@ -95,7 +94,8 @@ async function main() {
   await assertExists(promptsDir, [
     'adr.prompt.md',
     'kira.prompt.md',
-    'kira-deep.prompt.md'
+    'plan-change.prompt.md',
+    'draft-commit.prompt.md'
   ]);
   await assertExists(path.join(kiraHome, 'instructions'), [
     'kira-conventional-commit.instructions.md',
@@ -113,7 +113,10 @@ async function main() {
 
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
-  await assertNotExists(promptsDir, 'kira-');
+  await assertNotExists(promptsDir, 'kira');
+  await assertNotExists(promptsDir, 'adr');
+  await assertNotExists(promptsDir, 'plan-');
+  await assertNotExists(promptsDir, 'draft-');
   await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
 
   console.log('Install smoke test passed.');

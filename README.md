@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around tighter routing, clearer workflow boundaries, and stronger execution defaults.
+Kira is a local GitHub Copilot customization pack built around a lightweight read-only Kira agent, built-in Plan for reviewable planning, and a single Build agent for tool-heavy execution.
 
 This repository ships installable agents, prompts, instructions, and shared skills, plus the validation and smoke-test tooling needed to keep them trustworthy.
 
@@ -8,8 +8,8 @@ This repository ships installable agents, prompts, instructions, and shared skil
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Agents | `copilot/agents` | Entry-point and lane-specific agent definitions |
-| Prompts | `copilot/prompts` | Reusable prompt presets for planning, review, ADRs, and commit drafting |
+| Agents | `copilot/agents` | Kira for read-only guidance and Build for execution-heavy local work |
+| Prompts | `copilot/prompts` | Reusable entrypoints for planning, review, ADRs, and commit drafting |
 | Skills | `copilot/skills` | Shared workflows such as review, architecture, coverage, and ticket intake |
 | Instructions | `copilot/instructions` | Reusable convention files for commit style and C# guidance |
 | ADRs and docs | `docs` | Decision records, comparisons, issue notes, and examples |
@@ -64,7 +64,7 @@ These checks currently verify:
 
 - required frontmatter on active agents, prompts, and skills
 - internal relative links across repository markdown
-- handoff references between agents
+- agent references between active agents
 - size budgets for the core agent files
 - install and uninstall smoke tests in isolated temp directories
 
@@ -80,7 +80,7 @@ More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Example Workflows
 
-- [Plan to build handoff](docs/examples/scenarios/plan-to-build-handoff.md)
+- [Plan to build flow](docs/examples/scenarios/plan-to-build-handoff.md)
 - [Review-first change workflow](docs/examples/scenarios/review-first-change.md)
 - [Ticket to implementation workflow](docs/examples/scenarios/ticket-to-implementation.md)
 

@@ -2,8 +2,9 @@
 name: "draft squash commit"
 description: "Draft a squash commit message for the current branch without creating the commit."
 argument-hint: "Optional: add framing or emphasize a specific branch outcome"
-agent: "Kira :: Code"
+agent: "Build"
 model: "GPT-5 mini (copilot)"
+tools: [read, search, execute]
 ---
 
 Draft a squash commit message for the current branch.

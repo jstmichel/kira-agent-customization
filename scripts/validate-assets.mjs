@@ -28,9 +28,8 @@ const frontmatterRules = [
 ];
 
 const sizeBudgets = new Map([
-  [path.join('copilot', 'agents', 'kira.agent.md'), 14000],
-  [path.join('copilot', 'agents', 'kira-plan.agent.md'), 10000],
-  [path.join('copilot', 'agents', 'kira-code.agent.md'), 10000]
+  [path.join('copilot', 'agents', 'kira.agent.md'), 10000],
+  [path.join('copilot', 'agents', 'kira-build.agent.md'), 10000]
 ]);
 
 async function walk(dirPath) {
@@ -125,7 +124,7 @@ async function validateLinks() {
   }
 }
 
-async function validateHandoffs(agentFiles) {
+async function validateAgentReferences(agentFiles) {
   const agentNames = new Set();
   const frontmatters = new Map();
 
@@ -153,7 +152,23 @@ async function validateHandoffs(agentFiles) {
 
       const agentName = stripQuotes(match[1].trim());
       if (!agentNames.has(agentName)) {
-        errors.push(`${relative(filePath)}: handoff references unknown agent \"${agentName}\"`);
+        errors.push(`${relative(filePath)}: agent reference points to unknown agent \"${agentName}\"`);
+      }
+    }
+
+    const inlineAgentsMatch = frontmatter.match(/^agents\s*:\s*\[(.*)\]\s*$/m);
+    if (!inlineAgentsMatch) {
+      continue;
+    }
+
+    const rawNames = inlineAgentsMatch[1]
+      .split(',')
+      .map((value) => stripQuotes(value.trim()))
+      .filter(Boolean);
+
+    for (const agentName of rawNames) {
+      if (!agentNames.has(agentName)) {
+        errors.push(`${relative(filePath)}: subagent list references unknown agent \"${agentName}\"`);
       }
     }
   }
@@ -201,7 +216,7 @@ async function main() {
 
   await validateFrontmatter(filesByType);
   await validateLinks();
-  await validateHandoffs(filesByType.get('agent'));
+  await validateAgentReferences(filesByType.get('agent'));
   await validateBudgets();
 
   if (errors.length > 0) {

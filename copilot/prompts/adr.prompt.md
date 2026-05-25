@@ -10,4 +10,6 @@ Write an ADR-style recommendation for this decision.
 
 Use the `kira-architecture` workflow in decision mode if available.
 
+Stay read-heavy and do not implement code.
+
 Keep it concise and decision-oriented.

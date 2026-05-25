@@ -39,7 +39,9 @@ Use these defaults unless a specific lane needs a tighter rule:
 
 ## Authoring Rules
 
-- keep agent instructions focused on role, routing, handoffs, and stopping points
+- keep agent instructions focused on role, routing, tool boundaries, and stopping points
 - keep specialized workflow behavior in shared skills when possible
 - do not duplicate broad workflow rules in every agent unless the runtime behavior truly needs it
 - use agents for workflow boundaries, not for every narrow capability
+- prefer the smallest visible set of agents that gives you clear tool boundaries
+- use built-in Plan and prompt files before adding more custom agents

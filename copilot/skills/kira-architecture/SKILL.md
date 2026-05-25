@@ -17,7 +17,7 @@ Determine output mode before producing any output:
 - **Planning mode** — triggered when the user wants an implementation plan for a decided direction, especially for multi-step or cross-component work.
 - **Review mode** — triggered when the user already has a proposal, architecture, or plan and wants it evaluated for risks, weaknesses, and alternatives.
 
-If the user asks for implementation but also wants to review the plan first, use planning mode and stop with an approval handoff.
+If the user asks for implementation but also wants to review the plan first, use planning mode and stop at an approval boundary.
 
 Default to **decision mode** when the user is clearly choosing. Default to **planning mode** when the direction is mostly decided and execution design is the main need. Default to **review mode** when the user provides a design and asks for critique.
 
@@ -57,7 +57,7 @@ Use this when the user wants an ADR, tradeoff analysis, or recommendation. If mi
 
 Return sections in order: `KIRA IMPLEMENTATION PLAN — <work item>`, `SCOPE`, `SUMMARY`, `IMPACTED COMPONENTS`, `DATA / CONTRACT IMPACT`, `SEQUENCE`, `RISKS`, `VALIDATION`, `OPEN QUESTIONS` (omit if none), `NEXT ACTION` (`WAITING FOR APPROVAL — reply continue | revise: <change> | cancel`).
 
-Keep it readable for human review. This mode is a handoff point: do not continue to execution. Always end by telling the user to reply with `continue`, `revise: <change>`, or `cancel`.
+Keep it readable for human review. This mode is an approval point: do not continue to execution. Always end by telling the user to reply with `continue`, `revise: <change>`, or `cancel`.
 
 ### Review Mode — Design Review
 
