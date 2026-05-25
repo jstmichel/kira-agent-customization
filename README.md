@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around a lightweight read-only Kira agent, built-in Plan for reviewable planning, and a single Build agent for tool-heavy execution.
+Kira is a local GitHub Copilot customization pack built around one Kira custom agent, prompt-first task entrypoints, and shared skills behind those workflows.
 
 This repository ships installable agents, prompts, instructions, and shared skills, plus the validation and smoke-test tooling needed to keep them trustworthy.
 
@@ -8,8 +8,8 @@ This repository ships installable agents, prompts, instructions, and shared skil
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Agents | `copilot/agents` | Kira for read-only guidance and Build for execution-heavy local work |
-| Prompts | `copilot/prompts` | Reusable entrypoints for planning, review, architecture, and commit drafting |
+| Agents | `copilot/agents` | Single Kira agent for persona, local execution, planning, review, and route advice |
+| Prompts | `copilot/prompts` | Reusable entrypoints for planning, implementation, review, architecture, and commit drafting |
 | Skills | `copilot/skills` | Shared cross-language workflows such as review, architecture, ticket intake, and commit handling |
 | Instructions | `copilot/instructions` | Core convention files for commit style and other language-agnostic behavior |
 | Optional .NET pack | `copilot/optional/dotnet` | EF migration, coverage, and C# conventions that are not installed by default |
@@ -44,7 +44,7 @@ $env:KIRA_INCLUDE_DOTNET=1
 .\install.ps1
 ```
 
-The install scripts copy the core agents, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory. Set `KIRA_INCLUDE_DOTNET=1` to also install the optional .NET pack.
+The install scripts copy the core agent, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory. Set `KIRA_INCLUDE_DOTNET=1` to also install the optional .NET pack.
 
 ## Update and Remove
 
@@ -81,7 +81,7 @@ These checks currently verify:
 - required frontmatter on active agents, prompts, and skills
 - internal relative links across repository markdown
 - agent references between active agents
-- size budgets for the core agent files
+- size budgets for the core agent file
 - install and uninstall smoke tests in isolated temp directories
 
 ## Contribution Flow

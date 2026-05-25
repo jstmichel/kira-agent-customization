@@ -13,6 +13,7 @@ $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 $PromptCleanupNames = @(
     'architecture.prompt.md',
     'draft-commit.prompt.md',
+    'implement.prompt.md',
     'plan.prompt.md',
     'review.prompt.md',
     'adr.prompt.md',

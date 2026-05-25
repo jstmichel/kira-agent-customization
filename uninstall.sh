@@ -14,6 +14,7 @@ INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 prompt_cleanup_names=(
     architecture.prompt.md
     draft-commit.prompt.md
+    implement.prompt.md
     plan.prompt.md
     review.prompt.md
     adr.prompt.md

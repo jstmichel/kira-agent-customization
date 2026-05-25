@@ -28,8 +28,7 @@ const frontmatterRules = [
 ];
 
 const sizeBudgets = new Map([
-  [path.join('copilot', 'agents', 'kira.agent.md'), 10000],
-  [path.join('copilot', 'agents', 'kira-build.agent.md'), 10000]
+  [path.join('copilot', 'agents', 'kira.agent.md'), 10000]
 ]);
 
 async function walk(dirPath) {

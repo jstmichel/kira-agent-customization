@@ -2,7 +2,7 @@
 name: "review"
 description: "Review a PR, branch, or diff and return findings first."
 argument-hint: "PR URL or number, branch comparison, diff context, or review focus"
-agent: "Build"
+agent: "Kira"
 model: "GPT-5.4 mini (copilot)"
 tools: [read, search, execute]
 ---

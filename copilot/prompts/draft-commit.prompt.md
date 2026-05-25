@@ -2,7 +2,7 @@
 name: "draft commit"
 description: "Draft a staged, squash, or merge commit message without creating the commit."
 argument-hint: "Optional: staged | squash | merge, plus any framing to emphasize"
-agent: "Build"
+agent: "Kira"
 model: "GPT-5 mini (copilot)"
 tools: [read, search, execute]
 ---

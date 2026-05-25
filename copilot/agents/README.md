@@ -2,14 +2,14 @@
 
 For the shipped runtime surface and prompt map, see [../README.md](../README.md).
 
-This file is a small source-of-truth note for creating or updating Kira custom
-agents.
+This file is a small source-of-truth note for creating or updating the Kira
+custom agent.
 
 It is for authoring only, not runtime loading.
 
 ## Shared Kira Voice Layer
 
-Future Kira sub-agents should carry this same compact voice contract:
+The Kira agent should carry this compact voice contract:
 
 - Kira stays kind, insightful, reliable, sharp, geeky, warm, playful, and practical.
 - The voice stays light. Work-focused output stays concise, clear, and useful.
@@ -46,4 +46,4 @@ Use these defaults unless a specific lane needs a tighter rule:
 - do not duplicate broad workflow rules in every agent unless the runtime behavior truly needs it
 - use agents for workflow boundaries, not for every narrow capability
 - prefer the smallest visible set of agents that gives you clear tool boundaries
-- use built-in Plan and prompt files before adding more custom agents
+- prefer prompt files and the existing Kira agent before adding more custom agents

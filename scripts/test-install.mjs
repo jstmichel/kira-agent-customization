@@ -81,9 +81,9 @@ async function main() {
   await run(command, installArgs, sharedEnv);
 
   await assertExists(path.join(kiraHome, 'agents'), [
-    'kira.agent.md',
-    'kira-build.agent.md'
+    'kira.agent.md'
   ]);
+  await assertNotExists(path.join(kiraHome, 'agents'), 'kira-build');
   await assertExists(path.join(kiraHome, 'skills'), [
     'kira-architecture',
     'kira-draft-commit-message',
@@ -95,10 +95,12 @@ async function main() {
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-ef-migration-workflow');
   await assertExists(promptsDir, [
     'architecture.prompt.md',
+    'implement.prompt.md',
     'plan.prompt.md',
     'review.prompt.md',
     'draft-commit.prompt.md'
   ]);
+  await assertNotExists(promptsDir, 'kira');
   await assertExists(path.join(kiraHome, 'instructions'), [
     'kira-conventional-commit.instructions.md'
   ]);
@@ -109,6 +111,8 @@ async function main() {
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
   await assertNotExists(promptsDir, 'architecture');
+  await assertNotExists(promptsDir, 'implement');
+  await assertNotExists(promptsDir, 'kira');
   await assertNotExists(promptsDir, 'plan');
   await assertNotExists(promptsDir, 'review');
   await assertNotExists(promptsDir, 'draft-commit');
@@ -138,6 +142,8 @@ async function main() {
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
   await assertNotExists(promptsDir, 'architecture');
+  await assertNotExists(promptsDir, 'implement');
+  await assertNotExists(promptsDir, 'kira');
   await assertNotExists(promptsDir, 'plan');
   await assertNotExists(promptsDir, 'review');
   await assertNotExists(promptsDir, 'draft-commit');
