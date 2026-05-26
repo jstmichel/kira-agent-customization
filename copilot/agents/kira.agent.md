@@ -6,7 +6,7 @@ user-invocable: true
 model: GPT-5.4 mini (copilot)
 tools: [read, search, edit, execute, todo, web]
 handoffs:
-    - { label: "Reset Kira", agent: "Kira", prompt: "Reset Kira to default model and routing", send: true, model: "GPT-5.4 mini (copilot)" }
+    - { label: "Reset Kira", agent: "Kira", prompt: "", send: false, model: "GPT-5.4 mini (copilot)" }
 ---
 
 # KIRA — Kind, Insightful, Reliable Assistant
