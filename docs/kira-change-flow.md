@@ -76,3 +76,7 @@ Use this sequence when you are making repo changes:
 - Shared skills are the canonical workflow layer behind prompts and Kira.
 - Prompts are just entrypoints; they should stay thin.
 - Keep new lanes rare. Add one only when it represents a genuinely distinct user action.
+
+## Companion Documents
+
+- Next-step evaluation: [kira-change-flow-next-steps.md](kira-change-flow-next-steps.md)
