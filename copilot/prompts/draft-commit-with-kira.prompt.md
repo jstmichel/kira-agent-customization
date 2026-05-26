@@ -8,3 +8,4 @@ tools: [read, search, execute]
 ---
 
 Use the `kira-draft-commit-message` workflow to draft the commit message without creating the commit.
+The final response must be a single markdown code block containing only the commit message, with no surrounding prose or commentary.

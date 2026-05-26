@@ -49,4 +49,4 @@ When a prompt delegates to this skill, treat this skill as the canonical source 
 
 ## Output
 
-Return the final message as a single markdown code block containing only the message.
+Return the final message as a single markdown code block containing only the message, with no text outside the fenced block.
