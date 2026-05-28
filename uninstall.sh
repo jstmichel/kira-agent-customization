@@ -13,6 +13,7 @@ INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 
 prompt_cleanup_names=(
     design-with-kira.prompt.md
+    document-pr-with-kira.prompt.md
     draft-commit-with-kira.prompt.md
     implement-with-kira.prompt.md
     plan-with-kira.prompt.md

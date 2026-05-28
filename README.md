@@ -1,18 +1,18 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around one Kira custom agent, action-named prompt entrypoints, and shared skills behind those workflows.
+Kira is a local GitHub Copilot customization pack built around a single public front door, `Kira`, plus one drafting worker for commit messages and PR descriptions.
 
-This repository ships installable agents, prompts, instructions, and shared skills, plus the validation and smoke-test tooling needed to keep them trustworthy.
+This repository currently ships the minimal pack first: two agents, install and uninstall scripts, and validation tooling. Prompts, skills, and instructions are intentionally empty for now so the runtime can grow in smaller steps.
 
 ## What Is Included
 
 | Area | Path | Purpose |
 | --- | --- | --- |
-| Agents | `copilot/agents` | Single Kira agent for persona, local execution, planning, review, and route advice |
-| Prompts | `copilot/prompts` | Thin entrypoints that delegate to the matching workflow skill |
-| Skills | `copilot/skills` | Canonical workflows such as review, architecture, implementation, ticket intake, commit handling, coverage, and EF migrations |
-| Instructions | `copilot/instructions` | File-based conventions such as C# behavior |
-| Customization guide | `copilot/README.md` | Runtime surface, prompt map, and feature-preserving redesign notes |
+| Agents | `copilot/agents` | Primary `Kira` front door plus the `Kira Draft` worker used for commit messages and PR descriptions |
+| Prompts | `copilot/prompts` | Reserved for future expansion; currently empty |
+| Skills | `copilot/skills` | Reserved for future expansion; currently empty |
+| Instructions | `copilot/instructions` | Reserved for future expansion; currently empty |
+| Customization guide | `copilot/README.md` | Runtime surface and design rules for the current minimal pack |
 | Docs | `docs` | Billing, model, and workflow reference notes for the shipped customization pack |
 | Validation tooling | `scripts` | Asset validation and install smoke tests |
 
@@ -30,7 +30,7 @@ This repository ships installable agents, prompts, instructions, and shared skil
 .\install.ps1
 ```
 
-The install scripts copy the core agent, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory.
+The install scripts copy the current agents into `~/.copilot/agents` and clean up older Kira prompts, skills, and instructions from previous installs.
 
 ## Update and Remove
 
@@ -65,24 +65,22 @@ These checks currently verify:
 
 - required frontmatter on active agents, prompts, and skills
 - internal relative links across repository markdown
-- agent references between active agents
+- agent references between shipped agents
 - size budgets for the core agent file
-- install and uninstall smoke tests in isolated temp directories
+- install and uninstall smoke tests for the current minimal pack in isolated temp directories
 
 ## Contribution Flow
 
 1. Make the smallest grounded change.
 2. Run `npm run validate` for asset-only changes.
 3. Run `npm test` when install behavior, paths, or validation logic changes.
-4. Keep agent and prompt growth intentional; the core files have size budgets for a reason.
+4. Keep the visible surface small and grow the runtime deliberately; the core files have size budgets for a reason.
 5. Update docs or examples when behavior changes.
 
 More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Supporting Analysis
 
-- [docs/kira-change-flow.md](docs/kira-change-flow.md)
-- [docs/kira-change-flow-next-steps.md](docs/kira-change-flow-next-steps.md)
 - [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md)
 - [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md)
 - [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md)

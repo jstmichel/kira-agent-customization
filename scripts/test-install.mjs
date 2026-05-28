@@ -81,40 +81,29 @@ async function main() {
   await run(command, installArgs, sharedEnv);
 
   await assertExists(path.join(kiraHome, 'agents'), [
-    'kira.agent.md'
+    'kira.agent.md',
+    'kira-draft.agent.md'
   ]);
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-build');
-  await assertExists(path.join(kiraHome, 'skills'), [
-    'kira-architecture',
-    'kira-coverage-analysis',
-    'kira-draft-commit-message',
-    'kira-ef-migration-workflow',
-    'kira-git-commit',
-    'kira-implementation-workflow',
-    'kira-review',
-    'kira-ticket-intake'
-  ]);
-  await assertExists(promptsDir, [
-    'design-with-kira.prompt.md',
-    'implement-with-kira.prompt.md',
-    'plan-with-kira.prompt.md',
-    'review-with-kira.prompt.md',
-    'draft-commit-with-kira.prompt.md'
-  ]);
+  await assertNotExists(path.join(kiraHome, 'agents'), 'kira-think');
+  await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
+  await assertNotExists(promptsDir, 'design-with-kira');
+  await assertNotExists(promptsDir, 'document-pr-with-kira');
+  await assertNotExists(promptsDir, 'draft-commit-with-kira');
+  await assertNotExists(promptsDir, 'implement-with-kira');
+  await assertNotExists(promptsDir, 'plan-with-kira');
   await assertNotExists(promptsDir, 'kira');
-  await assertExists(path.join(kiraHome, 'instructions'), [
-    'kira-csharp-conventions.instructions.md'
-  ]);
+  await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
 
   await run(command, uninstallArgs, sharedEnv);
 
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
   await assertNotExists(promptsDir, 'design-with-kira');
+  await assertNotExists(promptsDir, 'document-pr-with-kira');
   await assertNotExists(promptsDir, 'implement-with-kira');
   await assertNotExists(promptsDir, 'kira');
   await assertNotExists(promptsDir, 'plan-with-kira');
-  await assertNotExists(promptsDir, 'review-with-kira');
   await assertNotExists(promptsDir, 'draft-commit-with-kira');
   await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
 
