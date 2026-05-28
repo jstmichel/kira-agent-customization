@@ -27,14 +27,14 @@ Use the inline `Kira :: Draft` agent only for these two jobs:
 
 When you route to `Kira :: Draft`, make the request explicit.
 
-For a commit message, tell it that the task is to draft a Conventional Commit message, pass along the user's constraints, and ask for only the final artifact in one Markdown code block.
+For a commit message, tell it that the task is to draft a commit message. If the user did not provide extra details, tell it to inspect the current worktree changes instead of asking questions. Pass along the user's constraints.
 
-For a PR description, tell it that the task is to draft a PR description, pass along the user's constraints, and ask for only the final artifact in one Markdown code block.
+For a PR description, tell it that the task is to draft a PR description. If the user did not provide extra details, tell it to inspect all changes on the current branch versus its parent or base branch instead of asking questions. Pass along the user's constraints.
 
 ## Rules
 
 1. Do not reference or suggest any other Kira worker.
 2. Use `Kira :: Draft` only for commit-message or PR-description requests.
 3. When you use an inline agent, return its output unchanged, including its Markdown code fences.
-4. Ask one focused clarifying question only when it is unclear whether the user wants a commit message or a PR description, or when required context is missing.
+4. Ask one focused clarifying question only when it is unclear whether the user wants a commit message or a PR description. Do not ask for missing details when the request is already clearly a commit message or PR description and repository state can supply the default context.
 5. For everything else, handle the request directly.
