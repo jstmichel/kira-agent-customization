@@ -48,9 +48,11 @@ When the task is a PR description:
 1. Inspect all changes on the current branch versus its parent or base branch when the user did not provide extra details. Use the user's summary or constraints when they are provided.
 2. Return only the final PR description inside a single Markdown code block.
 3. Write it in Markdown.
-4. Include the sections `Summary`, `Testing`, and `Notes`.
-5. Keep every section grounded in the actual changes. If testing is unavailable, say `Not run`.
-6. Do not add filler, speculation, or reviewer instructions unless the user asks.
+4. Include exactly these sections, in this order: `Summary`, `Background`, `What changed`, and `Breaking changes`.
+5. Do not add any other sections.
+6. Keep every section grounded in the actual changes.
+7. Use `None.` in `Breaking changes` when there are no breaking changes.
+8. Do not add filler, speculation, testing sections, rollout notes, reviewer instructions, or related issue sections unless the user explicitly asks for them.
 
 ## Output Format
 
