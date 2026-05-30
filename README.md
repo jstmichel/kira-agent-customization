@@ -16,6 +16,7 @@ The current scaffold ships agents, instructions, prompt files, and skills. Broad
 - [copilot/instructions/kira-workflow.instructions.md](copilot/instructions/kira-workflow.instructions.md): routing, validation, and repo-aware defaults.
 - [copilot/instructions/kira-cost-routing.instructions.md](copilot/instructions/kira-cost-routing.instructions.md): model and token discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
+- [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# coding guidance that only loads on matching files.
 - [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): ADR draft prompt for Mapper-style planning work.
 - [copilot/prompts/kira-create-analysis.prompt.md](copilot/prompts/kira-create-analysis.prompt.md): analysis-note prompt for pre-implementation reasoning.
 - [copilot/prompts/kira-draft-commit.prompt.md](copilot/prompts/kira-draft-commit.prompt.md): commit draft prompt that defaults to the current worktree.
@@ -35,6 +36,13 @@ See [docs/kira-workflow-asset-map.md](docs/kira-workflow-asset-map.md) for the f
 - Prompt files pin the intended agent in frontmatter for installed use.
 - In this source repository, editor diagnostics may still not resolve those custom agent names until the assets are installed into VS Code's discovered locations.
 - Draft artifacts should be emitted in fenced code blocks.
+
+## Instruction Precedence
+
+- This repository keeps a small [copilot-instructions.md](copilot-instructions.md) so repo-local guidance wins without adding much always-on cost.
+- Repo-local `copilot-instructions.md`, `.github/copilot-instructions.md`, `AGENTS.md`, and scoped repo instructions should override installed Kira defaults when both apply.
+- Installed Kira instructions remain the user-level fallback when a repo does not provide local guidance for the active task.
+- Language-specific rules such as [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md) stay scoped with `applyTo` so unrelated sessions do not pay for them.
 
 ## Examples
 

@@ -33,6 +33,7 @@ copilot/
     kira-workflow.instructions.md
     kira-cost-routing.instructions.md
     kira-drafting.instructions.md
+    kira-csharp.instructions.md
   prompts/
     kira-create-adr.prompt.md
     kira-create-analysis.prompt.md
@@ -245,7 +246,7 @@ Note: because the source files live under `copilot/` instead of the default work
 
 ## Instruction map
 
-Instructions should be linked from agents and prompts instead of loaded globally with a wide `applyTo`. That keeps repeated token cost down.
+Instructions should be linked from agents and prompts instead of loaded globally with a wide `applyTo`. That keeps repeated token cost down. Repo-local `copilot-instructions.md` still wins when present, with installed Kira instructions as the fallback.
 
 ### `copilot/instructions/kira-core.instructions.md`
 
@@ -282,6 +283,15 @@ Instructions should be linked from agents and prompts instead of loaded globally
   - commit messages follow Conventional Commits exactly
   - PR, ticket, ADR, and analysis outputs stay in one fenced block each
   - avoid header-only drafts; require filled sections
+
+### `copilot/instructions/kira-csharp.instructions.md`
+
+- Scope: C# coding best practices only for matching C# source files
+- Key content:
+  - favor small testable types and constructor-injected dependencies
+  - use async and await end-to-end for I/O work
+  - respect nullable reference types and dispose resources correctly
+  - pass cancellation tokens through existing async flows
 
 ## Handoff map
 
@@ -330,7 +340,7 @@ These files are outside the `copilot/` tree, but the pack will not ship cleanly 
 
 ## Suggested authoring order
 
-1. Create `README.md` and the four instruction files.
+1. Create `README.md` and the five instruction files.
 2. Create `kira.agent.md` plus the five worker agents.
 3. Create the six prompt files.
 4. Create the two skills.

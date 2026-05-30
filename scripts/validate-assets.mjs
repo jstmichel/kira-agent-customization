@@ -24,11 +24,28 @@ const frontmatterRules = [
     dir: path.join(rootDir, 'copilot', 'skills'),
     match: (filePath) => path.basename(filePath) === 'SKILL.md',
     required: ['name', 'description']
+  },
+  {
+    label: 'instruction',
+    dir: path.join(rootDir, 'copilot', 'instructions'),
+    match: (filePath) => filePath.endsWith('.instructions.md'),
+    required: ['description']
   }
 ];
 
 const sizeBudgets = new Map([
-  [path.join('copilot', 'agents', 'kira.agent.md'), 10000]
+  [path.join('copilot-instructions.md'), 1200],
+  [path.join('copilot', 'agents', 'kira.agent.md'), 2600],
+  [path.join('copilot', 'agents', 'kira-diff.agent.md'), 1800],
+  [path.join('copilot', 'agents', 'kira-forge.agent.md'), 2200],
+  [path.join('copilot', 'agents', 'kira-mapper.agent.md'), 2200],
+  [path.join('copilot', 'agents', 'kira-packet.agent.md'), 1600],
+  [path.join('copilot', 'agents', 'kira-probe.agent.md'), 2200],
+  [path.join('copilot', 'instructions', 'kira-core.instructions.md'), 1200],
+  [path.join('copilot', 'instructions', 'kira-cost-routing.instructions.md'), 1200],
+  [path.join('copilot', 'instructions', 'kira-drafting.instructions.md'), 1200],
+  [path.join('copilot', 'instructions', 'kira-workflow.instructions.md'), 1600],
+  [path.join('copilot', 'instructions', 'kira-csharp.instructions.md'), 1800]
 ]);
 
 async function walk(dirPath) {
@@ -64,6 +81,12 @@ function parseFrontmatter(content, filePath) {
 function hasKey(frontmatter, key) {
   const pattern = new RegExp(`^${escapeRegExp(key)}\\s*:`, 'm');
   return pattern.test(frontmatter);
+}
+
+function frontmatterValue(frontmatter, key) {
+  const pattern = new RegExp(`^${escapeRegExp(key)}\\s*:\\s*(.+)$`, 'm');
+  const match = frontmatter.match(pattern);
+  return match ? stripQuotes(match[1].trim()) : null;
 }
 
 function escapeRegExp(value) {
@@ -135,9 +158,9 @@ async function validateAgentReferences(agentFiles) {
     }
 
     frontmatters.set(filePath, frontmatter);
-    const nameMatch = frontmatter.match(/^name\s*:\s*(.+)$/m);
-    if (nameMatch) {
-      agentNames.add(stripQuotes(nameMatch[1].trim()));
+    const agentName = frontmatterValue(frontmatter, 'name');
+    if (agentName) {
+      agentNames.add(agentName);
     }
   }
 
@@ -173,6 +196,21 @@ async function validateAgentReferences(agentFiles) {
   }
 }
 
+async function validateInstructionScopes(instructionFiles) {
+  for (const filePath of instructionFiles) {
+    const content = await readFile(filePath, 'utf8');
+    const frontmatter = parseFrontmatter(content, filePath);
+    if (!frontmatter) {
+      continue;
+    }
+
+    const applyTo = frontmatterValue(frontmatter, 'applyTo');
+    if (applyTo && ['**', '**/*'].includes(applyTo)) {
+      errors.push(`${relative(filePath)}: applyTo "${applyTo}" is too broad; use a narrower glob to control repeated context cost`);
+    }
+  }
+}
+
 function stripQuotes(value) {
   return value.replace(/^['\"]|['\"]$/g, '');
 }
@@ -203,6 +241,12 @@ async function main() {
   } catch {
     // CONTRIBUTING.md is optional until it is added.
   }
+  try {
+    await stat(path.join(rootDir, 'copilot-instructions.md'));
+    markdownFiles.push(path.join(rootDir, 'copilot-instructions.md'));
+  } catch {
+    // Repo-level copilot instructions are optional.
+  }
 
   const filesByType = new Map(frontmatterRules.map((rule) => [rule.label, []]));
   for (const filePath of markdownFiles) {
@@ -216,6 +260,7 @@ async function main() {
   await validateFrontmatter(filesByType);
   await validateLinks();
   await validateAgentReferences(filesByType.get('agent'));
+  await validateInstructionScopes(filesByType.get('instruction'));
   await validateBudgets();
 
   if (errors.length > 0) {
@@ -228,7 +273,7 @@ async function main() {
   }
 
   console.log(`Validated ${markdownFiles.length} markdown files.`);
-  console.log(`Checked ${filesByType.get('agent').length} agents, ${filesByType.get('prompt').length} prompts, and ${filesByType.get('skill').length} skills.`);
+  console.log(`Checked ${filesByType.get('agent').length} agents, ${filesByType.get('prompt').length} prompts, ${filesByType.get('skill').length} skills, and ${filesByType.get('instruction').length} instructions.`);
 }
 
 await main();
