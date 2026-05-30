@@ -10,7 +10,7 @@ handoffs:
     prompt: "Add or update tests for the touched slice and validate coverage only if the repo exposes it."
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return to Kira with the implemented diff and validation context. Use the hidden drafting helper if delivery artifacts are needed."
+    prompt: "Return to Kira with the implemented diff and validation context. Use Kira :: Diff if delivery artifacts are needed."
 argument-hint: "Approved plan, file scope, or bounded change request"
 ---
 

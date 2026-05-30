@@ -10,7 +10,7 @@ handoffs:
     prompt: "Fix the implementation issues exposed by the current test or coverage results."
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return to Kira with the current validation result. Use the hidden drafting helper if delivery artifacts are needed."
+    prompt: "Return to Kira with the current validation result. Use Kira :: Diff if delivery artifacts are needed."
 argument-hint: "Changed files, failing test, or validation scope"
 ---
 

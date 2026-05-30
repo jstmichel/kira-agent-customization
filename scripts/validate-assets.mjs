@@ -48,6 +48,11 @@ const sizeBudgets = new Map([
   [path.join('copilot', 'instructions', 'kira-csharp.instructions.md'), 1800]
 ]);
 
+const surfaceSizeBudgets = new Map([
+  ['prompt', 1200],
+  ['skill', 2600]
+]);
+
 async function walk(dirPath) {
   const entries = await readdir(dirPath, { withFileTypes: true });
   for (const entry of entries) {
@@ -215,12 +220,21 @@ function stripQuotes(value) {
   return value.replace(/^['\"]|['\"]$/g, '');
 }
 
-async function validateBudgets() {
+async function validateBudgets(filesByType) {
   for (const [relativePath, maxBytes] of sizeBudgets) {
     const absolutePath = path.join(rootDir, relativePath);
     const info = await stat(absolutePath);
     if (info.size > maxBytes) {
       errors.push(`${relativePath.split(path.sep).join('/')}: size ${info.size} exceeds budget ${maxBytes}`);
+    }
+  }
+
+  for (const [label, maxBytes] of surfaceSizeBudgets) {
+    for (const filePath of filesByType.get(label)) {
+      const info = await stat(filePath);
+      if (info.size > maxBytes) {
+        errors.push(`${relative(filePath)}: size ${info.size} exceeds budget ${maxBytes}`);
+      }
     }
   }
 }
@@ -261,7 +275,7 @@ async function main() {
   await validateLinks();
   await validateAgentReferences(filesByType.get('agent'));
   await validateInstructionScopes(filesByType.get('instruction'));
-  await validateBudgets();
+  await validateBudgets(filesByType);
 
   if (errors.length > 0) {
     console.error('Asset validation failed:\n');

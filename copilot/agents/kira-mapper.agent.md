@@ -10,7 +10,7 @@ handoffs:
     prompt: "Implement the approved plan and run narrow validation after the first meaningful edit."
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return to Kira with the current plan, ADR, or analysis output. Use the hidden drafting helper if delivery-ready text is needed."
+    prompt: "Return to Kira with the current plan, ADR, or analysis output. Use Kira :: Diff if delivery-ready text is needed."
 argument-hint: "Ticket, packet, plan, or change request"
 ---
 
