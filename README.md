@@ -1,87 +1,112 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around a single public front door, `Kira`, plus one drafting worker for commit messages and PR descriptions.
+Kira is a GitHub Copilot customization pack for ticket intake, planning, implementation, testing, and delivery drafting with explicit cost and tool discipline.
 
-This repository currently ships the minimal pack first: two agents, install and uninstall scripts, and validation tooling. Prompts, skills, and instructions are intentionally empty for now so the runtime can grow in smaller steps.
+The current scaffold ships agents, instructions, prompt files, and skills. Broader surface expansion still follows the workflow map.
 
-## What Is Included
+## Current Surface
 
-| Area | Path | Purpose |
-| --- | --- | --- |
-| Agents | `copilot/agents` | Primary `Kira` front door plus the `Kira Draft` worker used for commit messages and PR descriptions |
-| Prompts | `copilot/prompts` | Reserved for future expansion; currently empty |
-| Skills | `copilot/skills` | Reserved for future expansion; currently empty |
-| Instructions | `copilot/instructions` | Reserved for future expansion; currently empty |
-| Customization guide | `copilot/README.md` | Runtime surface and design rules for the current minimal pack |
-| Docs | `docs` | Billing, model, and workflow reference notes for the shipped customization pack |
-| Validation tooling | `scripts` | Asset validation and install smoke tests |
+- [copilot/agents/kira.agent.md](copilot/agents/kira.agent.md): read-only coordinator for backlog intake, lightweight questions, and routing.
+- [copilot/agents/kira-packet.agent.md](copilot/agents/kira-packet.agent.md): hidden ticket-packet helper for GitHub and Azure CLI intake.
+- [copilot/agents/kira-mapper.agent.md](copilot/agents/kira-mapper.agent.md): visible planning and architecture specialist.
+- [copilot/agents/kira-forge.agent.md](copilot/agents/kira-forge.agent.md): visible implementation and refactor specialist.
+- [copilot/agents/kira-probe.agent.md](copilot/agents/kira-probe.agent.md): visible testing and coverage specialist.
+- [copilot/agents/kira-diff.agent.md](copilot/agents/kira-diff.agent.md): callable drafting specialist for commits, PRs, ADR cleanup, and ticket updates.
+- [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): identity, naming, and output rules.
+- [copilot/instructions/kira-workflow.instructions.md](copilot/instructions/kira-workflow.instructions.md): routing, validation, and repo-aware defaults.
+- [copilot/instructions/kira-cost-routing.instructions.md](copilot/instructions/kira-cost-routing.instructions.md): model and token discipline.
+- [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
+- [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): ADR draft prompt for Mapper-style planning work.
+- [copilot/prompts/kira-create-analysis.prompt.md](copilot/prompts/kira-create-analysis.prompt.md): analysis-note prompt for pre-implementation reasoning.
+- [copilot/prompts/kira-draft-commit.prompt.md](copilot/prompts/kira-draft-commit.prompt.md): commit draft prompt that defaults to the current worktree.
+- [copilot/prompts/kira-draft-pr.prompt.md](copilot/prompts/kira-draft-pr.prompt.md): PR draft prompt for branch-versus-parent comparisons.
+- [copilot/prompts/kira-draft-ticket.prompt.md](copilot/prompts/kira-draft-ticket.prompt.md): ticket content prompt for plans, requests, and updates.
+- [copilot/prompts/kira-refactor.prompt.md](copilot/prompts/kira-refactor.prompt.md): bounded refactor prompt for Forge-style implementation work.
+- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable ticket-intake workflow for GitHub and Azure CLI sources.
+- [copilot/skills/kira-change-docs/SKILL.md](copilot/skills/kira-change-docs/SKILL.md): reusable ADR and analysis documentation workflow.
 
-## Quickstart
+See [docs/kira-workflow-asset-map.md](docs/kira-workflow-asset-map.md) for the full planned surface and handoff model.
 
-### macOS / Linux
+## Design Defaults
 
-```bash
-./install.sh
+- `Kira` is read-only. It can read `todo.md`, attached files, and local docs, but it should not edit files or use the terminal to implement changes.
+- Visible specialists own planning, coding, and testing.
+- Hidden helpers are reserved for packetization; drafting can take the shortest path through `Kira :: Diff` directly.
+- Prompt files pin the intended agent in frontmatter for installed use.
+- In this source repository, editor diagnostics may still not resolve those custom agent names until the assets are installed into VS Code's discovered locations.
+- Draft artifacts should be emitted in fenced code blocks.
+
+## Examples
+
+### Kira
+
+```text
+Kira, read todo.md and tell me whether this request should go to planning, implementation, testing, or drafting.
 ```
 
-### Windows PowerShell
-
-```powershell
-.\install.ps1
+```text
+Kira, draft a commit message from the current worktree and a PR description against the parent branch.
 ```
 
-The install scripts copy the current agents into `~/.copilot/agents` and clean up older Kira prompts, skills, and instructions from previous installs.
+### Kira :: Diff
 
-## Update and Remove
-
-Re-run the install script to refresh an existing setup.
-
-```bash
-./install.sh
-./uninstall.sh
+```text
+Draft a commit message from the current worktree and a PR description against the parent branch.
 ```
 
-```powershell
-.\install.ps1
-.\uninstall.ps1
+### Kira :: Mapper
+
+```text
+Create an implementation plan for ticket 142 and include an ADR draft plus an analysis note.
 ```
 
-For automation and isolated testing, both install and uninstall scripts also respect:
+### Kira :: Forge
 
-- `KIRA_HOME`
-- `VSCODE_PROMPTS_DIR`
+```text
+Implement the approved plan for the CLI parser and run the narrowest relevant validation after the first edit.
+```
 
-## Validate Changes
+### Kira :: Probe
 
-Node.js 20 or newer is enough; there are no package dependencies.
+```text
+Add unit tests for the parser change and tell me whether this repo exposes a coverage command.
+```
+
+### Prompt files
+
+```text
+/kira-create-adr ticket 142
+```
+
+```text
+/kira-draft-pr
+```
+
+### Skills
+
+```text
+/kira-ticket-intake github issue 142
+```
+
+```text
+/kira-change-docs ticket 142
+```
+
+## Local Validation
 
 ```bash
 npm run validate
 npm run test:install
-npm test
 ```
 
-These checks currently verify:
+## Install
 
-- required frontmatter on active agents, prompts, and skills
-- internal relative links across repository markdown
-- agent references between shipped agents
-- size budgets for the core agent file
-- install and uninstall smoke tests for the current minimal pack in isolated temp directories
+```bash
+bash install.sh
+```
 
-## Contribution Flow
+On Windows:
 
-1. Make the smallest grounded change.
-2. Run `npm run validate` for asset-only changes.
-3. Run `npm test` when install behavior, paths, or validation logic changes.
-4. Keep the visible surface small and grow the runtime deliberately; the core files have size budgets for a reason.
-5. Update docs or examples when behavior changes.
-
-More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Supporting Analysis
-
-- [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md)
-- [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md)
-- [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md)
-- [docs/copilot-local-vscode-workflow-guide.md](docs/copilot-local-vscode-workflow-guide.md)
+```powershell
+pwsh -File install.ps1
+```

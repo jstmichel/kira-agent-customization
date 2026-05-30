@@ -82,18 +82,32 @@ async function main() {
 
   await assertExists(path.join(kiraHome, 'agents'), [
     'kira.agent.md',
-    'kira-draft.agent.md'
+    'kira-diff.agent.md',
+    'kira-forge.agent.md',
+    'kira-mapper.agent.md',
+    'kira-packet.agent.md',
+    'kira-probe.agent.md'
   ]);
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-build');
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-think');
-  await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
-  await assertNotExists(promptsDir, 'design-with-kira');
-  await assertNotExists(promptsDir, 'document-pr-with-kira');
-  await assertNotExists(promptsDir, 'draft-commit-with-kira');
-  await assertNotExists(promptsDir, 'implement-with-kira');
-  await assertNotExists(promptsDir, 'plan-with-kira');
-  await assertNotExists(promptsDir, 'kira');
-  await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
+  await assertExists(path.join(kiraHome, 'skills'), [
+    'kira-change-docs',
+    'kira-ticket-intake'
+  ]);
+  await assertExists(path.join(kiraHome, 'instructions'), [
+    'kira-core.instructions.md',
+    'kira-cost-routing.instructions.md',
+    'kira-drafting.instructions.md',
+    'kira-workflow.instructions.md'
+  ]);
+  await assertExists(promptsDir, [
+    'kira-create-adr.prompt.md',
+    'kira-create-analysis.prompt.md',
+    'kira-draft-commit.prompt.md',
+    'kira-draft-pr.prompt.md',
+    'kira-draft-ticket.prompt.md',
+    'kira-refactor.prompt.md'
+  ]);
 
   await run(command, uninstallArgs, sharedEnv);
 
