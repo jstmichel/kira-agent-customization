@@ -6,7 +6,7 @@ agent: "Kira :: Mapper"
 
 Use these references when relevant:
 
-- [Workflow rules](../instructions/kira-workflow.instructions.md)
+- [Workflow rules](../instructions/kira-core.instructions.md)
 - [Drafting rules](../instructions/kira-drafting.instructions.md)
 
 Create an analysis note before implementation starts.

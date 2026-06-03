@@ -6,7 +6,7 @@ agent: "Kira :: Diff"
 
 Use these references when relevant:
 
-- [Workflow rules](../instructions/kira-workflow.instructions.md)
+- [Workflow rules](../instructions/kira-core.instructions.md)
 - [Drafting rules](../instructions/kira-drafting.instructions.md)
 
 Draft a pull request description from the current branch versus its parent branch.

@@ -6,7 +6,7 @@ agent: "Kira :: Forge"
 
 Use these references when relevant:
 
-- [Workflow rules](../instructions/kira-workflow.instructions.md)
+- [Workflow rules](../instructions/kira-core.instructions.md)
 
 Prepare or execute a bounded refactor from a request, plan, or explicit file scope.
 

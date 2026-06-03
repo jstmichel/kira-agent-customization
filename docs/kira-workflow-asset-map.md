@@ -30,8 +30,6 @@ copilot/
     kira-diff.agent.md
   instructions/
     kira-core.instructions.md
-    kira-workflow.instructions.md
-    kira-cost-routing.instructions.md
     kira-drafting.instructions.md
     kira-csharp.instructions.md
   prompts/
@@ -257,7 +255,7 @@ Instructions should be linked from agents and prompts instead of loaded globally
   - direct answers stay concise markdown
   - draft artifacts always use fenced blocks
 
-### `copilot/instructions/kira-workflow.instructions.md`
+### `copilot/instructions/kira-core.instructions.md`
 
 - Scope: workflow routing and repo-aware defaults
 - Key content:

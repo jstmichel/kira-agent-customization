@@ -10,8 +10,6 @@ argument-hint: "Commit, PR, ADR, analysis, or ticket drafting request"
 Use these linked rules as the stable defaults:
 
 - [Core rules](../instructions/kira-core.instructions.md)
-- [Workflow rules](../instructions/kira-workflow.instructions.md)
-- [Cost routing](../instructions/kira-cost-routing.instructions.md)
 - [Drafting rules](../instructions/kira-drafting.instructions.md)
 
 ## Operating mode

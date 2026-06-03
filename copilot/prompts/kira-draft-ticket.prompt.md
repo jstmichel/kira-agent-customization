@@ -6,7 +6,7 @@ agent: "Kira :: Diff"
 
 Use these references when relevant:
 
-- [Workflow rules](../instructions/kira-workflow.instructions.md)
+- [Workflow rules](../instructions/kira-core.instructions.md)
 - [Drafting rules](../instructions/kira-drafting.instructions.md)
 
 Draft ticket-ready content from the supplied request, plan, or implemented change.

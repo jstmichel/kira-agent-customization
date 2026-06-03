@@ -9,11 +9,9 @@ disable-model-invocation: true
 
 Use this skill when the task needs decision documentation before or after implementation.
 
-Use these references when relevant:
-
-- [Workflow rules](../../instructions/kira-workflow.instructions.md)
-- [Drafting rules](../../instructions/kira-drafting.instructions.md)
-- [Cost routing](../../instructions/kira-cost-routing.instructions.md)
+ Use these references when relevant:
+ 
+ - [Workflow rules](../../instructions/kira-core.instructions.md)
 
 ## Procedure
 

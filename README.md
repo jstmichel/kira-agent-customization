@@ -12,9 +12,7 @@ The current scaffold ships agents, instructions, prompt files, and skills. Broad
 - [copilot/agents/kira-forge.agent.md](copilot/agents/kira-forge.agent.md): visible implementation and refactor specialist.
 - [copilot/agents/kira-probe.agent.md](copilot/agents/kira-probe.agent.md): visible testing and coverage specialist.
 - [copilot/agents/kira-diff.agent.md](copilot/agents/kira-diff.agent.md): callable drafting specialist for commits, PRs, ADR cleanup, and ticket updates.
-- [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): identity, naming, and output rules.
-- [copilot/instructions/kira-workflow.instructions.md](copilot/instructions/kira-workflow.instructions.md): routing, validation, and repo-aware defaults.
-- [copilot/instructions/kira-cost-routing.instructions.md](copilot/instructions/kira-cost-routing.instructions.md): model and token discipline.
+-- [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): identity, naming, output rules, workflow routing, and cost/token discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
 - [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# coding guidance that only loads on matching files.
 - [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): ADR draft prompt for Mapper-style planning work.

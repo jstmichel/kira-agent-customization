@@ -41,10 +41,8 @@ const sizeBudgets = new Map([
   [path.join('copilot', 'agents', 'kira-mapper.agent.md'), 2200],
   [path.join('copilot', 'agents', 'kira-packet.agent.md'), 1600],
   [path.join('copilot', 'agents', 'kira-probe.agent.md'), 2200],
-  [path.join('copilot', 'instructions', 'kira-core.instructions.md'), 1200],
-  [path.join('copilot', 'instructions', 'kira-cost-routing.instructions.md'), 1200],
+  [path.join('copilot', 'instructions', 'kira-core.instructions.md'), 1600],
   [path.join('copilot', 'instructions', 'kira-drafting.instructions.md'), 1200],
-  [path.join('copilot', 'instructions', 'kira-workflow.instructions.md'), 1600],
   [path.join('copilot', 'instructions', 'kira-csharp.instructions.md'), 1800]
 ]);
 

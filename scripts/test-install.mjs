@@ -97,9 +97,7 @@ async function main() {
   await assertExists(path.join(kiraHome, 'instructions'), [
     'kira-core.instructions.md',
     'kira-csharp.instructions.md',
-    'kira-cost-routing.instructions.md',
-    'kira-drafting.instructions.md',
-    'kira-workflow.instructions.md'
+    'kira-drafting.instructions.md'
   ]);
   await assertExists(promptsDir, [
     'kira-create-adr.prompt.md',

@@ -9,10 +9,9 @@ disable-model-invocation: true
 
 Use this skill when the task starts from an external ticket and you need a compact, copy-pasteable packet before planning or implementation.
 
-Use these references when relevant:
-
-- [Workflow rules](../../instructions/kira-workflow.instructions.md)
-- [Cost routing](../../instructions/kira-cost-routing.instructions.md)
+ Use these references when relevant:
+ 
+ - [Workflow rules](../../instructions/kira-core.instructions.md)
 
 ## Procedure
 
