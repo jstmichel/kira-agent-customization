@@ -1,100 +1,93 @@
 # Kira Agent Customization
 
-Kira is a local GitHub Copilot customization pack built around tighter routing, clearer workflow boundaries, and stronger execution defaults.
+Kira is a portable GitHub Copilot customization pack optimized for a simple, cost-aware workflow:
 
-This repository ships installable agents, prompts, instructions, and shared skills, plus the validation and smoke-test tooling needed to keep them trustworthy.
+- one daily-driver agent for normal coding work
+- two cheap helper subagents for intake and drafting
+- two explicit handoff-only premium agents for difficult architecture and debugging
 
-## What Is Included
+## Agent Surface
 
-| Area | Path | Purpose |
-| --- | --- | --- |
-| Agents | `copilot/agents` | Entry-point and lane-specific agent definitions |
-| Prompts | `copilot/prompts` | Reusable prompt presets for planning, review, ADRs, and commit drafting |
-| Skills | `copilot/skills` | Shared workflows such as review, architecture, coverage, and ticket intake |
-| Instructions | `copilot/instructions` | Reusable convention files for commit style and C# guidance |
-| ADRs and docs | `docs` | Decision records, comparisons, issue notes, and examples |
-| Validation tooling | `scripts` | Asset validation and install smoke tests |
+- [copilot/agents/kira.agent.md](copilot/agents/kira.agent.md): main daily-driver for planning, coding, refactoring, validation, lightweight review, and routing.
+- [copilot/agents/kira-intake.agent.md](copilot/agents/kira-intake.agent.md): hidden low-cost request normalization helper.
+- [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ADR/ticket/summary text.
+- [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture specialist.
+- [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only hard implementation/debugging specialist.
 
-## Quickstart
+## Model Strategy
 
-### macOS / Linux
+- `Kira`: `GPT-5.4 mini (copilot)`
+- `Kira :: Intake`: `GPT-5 mini (copilot)`
+- `Kira :: Draft`: `GPT-5 mini (copilot)`
+- `Kira :: Architect`: `GPT-5.4 (copilot)`
+- `Kira :: Codex`: `GPT-5.3-Codex (copilot)`
 
-```bash
-./install.sh
+Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when explicitly requested and supported.
+
+## Invocation Rules
+
+- `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
+- `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
+- `Kira :: Architect` and `Kira :: Codex` are manual escalation paths via handoff buttons.
+
+## Prompt Surface
+
+- [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): ADR drafting flow bound to `Kira :: Architect`.
+- [copilot/prompts/kira-create-analysis.prompt.md](copilot/prompts/kira-create-analysis.prompt.md): implementation analysis drafting flow bound to `Kira :: Architect`.
+- [copilot/prompts/kira-draft-commit.prompt.md](copilot/prompts/kira-draft-commit.prompt.md): commit drafting flow bound to `Kira :: Draft`.
+- [copilot/prompts/kira-draft-pr.prompt.md](copilot/prompts/kira-draft-pr.prompt.md): PR drafting flow bound to `Kira :: Draft`.
+- [copilot/prompts/kira-draft-ticket.prompt.md](copilot/prompts/kira-draft-ticket.prompt.md): ticket drafting flow bound to `Kira :: Draft`.
+- [copilot/prompts/kira-refactor.prompt.md](copilot/prompts/kira-refactor.prompt.md): bounded refactor flow routed through `Kira`.
+
+## Skills and Instructions
+
+- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable intake packet workflow for GitHub and Azure sources.
+- [copilot/skills/kira-change-docs/SKILL.md](copilot/skills/kira-change-docs/SKILL.md): reusable ADR and analysis drafting workflow.
+- [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): core naming, output, and cost discipline.
+- [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
+- [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# guidance.
+
+## Usage Examples
+
+### Kira
+
+```text
+Kira, normalize this issue into a compact packet, implement the accepted fix, run validation, and summarize risks.
 ```
 
-### Windows PowerShell
+### Kira :: Draft
 
-```powershell
-.\install.ps1
+```text
+Draft a PR description from the current branch diff against its parent branch.
 ```
 
-The install scripts copy agents, skills, and instructions into `~/.copilot` and copy prompts into the VS Code user prompt directory.
+### Kira :: Architect
 
-## Update and Remove
-
-Re-run the install script to refresh an existing setup.
-
-```bash
-./install.sh
-./uninstall.sh
+```text
+Review this schema and API boundary change and provide decision constraints before implementation.
 ```
 
-```powershell
-.\install.ps1
-.\uninstall.ps1
+### Kira :: Codex
+
+```text
+Take over this failing integration test loop and deliver a focused diagnosis-plus-fix result.
 ```
 
-For automation and isolated testing, both install and uninstall scripts also respect:
-
-- `KIRA_HOME`
-- `VSCODE_PROMPTS_DIR`
-
-## Validate Changes
-
-Node.js 20 or newer is enough; there are no package dependencies.
+## Local Validation
 
 ```bash
 npm run validate
 npm run test:install
-npm test
 ```
 
-These checks currently verify:
+## Install
 
-- required frontmatter on active agents, prompts, and skills
-- internal relative links across repository markdown
-- handoff references between agents
-- size budgets for the core agent files
-- install and uninstall smoke tests in isolated temp directories
+```bash
+bash install.sh
+```
 
-## Contribution Flow
+Windows:
 
-1. Make the smallest grounded change.
-2. Run `npm run validate` for asset-only changes.
-3. Run `npm test` when install behavior, paths, or validation logic changes.
-4. Keep agent and prompt growth intentional; the core files have size budgets for a reason.
-5. Update docs or examples when behavior changes.
-
-More detailed guidance lives in [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Example Workflows
-
-- [Plan to build handoff](docs/examples/scenarios/plan-to-build-handoff.md)
-- [Review-first change workflow](docs/examples/scenarios/review-first-change.md)
-- [Ticket to implementation workflow](docs/examples/scenarios/ticket-to-implementation.md)
-
-Concrete sample agent files that are not part of the active shipped configuration live in [docs/examples/agents/plan-review-sample.agent.md](docs/examples/agents/plan-review-sample.agent.md) and [docs/examples/agents/implement-from-plan-sample.agent.md](docs/examples/agents/implement-from-plan-sample.agent.md).
-
-## ADRs
-
-Stable design decisions live in [docs/adr/README.md](docs/adr/README.md).
-
-## Supporting Analysis
-
-- [docs/copilot-billing-cost-analysis.md](docs/copilot-billing-cost-analysis.md)
-- [docs/copilot-model-reference-personal.md](docs/copilot-model-reference-personal.md)
-- [docs/copilot-workflow-flows-comparison.md](docs/copilot-workflow-flows-comparison.md)
-- [docs/copilot-personal-workflow-policy.md](docs/copilot-personal-workflow-policy.md)
-- [docs/copilot-workflow-cheat-sheet.md](docs/copilot-workflow-cheat-sheet.md)
-- [docs/copilot-plan-vs-custom-agent.md](docs/copilot-plan-vs-custom-agent.md)
+```powershell
+pwsh -File install.ps1
+```

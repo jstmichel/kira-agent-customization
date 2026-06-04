@@ -24,13 +24,30 @@ const frontmatterRules = [
     dir: path.join(rootDir, 'copilot', 'skills'),
     match: (filePath) => path.basename(filePath) === 'SKILL.md',
     required: ['name', 'description']
+  },
+  {
+    label: 'instruction',
+    dir: path.join(rootDir, 'copilot', 'instructions'),
+    match: (filePath) => filePath.endsWith('.instructions.md'),
+    required: ['description']
   }
 ];
 
 const sizeBudgets = new Map([
-  [path.join('copilot', 'agents', 'kira.agent.md'), 14000],
-  [path.join('copilot', 'agents', 'kira-plan.agent.md'), 10000],
-  [path.join('copilot', 'agents', 'kira-code.agent.md'), 10000]
+  [path.join('copilot-instructions.md'), 1200],
+  [path.join('copilot', 'agents', 'kira.agent.md'), 2600],
+  [path.join('copilot', 'agents', 'kira-intake.agent.md'), 2000],
+  [path.join('copilot', 'agents', 'kira-draft.agent.md'), 2000],
+  [path.join('copilot', 'agents', 'kira-architect.agent.md'), 2400],
+  [path.join('copilot', 'agents', 'kira-codex.agent.md'), 2400],
+  [path.join('copilot', 'instructions', 'kira-core.instructions.md'), 1600],
+  [path.join('copilot', 'instructions', 'kira-drafting.instructions.md'), 1200],
+  [path.join('copilot', 'instructions', 'kira-csharp.instructions.md'), 1800]
+]);
+
+const surfaceSizeBudgets = new Map([
+  ['prompt', 1200],
+  ['skill', 2600]
 ]);
 
 async function walk(dirPath) {
@@ -66,6 +83,12 @@ function parseFrontmatter(content, filePath) {
 function hasKey(frontmatter, key) {
   const pattern = new RegExp(`^${escapeRegExp(key)}\\s*:`, 'm');
   return pattern.test(frontmatter);
+}
+
+function frontmatterValue(frontmatter, key) {
+  const pattern = new RegExp(`^${escapeRegExp(key)}\\s*:\\s*(.+)$`, 'm');
+  const match = frontmatter.match(pattern);
+  return match ? stripQuotes(match[1].trim()) : null;
 }
 
 function escapeRegExp(value) {
@@ -125,7 +148,7 @@ async function validateLinks() {
   }
 }
 
-async function validateHandoffs(agentFiles) {
+async function validateAgentReferences(agentFiles) {
   const agentNames = new Set();
   const frontmatters = new Map();
 
@@ -137,9 +160,9 @@ async function validateHandoffs(agentFiles) {
     }
 
     frontmatters.set(filePath, frontmatter);
-    const nameMatch = frontmatter.match(/^name\s*:\s*(.+)$/m);
-    if (nameMatch) {
-      agentNames.add(stripQuotes(nameMatch[1].trim()));
+    const agentName = frontmatterValue(frontmatter, 'name');
+    if (agentName) {
+      agentNames.add(agentName);
     }
   }
 
@@ -153,8 +176,39 @@ async function validateHandoffs(agentFiles) {
 
       const agentName = stripQuotes(match[1].trim());
       if (!agentNames.has(agentName)) {
-        errors.push(`${relative(filePath)}: handoff references unknown agent \"${agentName}\"`);
+        errors.push(`${relative(filePath)}: agent reference points to unknown agent \"${agentName}\"`);
       }
+    }
+
+    const inlineAgentsMatch = frontmatter.match(/^agents\s*:\s*\[(.*)\]\s*$/m);
+    if (!inlineAgentsMatch) {
+      continue;
+    }
+
+    const rawNames = inlineAgentsMatch[1]
+      .split(',')
+      .map((value) => stripQuotes(value.trim()))
+      .filter(Boolean);
+
+    for (const agentName of rawNames) {
+      if (!agentNames.has(agentName)) {
+        errors.push(`${relative(filePath)}: subagent list references unknown agent \"${agentName}\"`);
+      }
+    }
+  }
+}
+
+async function validateInstructionScopes(instructionFiles) {
+  for (const filePath of instructionFiles) {
+    const content = await readFile(filePath, 'utf8');
+    const frontmatter = parseFrontmatter(content, filePath);
+    if (!frontmatter) {
+      continue;
+    }
+
+    const applyTo = frontmatterValue(frontmatter, 'applyTo');
+    if (applyTo && ['**', '**/*'].includes(applyTo)) {
+      errors.push(`${relative(filePath)}: applyTo "${applyTo}" is too broad; use a narrower glob to control repeated context cost`);
     }
   }
 }
@@ -163,12 +217,21 @@ function stripQuotes(value) {
   return value.replace(/^['\"]|['\"]$/g, '');
 }
 
-async function validateBudgets() {
+async function validateBudgets(filesByType) {
   for (const [relativePath, maxBytes] of sizeBudgets) {
     const absolutePath = path.join(rootDir, relativePath);
     const info = await stat(absolutePath);
     if (info.size > maxBytes) {
       errors.push(`${relativePath.split(path.sep).join('/')}: size ${info.size} exceeds budget ${maxBytes}`);
+    }
+  }
+
+  for (const [label, maxBytes] of surfaceSizeBudgets) {
+    for (const filePath of filesByType.get(label)) {
+      const info = await stat(filePath);
+      if (info.size > maxBytes) {
+        errors.push(`${relative(filePath)}: size ${info.size} exceeds budget ${maxBytes}`);
+      }
     }
   }
 }
@@ -189,6 +252,12 @@ async function main() {
   } catch {
     // CONTRIBUTING.md is optional until it is added.
   }
+  try {
+    await stat(path.join(rootDir, 'copilot-instructions.md'));
+    markdownFiles.push(path.join(rootDir, 'copilot-instructions.md'));
+  } catch {
+    // Repo-level copilot instructions are optional.
+  }
 
   const filesByType = new Map(frontmatterRules.map((rule) => [rule.label, []]));
   for (const filePath of markdownFiles) {
@@ -201,8 +270,9 @@ async function main() {
 
   await validateFrontmatter(filesByType);
   await validateLinks();
-  await validateHandoffs(filesByType.get('agent'));
-  await validateBudgets();
+  await validateAgentReferences(filesByType.get('agent'));
+  await validateInstructionScopes(filesByType.get('instruction'));
+  await validateBudgets(filesByType);
 
   if (errors.length > 0) {
     console.error('Asset validation failed:\n');
@@ -214,7 +284,7 @@ async function main() {
   }
 
   console.log(`Validated ${markdownFiles.length} markdown files.`);
-  console.log(`Checked ${filesByType.get('agent').length} agents, ${filesByType.get('prompt').length} prompts, and ${filesByType.get('skill').length} skills.`);
+  console.log(`Checked ${filesByType.get('agent').length} agents, ${filesByType.get('prompt').length} prompts, ${filesByType.get('skill').length} skills, and ${filesByType.get('instruction').length} instructions.`);
 }
 
 await main();

@@ -1,61 +1,62 @@
 ---
 name: kira-ticket-intake
-description: "Ticket intake workflow. Use when the user provides a GitHub issue reference, Azure DevOps work item reference, or a ticket-like identifier that must be resolved before planning or implementation."
+description: Use when you need to intake a GitHub issue, GitHub pull request, or Azure DevOps work item through CLI and normalize it into a compact ticket packet with title, context, acceptance criteria, risks, linked artifacts, and missing inputs.
+argument-hint: "github issue 123 | github pr 45 | azure work item 678"
+disable-model-invocation: true
 ---
 
-# Ticket Intake Workflow
+# Kira Ticket Intake
 
-Resolve ticket identity and content before planning or implementation. Do not guess from ambiguous identifiers.
+Use this skill when the task starts from an external ticket and you need a compact, copy-pasteable packet before planning or implementation.
 
-## Intake Goals
+ Use these references when relevant:
+ 
+ - [Workflow rules](../../instructions/kira-core.instructions.md)
 
-- Determine provider: GitHub, Azure DevOps, or user-pasted ticket content.
-- Retrieve ticket content when a provider-specific path is available.
-- Extract the delivery anchors: goal, constraints, acceptance criteria, linked technical context.
-- Stop and ask for missing context when provider or identity is ambiguous.
+## Procedure
 
-## Provider Detection Order
+1. Determine the source system from the request.
+2. Gather the minimum identifiers needed to fetch the ticket.
+3. Prefer the narrowest CLI fetch that returns the useful fields without pulling excessive chatter.
+4. Normalize the result into one compact packet.
+5. If access, authentication, extension setup, or identifiers are missing, say so explicitly instead of guessing.
 
-1. Prefer explicit ticket URLs:
-	- GitHub issue URL
-	- Azure DevOps work item URL
-2. If no URL is provided, use explicit user context (for example: "GitHub issue" or "Azure work item").
-3. If only a bare identifier is provided, use host/repo context when available.
-4. If still ambiguous, ask for provider confirmation and do not guess.
+## Source-specific guidance
 
-## Retrieval Paths
+### GitHub issues and pull requests
 
-### GitHub Issue
+- Prefer `gh issue view <id> --comments` for issues when comment context matters.
+- Prefer `gh pr view <id> --comments` for pull requests when review context matters.
+- If the repository is ambiguous, ask for the repository or state that the input is incomplete.
+- Keep the packet compact; summarize long comment threads instead of copying them verbatim.
 
-1. Run `gh issue view <N> --json title,body,url,labels,assignees` when repository context is known.
-2. If repository context is not known, ask for the issue URL or `<owner>/<repo>#<number>`.
-3. If `gh` is unavailable, ask for the ticket link or pasted ticket content.
+### Azure DevOps work items
 
-### Azure DevOps Work Item
+- Prefer `az boards work-item show --id <id>` when the Azure DevOps extension is available.
+- If the Azure CLI extension, organization, or project context is missing, call that out clearly.
+- Do not invent fields that Azure did not return.
 
-1. Run `az boards work-item show --id <N> --output json`.
-2. If `az` is unavailable or not configured, ask for the ticket link or pasted ticket content.
+## Output contract
 
-### Pasted Ticket Content
+Return exactly one fenced markdown block with this structure:
 
-1. Parse the provided text directly.
-2. If required fields are missing, ask focused follow-up questions.
+```markdown
+# Intake Packet
+## Request Type
+## Source
+## Goal
+## Current Context
+## Acceptance Criteria
+## Constraints
+## Likely Impacted Areas
+## Unknowns
+## Recommended Next Step
+## Recommended Escalation
+## Missing Inputs
+```
 
-## Extraction Checklist
+## Notes
 
-Always extract:
-
-- Goal
-- Constraints
-- Acceptance Criteria
-- Linked Technical Context
-
-## Stop Conditions
-
-Stop and ask for clarification when:
-
-- provider cannot be determined confidently
-- retrieval tooling is unavailable and no usable ticket text is provided
-- the ticket content is incomplete or contradictory
-
-Never fabricate ticket details.
+- Omit empty sections only when the source clearly lacks that information.
+- Preserve exact identifiers such as issue number, PR number, or work item ID.
+- Keep the packet optimized for handoff into planning or implementation.

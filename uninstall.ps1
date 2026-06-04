@@ -10,6 +10,28 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
+$PromptCleanupNames = @(
+    'design-with-kira.prompt.md',
+    'document-pr-with-kira.prompt.md',
+    'draft-commit-with-kira.prompt.md',
+    'implement-with-kira.prompt.md',
+    'plan-with-kira.prompt.md',
+    'review-with-kira.prompt.md',
+    'architecture.prompt.md',
+    'draft-commit.prompt.md',
+    'implement.prompt.md',
+    'plan.prompt.md',
+    'review.prompt.md',
+    'adr.prompt.md',
+    'design-review.prompt.md',
+    'draft-squash.prompt.md',
+    'kira.prompt.md',
+    'plan-change.prompt.md',
+    'plan-ticket.prompt.md',
+    'review-branch.prompt.md',
+    'review-pr.prompt.md'
+)
+
 $KiraHome = if ($env:KIRA_HOME) { $env:KIRA_HOME } else { Join-Path $env:USERPROFILE '.copilot' }
 $AgentsDst = Join-Path $KiraHome 'agents'
 $SkillsDst = Join-Path $KiraHome 'skills'
@@ -119,13 +141,10 @@ if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
 }
 
 if (Test-Path -LiteralPath $PromptsDst -PathType Container) {
-    if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
-        Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
-            ForEach-Object {
-                if (Remove-FileIfPresent -Path (Join-Path $PromptsDst $_.Name)) {
-                    $promptCount++
-                }
-            }
+    foreach ($promptName in $PromptCleanupNames) {
+        if (Remove-FileIfPresent -Path (Join-Path $PromptsDst $promptName)) {
+            $promptCount++
+        }
     }
 
     @(Get-ChildItem -LiteralPath $PromptsDst -File -Filter 'kira-*.prompt.md') | ForEach-Object {
