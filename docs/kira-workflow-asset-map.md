@@ -56,6 +56,7 @@ copilot/
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - `Kira :: Architect` and `Kira :: Codex` are explicitly visible escalation paths.
 - `Kira :: Architect` decides and recommends; `Kira` persists ADR/analysis files or implements follow-up work.
+- Handoff prompts are instructions to the receiving agent, not the sending agent.
 
 ## Context packet format
 

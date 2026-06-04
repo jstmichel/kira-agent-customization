@@ -7,10 +7,10 @@ tools: ["read", "search", "read/problems"]
 handoffs:
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return implementation constraints, design guidance, ADR-ready decision content, recommended document paths, and whether Kira should write docs, implement, or ask before proceeding."
+    prompt: "Use the architecture review to write requested docs, implement accepted steps, or ask if the next action is ambiguous."
   - label: "Escalate To Codex"
     agent: "Kira :: Codex"
-    prompt: "Escalate only if the work is implementation-heavy and requires hard debugging loops."
+    prompt: "Take over only if the architecture review shows implementation-heavy work or hard debugging loops are required."
 argument-hint: "Architecture decision, risky change, ADR review, API or schema change"
 ---
 

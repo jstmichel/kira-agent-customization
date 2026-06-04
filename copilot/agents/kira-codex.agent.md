@@ -7,10 +7,10 @@ tools: ["read", "search", "edit", "read/problems", "execute"]
 handoffs:
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return diagnosis, changes, validation, and remaining risks to Kira for final delivery."
+    prompt: "Use the Codex diagnosis, changes, validation, and risks to complete final delivery."
   - label: "Escalate To Architect"
     agent: "Kira :: Architect"
-    prompt: "Escalate when blockers are architectural and need design-level decisions."
+    prompt: "Perform a design-level review of the architectural blocker and return constraints, tradeoffs, and next steps."
 argument-hint: "Hard bug, repeated failures, complex implementation, or multi-file debugging"
 ---
 
