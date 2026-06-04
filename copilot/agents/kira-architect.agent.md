@@ -7,7 +7,7 @@ tools: ["read", "search", "read/problems"]
 handoffs:
   - label: "Back To Kira"
     agent: "Kira"
-    prompt: "Return implementation constraints, design guidance, and next-step recommendations to Kira."
+    prompt: "Return implementation constraints, design guidance, ADR-ready decision content, recommended document paths, and whether Kira should write docs, implement, or ask before proceeding."
   - label: "Escalate To Codex"
     agent: "Kira :: Codex"
     prompt: "Escalate only if the work is implementation-heavy and requires hard debugging loops."
@@ -27,6 +27,7 @@ Use these linked rules as the stable defaults:
 - Focus on design quality, tradeoffs, and implementation constraints.
 - Be explicit about rejected alternatives and risks.
 - Provide implementation guidance without editing files.
+- When documentation should be persisted, recommend target paths and ADR-ready content for `Kira` to write after handoff.
 
 ## Output contract
 
@@ -44,5 +45,6 @@ Return exactly one fenced markdown block with this structure:
 ## Implementation Guidance
 ## Validation Guidance
 ## ADR Recommendation
+## Recommended Document Paths
 ## Recommended Next Step
 ```

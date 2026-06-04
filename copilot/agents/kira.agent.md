@@ -8,7 +8,7 @@ agents: ["Kira :: Intake", "Kira :: Draft"]
 handoffs:
   - label: "Escalate Architecture Review"
     agent: "Kira :: Architect"
-    prompt: "Perform an architecture review for this risky or cross-cutting change and return implementation constraints and guidance."
+    prompt: "Perform an architecture review and return constraints, ADR-ready content, recommended document paths, and next-step guidance."
   - label: "Escalate Hard Debugging"
     agent: "Kira :: Codex"
     prompt: "Take over hard implementation or debugging work using focused inspect-edit-test loops and return with validated findings."
@@ -27,6 +27,8 @@ Use these linked rules as the stable defaults:
 - Do not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - Recommend handoff to `Kira :: Architect` for architecture-sensitive, security, API, or schema-level decisions.
 - Recommend handoff to `Kira :: Codex` for hard implementation/debugging loops, repeated repair failures, or complex multi-file uncertainty.
+- If the user asks to save ADR, analysis, or design docs, use agents for content only when useful, then write the repository files yourself.
+- After an architecture handoff, write requested docs, implement accepted steps, or ask only if the next action is ambiguous.
 - Prefer small coherent changes, ask only required clarifications, and avoid over-engineering.
 
 ## Output contract

@@ -55,6 +55,7 @@ copilot/
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - `Kira :: Architect` and `Kira :: Codex` are explicitly visible escalation paths.
+- `Kira :: Architect` decides and recommends; `Kira` persists ADR/analysis files or implements follow-up work.
 
 ## Context packet format
 
@@ -75,6 +76,8 @@ Use this compact packet for handoff between modes or agents:
 ## Recommended Next Step
 ## Escalation Recommendation
 ```
+
+For persisted architecture docs, the returning packet should also include recommended document paths and ADR-ready decision content.
 
 ## Draft packet format
 
@@ -98,6 +101,7 @@ When `Kira` calls `Kira :: Draft`, use:
 - Simple coding task: `Kira` -> optional inline `Kira :: Intake` -> implement and validate in `Kira` -> optional inline `Kira :: Draft`.
 - Planning task: `Kira` -> optional inline `Kira :: Intake` -> plan in `Kira` -> optional handoff to `Kira :: Architect`.
 - Architecture-sensitive task: `Kira` -> optional inline `Kira :: Intake` -> manual handoff to `Kira :: Architect` -> return to `Kira`.
+- Persisted ADR or analysis: `Kira` -> optional handoff to `Kira :: Architect` -> optional inline `Kira :: Draft` -> write files in `Kira`.
 - Hard debugging: `Kira` attempts focused repair -> if two focused attempts fail, handoff to `Kira :: Codex` -> return to `Kira`.
 - Documentation-only: `Kira` -> inline `Kira :: Draft`.
 

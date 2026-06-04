@@ -1,6 +1,6 @@
 ---
 name: kira-change-docs
-description: Use when you need ADR and analysis documentation from a ticket, plan, request, or implemented change, with lean decision-oriented output that can be pasted into repository docs or chat.
+description: Use when you need ADR and analysis documentation from a ticket, plan, request, or implemented change, with lean decision-oriented output that can be saved by an edit-capable agent or returned in chat.
 argument-hint: "ticket, plan, request, or diff context"
 disable-model-invocation: true
 ---
@@ -19,8 +19,8 @@ Use this skill when the task needs decision documentation before or after implem
 2. Identify the decision that needs to be documented.
 3. Extract the assumptions, alternatives, recommendation, risks, and validation expectations.
 4. Produce an analysis draft, an ADR draft, or both, depending on the request.
-5. If the active agent has no edit access, return drafts in chat only.
-6. If the active agent has edit access and the user explicitly asked to save files, write the requested documents to the repository.
+5. If the active agent has edit access and the user asked to save files, write the requested documents to the repository.
+6. If the active agent has no edit access, return drafts and recommended target paths for an edit-capable agent to write.
 
 ## Analysis draft rules
 
@@ -33,6 +33,7 @@ Use this skill when the task needs decision documentation before or after implem
 - Focus on context, decision, consequences, and validation notes.
 - Keep the ADR compact and avoid copying the source material verbatim.
 - Use assumptions only when they materially affect the decision.
+- Prefer `docs/adr/YYYY-MM-DD-short-title.md` for ADR file paths unless the repository has an existing convention.
 
 ## Output contract
 

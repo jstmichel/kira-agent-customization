@@ -29,6 +29,7 @@ Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when expl
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - `Kira :: Architect` and `Kira :: Codex` are manual escalation paths via handoff buttons.
+- `Kira :: Architect` returns decisions and ADR-ready content; `Kira` writes requested ADR/analysis files or implements accepted follow-up work.
 
 ## Prompt Surface
 
@@ -65,6 +66,10 @@ Draft a PR description from the current branch diff against its parent branch.
 
 ```text
 Review this schema and API boundary change and provide decision constraints before implementation.
+```
+
+```text
+Kira, get an architecture review for this decision, then save the ADR under docs/adr.
 ```
 
 ### Kira :: Codex
