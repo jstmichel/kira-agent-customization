@@ -1,7 +1,7 @@
 ---
 name: "kira-draft-commit"
 description: "Draft a Conventional Commits message from the current worktree by default."
-agent: "Kira :: Diff"
+agent: "Kira :: Draft"
 ---
 
 Use these references when relevant:

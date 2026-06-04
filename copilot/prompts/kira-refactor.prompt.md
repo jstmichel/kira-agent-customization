@@ -1,7 +1,7 @@
 ---
 name: "kira-refactor"
 description: "Prepare a bounded refactor request from a file, plan, or explicit scope."
-agent: "Kira :: Forge"
+agent: "Kira"
 ---
 
 Use these references when relevant:

@@ -36,11 +36,10 @@ const frontmatterRules = [
 const sizeBudgets = new Map([
   [path.join('copilot-instructions.md'), 1200],
   [path.join('copilot', 'agents', 'kira.agent.md'), 2600],
-  [path.join('copilot', 'agents', 'kira-diff.agent.md'), 1800],
-  [path.join('copilot', 'agents', 'kira-forge.agent.md'), 2200],
-  [path.join('copilot', 'agents', 'kira-mapper.agent.md'), 2200],
-  [path.join('copilot', 'agents', 'kira-packet.agent.md'), 1600],
-  [path.join('copilot', 'agents', 'kira-probe.agent.md'), 2200],
+  [path.join('copilot', 'agents', 'kira-intake.agent.md'), 2000],
+  [path.join('copilot', 'agents', 'kira-draft.agent.md'), 2000],
+  [path.join('copilot', 'agents', 'kira-architect.agent.md'), 2400],
+  [path.join('copilot', 'agents', 'kira-codex.agent.md'), 2400],
   [path.join('copilot', 'instructions', 'kira-core.instructions.md'), 1600],
   [path.join('copilot', 'instructions', 'kira-drafting.instructions.md'), 1200],
   [path.join('copilot', 'instructions', 'kira-csharp.instructions.md'), 1800]

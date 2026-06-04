@@ -1,7 +1,7 @@
 ---
 name: "kira-draft-ticket"
 description: "Draft ticket content or an update from a request, plan, or implemented change."
-agent: "Kira :: Diff"
+agent: "Kira :: Draft"
 ---
 
 Use these references when relevant:

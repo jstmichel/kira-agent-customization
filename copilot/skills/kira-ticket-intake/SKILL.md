@@ -41,13 +41,17 @@ Use this skill when the task starts from an external ticket and you need a compa
 Return exactly one fenced markdown block with this structure:
 
 ```markdown
-# Ticket Packet: <title>
+# Intake Packet
+## Request Type
 ## Source
-## Summary
+## Goal
+## Current Context
 ## Acceptance Criteria
-## Linked Artifacts
-## Risks
-## Open Questions
+## Constraints
+## Likely Impacted Areas
+## Unknowns
+## Recommended Next Step
+## Recommended Escalation
 ## Missing Inputs
 ```
 

@@ -1,7 +1,7 @@
 ---
 name: "kira-create-adr"
 description: "Draft an ADR from a ticket, plan, or change request."
-agent: "Kira :: Mapper"
+agent: "Kira :: Architect"
 ---
 
 Use these references when relevant:

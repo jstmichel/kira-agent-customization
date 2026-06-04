@@ -1,7 +1,7 @@
 ---
 name: "kira-create-analysis"
 description: "Draft an implementation analysis note from a ticket, plan, or request."
-agent: "Kira :: Mapper"
+agent: "Kira :: Architect"
 ---
 
 Use these references when relevant:

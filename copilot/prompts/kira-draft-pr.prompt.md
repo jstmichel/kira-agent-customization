@@ -1,7 +1,7 @@
 ---
 name: "kira-draft-pr"
 description: "Draft a pull request description from branch versus parent diff."
-agent: "Kira :: Diff"
+agent: "Kira :: Draft"
 ---
 
 Use these references when relevant:

@@ -82,11 +82,10 @@ async function main() {
 
   await assertExists(path.join(kiraHome, 'agents'), [
     'kira.agent.md',
-    'kira-diff.agent.md',
-    'kira-forge.agent.md',
-    'kira-mapper.agent.md',
-    'kira-packet.agent.md',
-    'kira-probe.agent.md'
+    'kira-intake.agent.md',
+    'kira-draft.agent.md',
+    'kira-architect.agent.md',
+    'kira-codex.agent.md'
   ]);
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-build');
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-think');
