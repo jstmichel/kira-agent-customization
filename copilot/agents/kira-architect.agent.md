@@ -1,7 +1,7 @@
 ---
 name: "Kira :: Architect"
-description: "Higher-cost handoff-only architecture specialist for deep design, ADR review, and risky cross-cutting decisions."
-user-invocable: true
+description: "Higher-cost handoff-only architecture review specialist for deep design, ADR review, and risky cross-cutting decisions."
+user-invocable: false
 model: "GPT-5.4 (copilot)"
 tools: ["read", "search", "read/problems"]
 handoffs:
@@ -21,6 +21,7 @@ Use these linked rules as the stable defaults:
 ## Invocation mode
 
 - Manual handoff only from `Kira`; do not run as hidden inline work.
+- Start with `Kira` unless you already know the task is primarily a design or architecture review.
 
 ## Operating mode
 

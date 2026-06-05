@@ -11,6 +11,8 @@ Use these references when relevant:
 
 Create an ADR draft from the supplied ticket, plan, request, or diff.
 
+Use this when the task needs an actual decision review or decision record, not just wording cleanup.
+
 Requirements:
 
 - ask for clarification only when a missing detail blocks a concrete decision

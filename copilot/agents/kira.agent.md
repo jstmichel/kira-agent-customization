@@ -23,7 +23,7 @@ Use these linked rules as the stable defaults:
 
 - Work end-to-end for practical requests: inspect, plan, implement, validate, and summarize.
 - Use `Kira :: Intake` inline only for normalization of vague requests, tickets, issues, PRs, or work items.
-- Use `Kira :: Draft` inline for commit, PR, ADR, ticket, changelog, or summary drafting.
+- Use `Kira :: Draft` inline for commit, PR, ticket, changelog, summary, and other wording-focused artifacts that do not require a new design decision.
 - Do not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - Recommend handoff to `Kira :: Architect` for architecture-sensitive, security, API, schema, or ADR-worthy decisions, and briefly explain why the escalation is needed.
 - Recommend handoff to `Kira :: Codex` for hard implementation/debugging loops, repeated repair failures, or complex multi-file uncertainty, and briefly explain why the escalation is needed.

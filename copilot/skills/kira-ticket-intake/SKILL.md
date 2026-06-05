@@ -1,6 +1,6 @@
 ---
 name: kira-ticket-intake
-description: Use when you need to intake a GitHub issue, GitHub pull request, or Azure DevOps work item through CLI and normalize it into a compact ticket packet with title, context, acceptance criteria, risks, linked artifacts, and missing inputs.
+description: Use when you need to intake a GitHub issue, GitHub pull request, or Azure DevOps work item through CLI and normalize it into a compact ticket packet with title, context, acceptance criteria, execution guidance, risks, linked artifacts, and missing inputs.
 argument-hint: "github issue 123 | github pr 45 | azure work item 678"
 disable-model-invocation: true
 ---
@@ -18,7 +18,7 @@ Use this skill when the task starts from an external ticket and you need a compa
 1. Determine the source system from the request.
 2. Gather the minimum identifiers needed to fetch the ticket.
 3. Prefer the narrowest CLI fetch that returns the useful fields without pulling excessive chatter.
-4. Normalize the result into one compact packet.
+4. Normalize the result into one compact packet that can hand off cleanly into planning or implementation.
 5. If access, authentication, extension setup, or identifiers are missing, say so explicitly instead of guessing.
 
 ## Source-specific guidance
@@ -49,6 +49,9 @@ Return exactly one fenced markdown block with this structure:
 ## Acceptance Criteria
 ## Constraints
 ## Likely Impacted Areas
+## Decision Needed
+## Suggested First Step
+## Blocking Unknowns
 ## Unknowns
 ## Recommended Next Step
 ## Recommended Escalation
@@ -60,3 +63,4 @@ Return exactly one fenced markdown block with this structure:
 - Omit empty sections only when the source clearly lacks that information.
 - Preserve exact identifiers such as issue number, PR number, or work item ID.
 - Keep the packet optimized for handoff into planning or implementation.
+- Prefer concrete next actions over generic advice.

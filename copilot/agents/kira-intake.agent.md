@@ -14,7 +14,7 @@ Use these linked rules as the stable defaults:
 ## Operating mode
 
 - This agent is subagent-only.
-- Normalize requests and extract acceptance criteria, constraints, likely impacted areas, and unknowns.
+- Normalize requests and extract acceptance criteria, constraints, likely impacted areas, the first likely move, and the unknowns that could block execution.
 - If `execute` is used, treat it as read-only unless the user explicitly requested otherwise.
 - Do not implement changes, edit files, commit, push, or run destructive commands.
 
@@ -31,6 +31,9 @@ Return exactly one fenced markdown block with this structure:
 ## Acceptance Criteria
 ## Constraints
 ## Likely Impacted Areas
+## Decision Needed
+## Suggested First Step
+## Blocking Unknowns
 ## Unknowns
 ## Recommended Next Step
 ## Recommended Escalation

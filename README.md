@@ -4,16 +4,16 @@ Kira is a portable GitHub Copilot customization pack optimized for a simple, cos
 
 - one daily-driver agent for normal coding work
 - two cheap helper subagents for intake and drafting
-- two explicit handoff-only premium agents for difficult architecture and debugging
+- two explicit handoff-only premium agents for difficult architecture review and debugging
 - chat-first artifact output, with file writes when saving is the logical outcome
 
 ## Agent Surface
 
 - [copilot/agents/kira.agent.md](copilot/agents/kira.agent.md): main daily-driver for planning, coding, refactoring, validation, lightweight review, and routing.
 - [copilot/agents/kira-intake.agent.md](copilot/agents/kira-intake.agent.md): hidden low-cost request normalization helper.
-- [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ADR/ticket/summary text.
-- [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture specialist.
-- [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only hard implementation/debugging specialist.
+- [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ticket/summary and other wording-focused artifacts.
+- [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture review specialist.
+- [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only deep debugging and implementation rescue specialist.
 
 ## Model Strategy
 
@@ -29,14 +29,14 @@ Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when expl
 
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
-- `Kira :: Architect` and `Kira :: Codex` are manual escalation paths via handoff buttons.
+- `Kira :: Architect` and `Kira :: Codex` are not direct entry points; they are manual escalation paths via handoff buttons.
 - `Kira :: Architect` returns decisions and ADR-ready content; `Kira` saves requested ADR/analysis files or implements accepted follow-up work.
 
 ## Default Flow
 
 - Start with `Kira` for normal coding work, quick questions, routine planning, and straightforward implementation.
 - `Kira :: Intake` is the cheap normalization helper for vague requests, issues, PRs, and tickets.
-- `Kira :: Draft` is the cheap wording helper for commit messages, PR descriptions, ticket text, and similar artifacts.
+- `Kira :: Draft` is the cheap wording helper for commit messages, PR descriptions, ticket text, and similar artifacts that do not require a new design decision.
 - `Kira :: Architect` is the premium review path for architecture, API, schema, security, and ADR-worthy tradeoffs.
 - `Kira :: Codex` is the premium rescue path for repeated failures, non-obvious debugging, and deep multi-file repair loops.
 - Artifacts default to fenced markdown blocks when returned in chat.
@@ -53,7 +53,7 @@ Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when expl
 
 ## Skills and Instructions
 
-- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable intake packet workflow for GitHub and Azure sources.
+- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable intake packet workflow for GitHub and Azure sources, including suggested first step and blocking unknowns.
 - [copilot/skills/kira-change-docs/SKILL.md](copilot/skills/kira-change-docs/SKILL.md): reusable ADR and analysis drafting workflow.
 - [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): core naming, output, and cost discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
@@ -73,20 +73,20 @@ Kira, normalize this issue into a compact packet, implement the accepted fix, ru
 Draft a PR description from the current branch diff against its parent branch.
 ```
 
-### Kira :: Architect
+### Kira Architecture Handoff
 
 ```text
-Review this schema and API boundary change and provide decision constraints before implementation.
+Kira, review this schema and API boundary change with Architect before implementation.
 ```
 
 ```text
 Kira, get an architecture review for this decision, then save the ADR under docs/adr.
 ```
 
-### Kira :: Codex
+### Kira Debug Handoff
 
 ```text
-Take over this failing integration test loop and deliver a focused diagnosis-plus-fix result.
+Kira, hand this failing integration test loop to Codex and bring back a focused diagnosis-plus-fix result.
 ```
 
 ## Local Validation

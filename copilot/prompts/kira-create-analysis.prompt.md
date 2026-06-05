@@ -11,6 +11,8 @@ Use these references when relevant:
 
 Create an analysis note before implementation starts.
 
+Use this when the task needs option analysis or a recommendation, not just wording cleanup.
+
 Requirements:
 
 - identify the problem, assumptions, options, recommendation, and risks
