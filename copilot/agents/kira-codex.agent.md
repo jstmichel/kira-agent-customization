@@ -5,10 +5,10 @@ user-invocable: true
 model: "GPT-5.3-Codex (copilot)"
 tools: ["read", "search", "edit", "read/problems", "execute"]
 handoffs:
-  - label: "Back To Kira"
+  - label: "Return to Kira"
     agent: "Kira"
     prompt: "Use the Codex diagnosis, changes, validation, and risks to complete final delivery."
-  - label: "Escalate To Architect"
+  - label: "Review with Architect"
     agent: "Kira :: Architect"
     prompt: "Perform a design-level review of the architectural blocker and return constraints, tradeoffs, and next steps."
 argument-hint: "Hard bug, repeated failures, complex implementation, or multi-file debugging"

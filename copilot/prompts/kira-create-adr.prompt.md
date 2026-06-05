@@ -16,8 +16,7 @@ Requirements:
 - ask for clarification only when a missing detail blocks a concrete decision
 - keep the draft lean and avoid repeating source material verbatim
 - include assumptions only when they materially affect the decision
-- do not write files unless the active agent explicitly has edit access and the user asked for a file change
-- if you cannot write files and the user wants persistence, include a recommended path for `Kira` to write after handoff
+- when the task outcome should be a saved ADR, include a recommended path for `Kira` to write after handoff
 
 Return exactly one fenced markdown block with this structure:
 

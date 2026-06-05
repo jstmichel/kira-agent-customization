@@ -16,8 +16,7 @@ Requirements:
 - identify the problem, assumptions, options, recommendation, and risks
 - keep the note decision-oriented rather than exploratory filler
 - call out missing inputs if they block a sound recommendation
-- do not write files unless the active agent explicitly has edit access and the user asked for a file change
-- if you cannot write files and the user wants persistence, include a recommended path for `Kira` to write after handoff
+- when the task outcome should be a saved analysis document, include a recommended path for `Kira` to write after handoff
 
 Return exactly one fenced markdown block with this structure:
 

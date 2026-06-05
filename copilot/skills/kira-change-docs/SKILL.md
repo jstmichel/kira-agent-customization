@@ -19,8 +19,9 @@ Use this skill when the task needs decision documentation before or after implem
 2. Identify the decision that needs to be documented.
 3. Extract the assumptions, alternatives, recommendation, risks, and validation expectations.
 4. Produce an analysis draft, an ADR draft, or both, depending on the request.
-5. If the active agent has edit access and the user asked to save files, write the requested documents to the repository.
-6. If the active agent has no edit access, return drafts and recommended target paths for an edit-capable agent to write.
+5. Return the artifact in chat when the task is primarily asking for draft content.
+6. Write the requested documents to the repository when the user asked to save them or when saving is the logical outcome of the task.
+7. If the active agent cannot write the files that should be saved, return drafts and recommended target paths for an edit-capable agent to write.
 
 ## Analysis draft rules
 
@@ -37,7 +38,7 @@ Use this skill when the task needs decision documentation before or after implem
 
 ## Output contract
 
-If the request asks for both artifacts, return exactly two fenced markdown blocks in this order.
+If the request asks for both artifacts and they are being returned in chat, return exactly two fenced markdown blocks in this order.
 
 First block:
 
@@ -62,4 +63,4 @@ Second block:
 ## Validation Notes
 ```
 
-If the request asks for only one artifact, return only the relevant fenced block.
+If the request asks for only one artifact and it is being returned in chat, return only the relevant fenced block.

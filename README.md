@@ -5,6 +5,7 @@ Kira is a portable GitHub Copilot customization pack optimized for a simple, cos
 - one daily-driver agent for normal coding work
 - two cheap helper subagents for intake and drafting
 - two explicit handoff-only premium agents for difficult architecture and debugging
+- chat-first artifact output, with file writes when saving is the logical outcome
 
 ## Agent Surface
 
@@ -29,7 +30,17 @@ Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when expl
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
 - `Kira :: Architect` and `Kira :: Codex` are manual escalation paths via handoff buttons.
-- `Kira :: Architect` returns decisions and ADR-ready content; `Kira` writes requested ADR/analysis files or implements accepted follow-up work.
+- `Kira :: Architect` returns decisions and ADR-ready content; `Kira` saves requested ADR/analysis files or implements accepted follow-up work.
+
+## Default Flow
+
+- Start with `Kira` for normal coding work, quick questions, routine planning, and straightforward implementation.
+- `Kira :: Intake` is the cheap normalization helper for vague requests, issues, PRs, and tickets.
+- `Kira :: Draft` is the cheap wording helper for commit messages, PR descriptions, ticket text, and similar artifacts.
+- `Kira :: Architect` is the premium review path for architecture, API, schema, security, and ADR-worthy tradeoffs.
+- `Kira :: Codex` is the premium rescue path for repeated failures, non-obvious debugging, and deep multi-file repair loops.
+- Artifacts default to fenced markdown blocks when returned in chat.
+- When a saved repo document is the logical outcome, such as an ADR or analysis file, `Kira` can write it to disk.
 
 ## Prompt Surface
 
