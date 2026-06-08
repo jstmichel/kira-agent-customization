@@ -63,14 +63,20 @@ async function assertNotExists(dirPath, unexpectedPrefix) {
 async function main() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'kira-install-'));
   const kiraHome = path.join(tempRoot, 'copilot-home');
+  const codexHome = path.join(tempRoot, 'codex-home');
+  const agentsHome = path.join(tempRoot, 'agents-home');
   const promptsDir = path.join(tempRoot, 'vscode-prompts');
 
   const command = process.platform === 'win32' ? 'pwsh' : 'bash';
   const installArgs = process.platform === 'win32' ? ['-File', 'install.ps1'] : ['install.sh'];
   const uninstallArgs = process.platform === 'win32' ? ['-File', 'uninstall.ps1'] : ['uninstall.sh'];
+  const installCodexArgs = process.platform === 'win32' ? ['-File', 'install-codex.ps1'] : ['install-codex.sh'];
+  const uninstallCodexArgs = process.platform === 'win32' ? ['-File', 'uninstall-codex.ps1'] : ['uninstall-codex.sh'];
 
   const sharedEnv = {
     KIRA_HOME: kiraHome,
+    KIRA_CODEX_HOME: codexHome,
+    KIRA_AGENTS_HOME: agentsHome,
     VSCODE_PROMPTS_DIR: promptsDir,
     USERPROFILE: process.platform === 'win32' ? tempRoot : process.env.USERPROFILE,
     APPDATA: process.platform === 'win32' ? tempRoot : process.env.APPDATA,
@@ -79,6 +85,7 @@ async function main() {
   };
 
   await run(command, installArgs, sharedEnv);
+  await run(command, installCodexArgs, sharedEnv);
 
   await assertExists(path.join(kiraHome, 'agents'), [
     'kira.agent.md',
@@ -107,7 +114,29 @@ async function main() {
     'kira-refactor.prompt.md'
   ]);
 
+  await assertExists(path.join(codexHome, 'agents'), [
+    'kira.toml',
+    'kira-intake.toml',
+    'kira-draft.toml',
+    'kira-architect.toml',
+    'kira-codex.toml'
+  ]);
+  await assertExists(path.join(agentsHome, 'skills'), [
+    'kira-change-docs',
+    'kira-create-adr',
+    'kira-create-analysis',
+    'kira-draft-commit',
+    'kira-draft-pr',
+    'kira-draft-ticket',
+    'kira-refactor',
+    'kira-ticket-intake'
+  ]);
+  await assertExists(codexHome, [
+    'AGENTS.md'
+  ]);
+
   await run(command, uninstallArgs, sharedEnv);
+  await run(command, uninstallCodexArgs, sharedEnv);
 
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira');
   await assertNotExists(path.join(kiraHome, 'skills'), 'kira-');
@@ -118,6 +147,9 @@ async function main() {
   await assertNotExists(promptsDir, 'plan-with-kira');
   await assertNotExists(promptsDir, 'draft-commit-with-kira');
   await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
+  await assertNotExists(path.join(codexHome, 'agents'), 'kira');
+  await assertNotExists(path.join(agentsHome, 'skills'), 'kira-');
+  await assertNotExists(codexHome, 'AGENTS');
 
   console.log('Install smoke test passed.');
 }

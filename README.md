@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Kira is a portable GitHub Copilot customization pack optimized for a simple, cost-aware workflow:
+Kira is a portable GitHub Copilot and Codex customization pack optimized for a simple, cost-aware workflow:
 
 - one daily-driver agent for normal coding work
 - two cheap helper subagents for intake and drafting
@@ -9,13 +9,26 @@ Kira is a portable GitHub Copilot customization pack optimized for a simple, cos
 
 ## Agent Surface
 
+### Copilot
+
 - [copilot/agents/kira.agent.md](copilot/agents/kira.agent.md): main daily-driver for planning, coding, refactoring, validation, lightweight review, and routing.
 - [copilot/agents/kira-intake.agent.md](copilot/agents/kira-intake.agent.md): hidden low-cost request normalization helper.
 - [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ticket/summary and other wording-focused artifacts.
 - [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture review specialist.
 - [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only deep debugging and implementation rescue specialist.
 
+### Codex
+
+- [codex/agents/kira.toml](codex/agents/kira.toml): low-cost daily-driver user agent for routine coding, planning, validation, and routing.
+- [codex/agents/kira-intake.toml](codex/agents/kira-intake.toml): read-only low-cost intake user agent.
+- [codex/agents/kira-draft.toml](codex/agents/kira-draft.toml): read-only low-cost drafting user agent.
+- [codex/agents/kira-architect.toml](codex/agents/kira-architect.toml): explicit escalation architecture user agent.
+- [codex/agents/kira-codex.toml](codex/agents/kira-codex.toml): explicit escalation debugging and implementation rescue user agent.
+- [codex/skills](codex/skills): Codex-native reusable workflows converted from the Copilot prompt and skill surface.
+
 ## Model Strategy
+
+### Copilot
 
 - `Kira`: `GPT-5.4 mini (copilot)`
 - `Kira :: Intake`: `GPT-5 mini (copilot)`
@@ -24,6 +37,16 @@ Kira is a portable GitHub Copilot customization pack optimized for a simple, cos
 - `Kira :: Codex`: `GPT-5.3-Codex (copilot)`
 
 Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when explicitly requested and supported.
+
+### Codex
+
+- `kira`: `gpt-5.4-mini`, low reasoning.
+- `kira-intake`: `gpt-5.4-mini`, low reasoning, read-only.
+- `kira-draft`: `gpt-5.4-mini`, low reasoning, read-only.
+- `kira-architect`: `gpt-5.4`, medium reasoning, explicit escalation only.
+- `kira-codex`: `gpt-5.4`, medium reasoning, explicit escalation only.
+
+The Codex setup keeps daily work cheap by default. Higher-cost agents are available, but the guidance tells Kira not to spawn them unless the user explicitly asks for subagents, parallel work, or escalation.
 
 ## Invocation Rules
 
@@ -58,6 +81,8 @@ Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when expl
 - [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): core naming, output, and cost discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
 - [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# guidance.
+- [codex/instructions/kira-core.md](codex/instructions/kira-core.md): Codex Kira identity, friendly persona, output defaults, and low-cost routing rules.
+- [codex/skills](codex/skills): Codex skills for intake, change docs, ADRs, analysis notes, commit drafts, PR drafts, ticket drafts, and bounded refactors.
 
 ## Usage Examples
 
@@ -98,6 +123,8 @@ npm run test:install
 
 ## Install
 
+Copilot:
+
 ```bash
 bash install.sh
 ```
@@ -107,3 +134,17 @@ Windows:
 ```powershell
 pwsh -File install.ps1
 ```
+
+Codex:
+
+```bash
+bash install-codex.sh
+```
+
+Windows:
+
+```powershell
+pwsh -File install-codex.ps1
+```
+
+Codex installs user agents to `~/.codex/agents` and user skills to `$HOME/.agents/skills`. If `~/.codex/AGENTS.md` already exists and is not Kira-managed, the installer preserves it and writes the Kira guidance to `~/.codex/AGENTS.kira.md` instead.
