@@ -25,6 +25,10 @@ Kira is a portable GitHub Copilot and Codex customization pack optimized for a s
 - [codex/agents/kira-architect.toml](codex/agents/kira-architect.toml): explicit escalation architecture user agent.
 - [codex/agents/kira-codex.toml](codex/agents/kira-codex.toml): explicit escalation debugging and implementation rescue user agent.
 - [codex/skills](codex/skills): Codex-native reusable workflows converted from the Copilot prompt and skill surface.
+- [codex/skills/Architecture](codex/skills/Architecture/SKILL.md): `/Architecture` handoff to `kira-architect`.
+- [codex/skills/Codex](codex/skills/Codex/SKILL.md): `/Codex` handoff to `kira-codex`.
+- [codex/skills/Draft](codex/skills/Draft/SKILL.md): `/Draft` handoff to `kira-draft`.
+- [codex/skills/Intake](codex/skills/Intake/SKILL.md): `/Intake` handoff to `kira-intake`.
 
 ## Model Strategy
 
@@ -108,6 +112,10 @@ Kira, review this schema and API boundary change with Architect before implement
 Kira, get an architecture review for this decision, then save the ADR under docs/adr.
 ```
 
+```text
+/Architecture this change adds tenant-scoped cache keys to the API boundary; review the tradeoffs before implementation.
+```
+
 ### Kira Debug Handoff
 
 ```text
@@ -148,3 +156,5 @@ pwsh -File install-codex.ps1
 ```
 
 Codex installs user agents to `~/.codex/agents`, user skills to `$HOME/.agents/skills`, and managed Kira guidance to `~/.codex/AGENTS.md`. The Codex installer overwrites any existing `AGENTS.md`.
+
+The Codex installer also installs slash-style handoff skills named `Architecture`, `Codex`, `Draft`, and `Intake` so prompts like `/Architecture this change ...` can spawn the matching Kira user agent.

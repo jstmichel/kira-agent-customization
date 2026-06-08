@@ -68,7 +68,8 @@ if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
 
 if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
     @(Get-ChildItem -LiteralPath $SkillsDst -Directory | Where-Object {
-        $_.Name -like 'kira-*'
+        $_.Name -like 'kira-*' -or
+        $_.Name -in @('Architecture', 'Codex', 'Draft', 'Intake')
     }) | ForEach-Object {
         if (Remove-DirectoryIfPresent -Path $_.FullName) {
             $skillCount++

@@ -1,7 +1,7 @@
 ---
 name: "Kira :: Architect"
 description: "Higher-cost handoff-only architecture review specialist for deep design, ADR review, and risky cross-cutting decisions."
-user-invocable: false
+user-invocable: true
 model: "GPT-5.4 (copilot)"
 tools: ["read", "search", "read/problems"]
 handoffs:

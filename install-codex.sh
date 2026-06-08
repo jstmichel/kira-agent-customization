@@ -31,6 +31,12 @@ fi
 
 if [[ -d "$SKILLS_DST" ]]; then
     find "$SKILLS_DST" -maxdepth 1 -type d -name "kira-*" -exec rm -rf {} +
+    find "$SKILLS_DST" -maxdepth 1 -type d \( \
+        -name "Architecture" -o \
+        -name "Codex" -o \
+        -name "Draft" -o \
+        -name "Intake" \
+    \) -exec rm -rf {} +
 fi
 
 echo "Installing KIRA Codex user agents..."

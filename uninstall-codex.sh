@@ -58,6 +58,12 @@ if [[ -d "$SKILLS_DST" ]]; then
             skill_count=$((skill_count + 1))
         fi
     done
+
+    for skill_path in "$SKILLS_DST"/Architecture "$SKILLS_DST"/Codex "$SKILLS_DST"/Draft "$SKILLS_DST"/Intake; do
+        if remove_dir_if_present "$skill_path"; then
+            skill_count=$((skill_count + 1))
+        fi
+    done
 fi
 
 if [[ -f "$GUIDANCE_DST" ]] && grep -q "KIRA-CODEX-MANAGED" "$GUIDANCE_DST"; then

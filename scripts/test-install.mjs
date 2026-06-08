@@ -125,6 +125,10 @@ async function main() {
     'kira-codex.toml'
   ]);
   await assertExists(path.join(agentsHome, 'skills'), [
+    'Architecture',
+    'Codex',
+    'Draft',
+    'Intake',
     'kira-change-docs',
     'kira-create-adr',
     'kira-create-analysis',
@@ -164,6 +168,10 @@ async function main() {
   await assertNotExists(path.join(kiraHome, 'instructions'), 'kira');
   await assertNotExists(path.join(codexHome, 'agents'), 'kira');
   await assertNotExists(path.join(agentsHome, 'skills'), 'kira-');
+  await assertNotExists(path.join(agentsHome, 'skills'), 'Architecture');
+  await assertNotExists(path.join(agentsHome, 'skills'), 'Codex');
+  await assertNotExists(path.join(agentsHome, 'skills'), 'Draft');
+  await assertNotExists(path.join(agentsHome, 'skills'), 'Intake');
   await assertNotExists(codexHome, 'AGENTS');
 
   console.log('Install smoke test passed.');

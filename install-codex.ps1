@@ -28,7 +28,10 @@ if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
 
 if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
     Get-ChildItem -Path $SkillsDst -Directory |
-        Where-Object { $_.Name -like 'kira-*' } |
+        Where-Object {
+            $_.Name -like 'kira-*' -or
+            $_.Name -in @('Architecture', 'Codex', 'Draft', 'Intake')
+        } |
         Remove-Item -Recurse -Force
 }
 

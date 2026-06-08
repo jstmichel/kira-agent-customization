@@ -1,7 +1,7 @@
 ---
 name: "Kira :: Codex"
 description: "Higher-cost handoff-only deep debugging and implementation rescue specialist for complex inspect-edit-test loops."
-user-invocable: false
+user-invocable: true
 model: "GPT-5.3-Codex (copilot)"
 tools: ["read", "search", "edit", "read/problems", "execute"]
 handoffs:
