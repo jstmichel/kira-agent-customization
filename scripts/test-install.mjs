@@ -1,4 +1,4 @@
-import { mkdtemp, readdir } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
@@ -84,6 +84,9 @@ async function main() {
     XDG_CONFIG_HOME: tempRoot
   };
 
+  await mkdir(codexHome, { recursive: true });
+  await writeFile(path.join(codexHome, 'AGENTS.md'), '# Existing guidance\n\nThis should be replaced.\n');
+
   await run(command, installArgs, sharedEnv);
   await run(command, installCodexArgs, sharedEnv);
 
@@ -134,6 +137,18 @@ async function main() {
   await assertExists(codexHome, [
     'AGENTS.md'
   ]);
+  await assertNotExists(codexHome, 'AGENTS.kira');
+
+  const codexGuidance = await readFile(path.join(codexHome, 'AGENTS.md'), 'utf8');
+  if (!codexGuidance.includes('KIRA-CODEX-MANAGED')) {
+    throw new Error('Expected managed KIRA marker in Codex AGENTS.md');
+  }
+  if (!codexGuidance.includes('Use these defaults as the user')) {
+    throw new Error('Expected updated KIRA guidance in Codex AGENTS.md');
+  }
+  if (codexGuidance.includes('This should be replaced.')) {
+    throw new Error('Expected Codex installer to overwrite existing AGENTS.md');
+  }
 
   await run(command, uninstallArgs, sharedEnv);
   await run(command, uninstallCodexArgs, sharedEnv);

@@ -147,4 +147,4 @@ Windows:
 pwsh -File install-codex.ps1
 ```
 
-Codex installs user agents to `~/.codex/agents` and user skills to `$HOME/.agents/skills`. If `~/.codex/AGENTS.md` already exists and is not Kira-managed, the installer preserves it and writes the Kira guidance to `~/.codex/AGENTS.kira.md` instead.
+Codex installs user agents to `~/.codex/agents`, user skills to `$HOME/.agents/skills`, and managed Kira guidance to `~/.codex/AGENTS.md`. The Codex installer overwrites any existing `AGENTS.md`.

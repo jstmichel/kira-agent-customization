@@ -14,7 +14,6 @@ $AgentsHome = if ($env:KIRA_AGENTS_HOME) { $env:KIRA_AGENTS_HOME } else { Join-P
 $AgentsDst = Join-Path $CodexHome 'agents'
 $SkillsDst = Join-Path $AgentsHome 'skills'
 $GuidanceDst = Join-Path $CodexHome 'AGENTS.md'
-$GuidanceFallbackDst = Join-Path $CodexHome 'AGENTS.kira.md'
 
 Write-Host 'Removing existing KIRA Codex files...'
 
@@ -64,13 +63,8 @@ if (Test-Path -LiteralPath $SkillsSrc -PathType Container) {
 Write-Host 'Installing KIRA Codex guidance...'
 New-Item -ItemType Directory -Force -Path $CodexHome | Out-Null
 $managedGuidance = "<!-- KIRA-CODEX-MANAGED -->`n" + (Get-Content -LiteralPath $GuidanceSrc -Raw)
-if ((-not (Test-Path -LiteralPath $GuidanceDst -PathType Leaf)) -or ((Get-Content -LiteralPath $GuidanceDst -Raw) -match 'KIRA-CODEX-MANAGED')) {
-    Set-Content -LiteralPath $GuidanceDst -Value $managedGuidance -NoNewline
-    $guidanceStatus = $GuidanceDst
-} else {
-    Set-Content -LiteralPath $GuidanceFallbackDst -Value $managedGuidance -NoNewline
-    $guidanceStatus = "$GuidanceFallbackDst (existing AGENTS.md preserved)"
-}
+Set-Content -LiteralPath $GuidanceDst -Value $managedGuidance -NoNewline
+$guidanceStatus = "$GuidanceDst (overwritten)"
 
 Write-Host ''
 Write-Host 'KIRA Codex installed'

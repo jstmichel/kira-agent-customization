@@ -15,7 +15,6 @@ AGENTS_HOME="${KIRA_AGENTS_HOME:-$HOME/.agents}"
 AGENTS_DST="$CODEX_HOME/agents"
 SKILLS_DST="$AGENTS_HOME/skills"
 GUIDANCE_DST="$CODEX_HOME/AGENTS.md"
-GUIDANCE_FALLBACK_DST="$CODEX_HOME/AGENTS.kira.md"
 
 agent_count=0
 skill_count=0
@@ -57,19 +56,11 @@ fi
 
 echo "Installing KIRA Codex guidance..."
 mkdir -p "$CODEX_HOME"
-if [[ ! -f "$GUIDANCE_DST" ]] || grep -q "KIRA-CODEX-MANAGED" "$GUIDANCE_DST"; then
-    {
-        echo "<!-- KIRA-CODEX-MANAGED -->"
-        cat "$GUIDANCE_SRC"
-    } > "$GUIDANCE_DST"
-    guidance_status="$GUIDANCE_DST"
-else
-    {
-        echo "<!-- KIRA-CODEX-MANAGED -->"
-        cat "$GUIDANCE_SRC"
-    } > "$GUIDANCE_FALLBACK_DST"
-    guidance_status="$GUIDANCE_FALLBACK_DST (existing AGENTS.md preserved)"
-fi
+{
+    echo "<!-- KIRA-CODEX-MANAGED -->"
+    cat "$GUIDANCE_SRC"
+} > "$GUIDANCE_DST"
+guidance_status="$GUIDANCE_DST (overwritten)"
 
 echo ""
 echo "KIRA Codex installed"
