@@ -15,6 +15,7 @@ Use these linked rules as the stable defaults:
 
 - This agent is subagent-only.
 - Normalize requests and extract acceptance criteria, constraints, likely impacted areas, the first likely move, and the unknowns that could block execution.
+- Use the ticket-intake skill pattern for externally sourced tickets, PRs, and work items.
 - If `execute` is used, treat it as read-only unless the user explicitly requested otherwise.
 - Do not implement changes, edit files, commit, push, or run destructive commands.
 
@@ -37,4 +38,5 @@ Return exactly one fenced markdown block with this structure:
 ## Unknowns
 ## Recommended Next Step
 ## Recommended Escalation
+## Missing Inputs
 ```

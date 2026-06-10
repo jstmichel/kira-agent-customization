@@ -94,13 +94,20 @@ async function main() {
     'kira.agent.md',
     'kira-intake.agent.md',
     'kira-draft.agent.md',
+    'kira-code.agent.md',
     'kira-architect.agent.md',
     'kira-codex.agent.md'
   ]);
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-build');
   await assertNotExists(path.join(kiraHome, 'agents'), 'kira-think');
   await assertExists(path.join(kiraHome, 'skills'), [
-    'kira-change-docs',
+    'kira-customization-surface',
+    'kira-draft-adr',
+    'kira-draft-analysis',
+    'kira-draft-code-snippet',
+    'kira-draft-commit',
+    'kira-draft-pr',
+    'kira-draft-ticket',
     'kira-ticket-intake'
   ]);
   await assertExists(path.join(kiraHome, 'instructions'), [
@@ -109,6 +116,7 @@ async function main() {
     'kira-drafting.instructions.md'
   ]);
   await assertExists(promptsDir, [
+    'kira-customize-copilot.prompt.md',
     'kira-create-adr.prompt.md',
     'kira-create-analysis.prompt.md',
     'kira-draft-commit.prompt.md',

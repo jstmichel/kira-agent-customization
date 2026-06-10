@@ -1,11 +1,21 @@
 # Kira Agent Customization
 
-Kira is a portable GitHub Copilot and Codex customization pack optimized for a simple, cost-aware workflow:
+Kira is a portable GitHub Copilot and Codex customization pack optimized for a simple, cost-aware workflow.
 
-- one daily-driver agent for normal coding work
-- two cheap helper subagents for intake and drafting
-- two explicit handoff-only premium agents for difficult architecture review and debugging
-- chat-first artifact output, with file writes when saving is the logical outcome
+## Copilot
+
+The `copilot/` surface is now built around two modes in `Kira`:
+
+- Ask mode: direct, concise, human answers for questions.
+- Task mode: compact task reframing, then direct execution, helper delegation, or escalation.
+
+Visible premium handoffs in `Kira` are:
+
+- `Review with Architect`
+- `Code`
+- `Code with Codex`
+
+For full Copilot flow details, see [copilot/README.md](copilot/README.md).
 
 ## Agent Surface
 
@@ -14,6 +24,7 @@ Kira is a portable GitHub Copilot and Codex customization pack optimized for a s
 - [copilot/agents/kira.agent.md](copilot/agents/kira.agent.md): main daily-driver for planning, coding, refactoring, validation, lightweight review, and routing.
 - [copilot/agents/kira-intake.agent.md](copilot/agents/kira-intake.agent.md): hidden low-cost request normalization helper.
 - [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ticket/summary and other wording-focused artifacts.
+- [copilot/agents/kira-code.agent.md](copilot/agents/kira-code.agent.md): low-cost handoff coding specialist.
 - [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture review specialist.
 - [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only deep debugging and implementation rescue specialist.
 
@@ -37,6 +48,7 @@ Kira is a portable GitHub Copilot and Codex customization pack optimized for a s
 - `Kira`: `GPT-5.4 mini (copilot)`
 - `Kira :: Intake`: `GPT-5 mini (copilot)`
 - `Kira :: Draft`: `GPT-5 mini (copilot)`
+- `Kira :: Code`: `GPT-5.4 mini (copilot)`
 - `Kira :: Architect`: `GPT-5.4 (copilot)`
 - `Kira :: Codex`: `GPT-5.3-Codex (copilot)`
 
@@ -56,32 +68,40 @@ The Codex setup keeps daily work cheap by default. Higher-cost agents are availa
 
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
 - `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
-- `Kira :: Architect` and `Kira :: Codex` are not direct entry points; they are manual escalation paths via handoff buttons.
+- `Kira :: Code`, `Kira :: Architect`, and `Kira :: Codex` are handoff paths via frontmatter buttons.
 - `Kira :: Architect` returns decisions and ADR-ready content; `Kira` saves requested ADR/analysis files or implements accepted follow-up work.
 
 ## Default Flow
 
-- Start with `Kira` for normal coding work, quick questions, routine planning, and straightforward implementation.
-- `Kira :: Intake` is the cheap normalization helper for vague requests, issues, PRs, and tickets.
-- `Kira :: Draft` is the cheap wording helper for commit messages, PR descriptions, ticket text, and similar artifacts that do not require a new design decision.
-- `Kira :: Architect` is the premium review path for architecture, API, schema, security, and ADR-worthy tradeoffs.
-- `Kira :: Codex` is the premium rescue path for repeated failures, non-obvious debugging, and deep multi-file repair loops.
-- Artifacts default to fenced markdown blocks when returned in chat.
-- When a saved repo document is the logical outcome, such as an ADR or analysis file, `Kira` can write it to disk.
+- Start with `Kira`.
+- Ask mode handles direct Q&A.
+- Task mode handles implementation or drafting work with compact reframing.
+- `Code` is the low-cost coding handoff path using `GPT-5.4 mini (copilot)`.
+- `Kira :: Intake` remains the low-cost normalization helper for vague requests and external work items.
+- `Kira :: Draft` is the low-cost inline artifact helper for commit, PR, ticket, ADR, analysis, and code snippet outputs in chat.
+- `Kira :: Architect` is the premium review path for design and ADR-level decisions.
+- `Kira :: Codex` is the premium implementation and debugging rescue path.
 
 ## Prompt Surface
 
-- [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): ADR drafting flow bound to `Kira :: Architect`.
-- [copilot/prompts/kira-create-analysis.prompt.md](copilot/prompts/kira-create-analysis.prompt.md): implementation analysis drafting flow bound to `Kira :: Architect`.
-- [copilot/prompts/kira-draft-commit.prompt.md](copilot/prompts/kira-draft-commit.prompt.md): commit drafting flow bound to `Kira :: Draft`.
-- [copilot/prompts/kira-draft-pr.prompt.md](copilot/prompts/kira-draft-pr.prompt.md): PR drafting flow bound to `Kira :: Draft`.
-- [copilot/prompts/kira-draft-ticket.prompt.md](copilot/prompts/kira-draft-ticket.prompt.md): ticket drafting flow bound to `Kira :: Draft`.
-- [copilot/prompts/kira-refactor.prompt.md](copilot/prompts/kira-refactor.prompt.md): bounded refactor flow routed through `Kira`.
+- [copilot/prompts/kira-customize-copilot.prompt.md](copilot/prompts/kira-customize-copilot.prompt.md): customization helper entrypoint routed through `Kira`.
+- [copilot/prompts/kira-create-adr.prompt.md](copilot/prompts/kira-create-adr.prompt.md): thin ADR creation entrypoint bound to `Kira :: Architect`.
+- [copilot/prompts/kira-create-analysis.prompt.md](copilot/prompts/kira-create-analysis.prompt.md): thin analysis entrypoint bound to `Kira :: Architect`.
+- [copilot/prompts/kira-draft-commit.prompt.md](copilot/prompts/kira-draft-commit.prompt.md): thin commit drafting entrypoint bound to `Kira :: Draft`.
+- [copilot/prompts/kira-draft-pr.prompt.md](copilot/prompts/kira-draft-pr.prompt.md): thin PR drafting entrypoint bound to `Kira :: Draft`.
+- [copilot/prompts/kira-draft-ticket.prompt.md](copilot/prompts/kira-draft-ticket.prompt.md): thin ticket drafting entrypoint bound to `Kira :: Draft`.
+- [copilot/prompts/kira-refactor.prompt.md](copilot/prompts/kira-refactor.prompt.md): bounded refactor entrypoint routed through `Kira`.
 
 ## Skills and Instructions
 
-- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable intake packet workflow for GitHub and Azure sources, including suggested first step and blocking unknowns.
-- [copilot/skills/kira-change-docs/SKILL.md](copilot/skills/kira-change-docs/SKILL.md): reusable ADR and analysis drafting workflow.
+- [copilot/skills/kira-customization-surface/SKILL.md](copilot/skills/kira-customization-surface/SKILL.md): capability for updating agents, prompts, skills, instructions, and docs consistently.
+- [copilot/skills/kira-ticket-intake/SKILL.md](copilot/skills/kira-ticket-intake/SKILL.md): reusable ticket normalization capability.
+- [copilot/skills/kira-draft-adr/SKILL.md](copilot/skills/kira-draft-adr/SKILL.md): ADR drafting capability.
+- [copilot/skills/kira-draft-analysis/SKILL.md](copilot/skills/kira-draft-analysis/SKILL.md): analysis drafting capability.
+- [copilot/skills/kira-draft-commit/SKILL.md](copilot/skills/kira-draft-commit/SKILL.md): commit message drafting capability.
+- [copilot/skills/kira-draft-pr/SKILL.md](copilot/skills/kira-draft-pr/SKILL.md): PR description drafting capability.
+- [copilot/skills/kira-draft-ticket/SKILL.md](copilot/skills/kira-draft-ticket/SKILL.md): ticket drafting capability.
+- [copilot/skills/kira-draft-code-snippet/SKILL.md](copilot/skills/kira-draft-code-snippet/SKILL.md): chat code snippet drafting capability.
 - [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): core naming, output, and cost discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
 - [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# guidance.
@@ -116,7 +136,11 @@ Kira, get an architecture review for this decision, then save the ADR under docs
 /Architecture this change adds tenant-scoped cache keys to the API boundary; review the tradeoffs before implementation.
 ```
 
-### Kira Debug Handoff
+### Kira Code Handoff
+
+```text
+Kira, hand this feature implementation to the low-cost Code path and return validated changes.
+```
 
 ```text
 Kira, hand this failing integration test loop to Codex and bring back a focused diagnosis-plus-fix result.

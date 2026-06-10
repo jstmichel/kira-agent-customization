@@ -1,40 +1,25 @@
 ---
 name: kira-ticket-intake
-description: Use when you need to intake a GitHub issue, GitHub pull request, or Azure DevOps work item through CLI and normalize it into a compact ticket packet with title, context, acceptance criteria, execution guidance, risks, linked artifacts, and missing inputs.
+description: Normalize a GitHub issue, pull request, or Azure DevOps work item into a compact execution packet.
 argument-hint: "github issue 123 | github pr 45 | azure work item 678"
 disable-model-invocation: true
 ---
 
-# Kira Ticket Intake
+# Ticket Intake
 
-Use this skill when the task starts from an external ticket and you need a compact, copy-pasteable packet before planning or implementation.
-
- Use these references when relevant:
- 
- - [Workflow rules](../../instructions/kira-core.instructions.md)
+Use this skill when the task starts from an external ticket and `Kira` or `Kira :: Intake` needs a compact packet before planning or implementation.
 
 ## Procedure
 
-1. Determine the source system from the request.
-2. Gather the minimum identifiers needed to fetch the ticket.
-3. Prefer the narrowest CLI fetch that returns the useful fields without pulling excessive chatter.
-4. Normalize the result into one compact packet that can hand off cleanly into planning or implementation.
-5. If access, authentication, extension setup, or identifiers are missing, say so explicitly instead of guessing.
+1. Identify the source system and the minimum identifiers needed to fetch the item.
+2. Use the narrowest read-only CLI command that returns useful context.
+3. Summarize the result into a compact handoff packet instead of copying long threads verbatim.
+4. If access, setup, repository, project, or identifiers are missing, call that out explicitly.
 
-## Source-specific guidance
+## Source guidance
 
-### GitHub issues and pull requests
-
-- Prefer `gh issue view <id> --comments` for issues when comment context matters.
-- Prefer `gh pr view <id> --comments` for pull requests when review context matters.
-- If the repository is ambiguous, ask for the repository or state that the input is incomplete.
-- Keep the packet compact; summarize long comment threads instead of copying them verbatim.
-
-### Azure DevOps work items
-
-- Prefer `az boards work-item show --id <id>` when the Azure DevOps extension is available.
-- If the Azure CLI extension, organization, or project context is missing, call that out clearly.
-- Do not invent fields that Azure did not return.
+- GitHub issue or PR: prefer `gh issue view <id> --comments` or `gh pr view <id> --comments` when discussion context matters.
+- Azure DevOps work item: prefer `az boards work-item show --id <id>` when extension and org context are available.
 
 ## Output contract
 
@@ -57,10 +42,3 @@ Return exactly one fenced markdown block with this structure:
 ## Recommended Escalation
 ## Missing Inputs
 ```
-
-## Notes
-
-- Omit empty sections only when the source clearly lacks that information.
-- Preserve exact identifiers such as issue number, PR number, or work item ID.
-- Keep the packet optimized for handoff into planning or implementation.
-- Prefer concrete next actions over generic advice.
