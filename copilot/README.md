@@ -11,11 +11,10 @@ This directory defines the GitHub Copilot customization surface for Kira.
 
 ## Handoffs
 
-Visible premium handoffs from `Kira`:
+Visible handoffs from `Kira`:
 
 - `Review with Architect`: architecture, API, schema, security, and ADR-level tradeoffs.
 - `Code`: low-cost coding handoff using `GPT-5.4 mini (copilot)`.
-- `Code with Codex`: complex implementation, repeated failures, and deep debugging loops.
 
 Low-cost coding remains in `Kira` by default.
 
@@ -35,7 +34,7 @@ Request task -> `Kira` reframes -> handoff to `Kira :: Architect` when design re
 
 ### Complex implementation flow
 
-Request complex task -> `Kira` reframes -> handoff to `Kira :: Architect` when decision review is needed -> handoff to `Kira :: Codex` for premium implementation/debugging -> handoff back to `Kira` -> optional inline draft output via `Kira :: Draft`.
+Request complex task -> `Kira` reframes -> handoff to `Kira :: Architect` when decision review is needed -> handoff to `Code` for implementation -> handoff back to `Kira` -> optional inline draft output via `Kira :: Draft`.
 
 ## Responsibilities
 

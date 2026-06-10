@@ -9,7 +9,7 @@
 - Keep one main daily-driver agent named `Kira`.
 - Keep helper subagents cheap and narrow: `Kira :: Intake` and `Kira :: Draft`.
 - Keep expensive model usage explicit and user-visible through manual handoff-only agents.
-- Avoid extra plan/implement/validate specialist agents unless compatibility requires them.
+- Add explicit coding handoff agents only when they map to a real user-facing choice.
 - Keep reusable drafting and intake behavior in prompts and skills.
 
 ## Current repository tree
@@ -20,6 +20,7 @@ copilot/
     kira.agent.md
     kira-intake.agent.md
     kira-draft.agent.md
+    kira-code.agent.md
     kira-architect.agent.md
     kira-codex.agent.md
   instructions/
@@ -47,14 +48,14 @@ copilot/
 | `Kira` | Daily planning, coding, validation, routing, lightweight review | `GPT-5.4 mini (copilot)` | Main agent |
 | `Kira :: Intake` | Normalize request/ticket into compact intake packet | `GPT-5 mini (copilot)` | Inline subagent only |
 | `Kira :: Draft` | Commit, PR, ADR, ticket, changelog, summary drafting | `GPT-5 mini (copilot)` | Inline subagent and user-invocable |
+| `Kira :: Code` | Low-cost implementation and debugging handoff | `GPT-5.4 mini (copilot)` | Manual handoff only |
 | `Kira :: Architect` | Deep architecture and risky decision review | `GPT-5.4 (copilot)` | Manual handoff only |
-| `Kira :: Codex` | Hard implementation and debugging escalation | `GPT-5.3-Codex (copilot)` | Manual handoff only |
 
 ## Invocation constraints
 
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
-- `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
-- `Kira :: Architect` and `Kira :: Codex` are explicitly visible escalation paths.
+- `Kira` must not inline-call `Kira :: Architect`.
+- `Kira :: Code` and `Kira :: Architect` are explicitly visible escalation paths.
 - `Kira :: Architect` decides and recommends; `Kira` persists ADR/analysis files or implements follow-up work.
 - Handoff prompts are instructions to the receiving agent, not the sending agent.
 
@@ -103,13 +104,13 @@ When `Kira` calls `Kira :: Draft`, use:
 - Planning task: `Kira` -> optional inline `Kira :: Intake` -> plan in `Kira` -> optional handoff to `Kira :: Architect`.
 - Architecture-sensitive task: `Kira` -> optional inline `Kira :: Intake` -> manual handoff to `Kira :: Architect` -> return to `Kira`.
 - Persisted ADR or analysis: `Kira` -> optional handoff to `Kira :: Architect` -> optional inline `Kira :: Draft` -> write files in `Kira`.
-- Hard debugging: `Kira` attempts focused repair -> if two focused attempts fail, handoff to `Kira :: Codex` -> return to `Kira`.
+- Hard debugging: `Kira` attempts focused repair -> if a low-cost handoff is better, use `Kira :: Code`; if still insufficient, escalate manually to `Kira :: Architect`.
 - Documentation-only: `Kira` -> inline `Kira :: Draft`.
 
 ## Escalation guidance
 
 - Recommend `Kira :: Architect` for architecture boundaries, security/privacy, auth/permissions, API or schema decisions, or unclear long-term impact.
-- Recommend `Kira :: Codex` for repeated failures, hard-to-reproduce bugs, complex inspect-edit-test loops, or broad uncertain implementation work.
+- Recommend `Kira :: Code` for low-cost implementation and debugging handoff.
 
 ## Handoff graph
 

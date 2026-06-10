@@ -2,7 +2,7 @@
   "name": "kira-agent-customization",
   "private": true,
   "version": "0.1.0",
-  "description": "Validation and smoke tests for the Kira Copilot and Codex customization pack.",
+  "description": "Validation and smoke tests for the Kira Copilot customization pack.",
   "type": "module",
   "scripts": {
     "ci": "npm test",

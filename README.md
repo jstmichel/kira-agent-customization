@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Kira is a portable GitHub Copilot and Codex customization pack optimized for a simple, cost-aware workflow.
+Kira is a portable GitHub Copilot customization pack optimized for a simple, cost-aware workflow.
 
 ## Copilot
 
@@ -9,11 +9,10 @@ The `copilot/` surface is now built around two modes in `Kira`:
 - Ask mode: direct, concise, human answers for questions.
 - Task mode: compact task reframing, then direct execution, helper delegation, or escalation.
 
-Visible premium handoffs in `Kira` are:
+Visible handoffs in `Kira` are:
 
 - `Review with Architect`
 - `Code`
-- `Code with Codex`
 
 For full Copilot flow details, see [copilot/README.md](copilot/README.md).
 
@@ -26,20 +25,6 @@ For full Copilot flow details, see [copilot/README.md](copilot/README.md).
 - [copilot/agents/kira-draft.agent.md](copilot/agents/kira-draft.agent.md): low-cost drafting helper for commit/PR/ticket/summary and other wording-focused artifacts.
 - [copilot/agents/kira-code.agent.md](copilot/agents/kira-code.agent.md): low-cost handoff coding specialist.
 - [copilot/agents/kira-architect.agent.md](copilot/agents/kira-architect.agent.md): handoff-only architecture review specialist.
-- [copilot/agents/kira-codex.agent.md](copilot/agents/kira-codex.agent.md): handoff-only deep debugging and implementation rescue specialist.
-
-### Codex
-
-- [codex/agents/kira.toml](codex/agents/kira.toml): low-cost daily-driver user agent for routine coding, planning, validation, and routing.
-- [codex/agents/kira-intake.toml](codex/agents/kira-intake.toml): read-only low-cost intake user agent.
-- [codex/agents/kira-draft.toml](codex/agents/kira-draft.toml): read-only low-cost drafting user agent.
-- [codex/agents/kira-architect.toml](codex/agents/kira-architect.toml): explicit escalation architecture user agent.
-- [codex/agents/kira-codex.toml](codex/agents/kira-codex.toml): explicit escalation debugging and implementation rescue user agent.
-- [codex/skills](codex/skills): Codex-native reusable workflows converted from the Copilot prompt and skill surface.
-- [codex/skills/Architecture](codex/skills/Architecture/SKILL.md): `/Architecture` handoff to `kira-architect`.
-- [codex/skills/Codex](codex/skills/Codex/SKILL.md): `/Codex` handoff to `kira-codex`.
-- [codex/skills/Draft](codex/skills/Draft/SKILL.md): `/Draft` handoff to `kira-draft`.
-- [codex/skills/Intake](codex/skills/Intake/SKILL.md): `/Intake` handoff to `kira-intake`.
 
 ## Model Strategy
 
@@ -50,25 +35,14 @@ For full Copilot flow details, see [copilot/README.md](copilot/README.md).
 - `Kira :: Draft`: `GPT-5 mini (copilot)`
 - `Kira :: Code`: `GPT-5.4 mini (copilot)`
 - `Kira :: Architect`: `GPT-5.4 (copilot)`
-- `Kira :: Codex`: `GPT-5.3-Codex (copilot)`
 
 Optional: `Kira :: Architect` can be moved to `GPT-5.5 (copilot)` only when explicitly requested and supported.
-
-### Codex
-
-- `kira`: `gpt-5.4-mini`, low reasoning.
-- `kira-intake`: `gpt-5.4-mini`, low reasoning, read-only.
-- `kira-draft`: `gpt-5.4-mini`, low reasoning, read-only.
-- `kira-architect`: `gpt-5.4`, medium reasoning, explicit escalation only.
-- `kira-codex`: `gpt-5.4`, medium reasoning, explicit escalation only.
-
-The Codex setup keeps daily work cheap by default. Higher-cost agents are available, but the guidance tells Kira not to spawn them unless the user explicitly asks for subagents, parallel work, or escalation.
 
 ## Invocation Rules
 
 - `Kira` may inline-call only `Kira :: Intake` and `Kira :: Draft`.
-- `Kira` must not inline-call `Kira :: Architect` or `Kira :: Codex`.
-- `Kira :: Code`, `Kira :: Architect`, and `Kira :: Codex` are handoff paths via frontmatter buttons.
+- `Kira` must not inline-call `Kira :: Architect`.
+- `Kira :: Code` and `Kira :: Architect` are handoff paths via frontmatter buttons.
 - `Kira :: Architect` returns decisions and ADR-ready content; `Kira` saves requested ADR/analysis files or implements accepted follow-up work.
 
 ## Default Flow
@@ -80,7 +54,6 @@ The Codex setup keeps daily work cheap by default. Higher-cost agents are availa
 - `Kira :: Intake` remains the low-cost normalization helper for vague requests and external work items.
 - `Kira :: Draft` is the low-cost inline artifact helper for commit, PR, ticket, ADR, analysis, and code snippet outputs in chat.
 - `Kira :: Architect` is the premium review path for design and ADR-level decisions.
-- `Kira :: Codex` is the premium implementation and debugging rescue path.
 
 ## Prompt Surface
 
@@ -105,8 +78,6 @@ The Codex setup keeps daily work cheap by default. Higher-cost agents are availa
 - [copilot/instructions/kira-core.instructions.md](copilot/instructions/kira-core.instructions.md): core naming, output, and cost discipline.
 - [copilot/instructions/kira-drafting.instructions.md](copilot/instructions/kira-drafting.instructions.md): drafting format contracts.
 - [copilot/instructions/kira-csharp.instructions.md](copilot/instructions/kira-csharp.instructions.md): scoped C# guidance.
-- [codex/instructions/kira-core.md](codex/instructions/kira-core.md): Codex Kira identity, friendly persona, output defaults, and low-cost routing rules.
-- [codex/skills](codex/skills): Codex skills for intake, change docs, ADRs, analysis notes, commit drafts, PR drafts, ticket drafts, and bounded refactors.
 
 ## Usage Examples
 
@@ -142,10 +113,6 @@ Kira, get an architecture review for this decision, then save the ADR under docs
 Kira, hand this feature implementation to the low-cost Code path and return validated changes.
 ```
 
-```text
-Kira, hand this failing integration test loop to Codex and bring back a focused diagnosis-plus-fix result.
-```
-
 ## Local Validation
 
 ```bash
@@ -163,22 +130,5 @@ bash install.sh
 
 Windows:
 
-```powershell
-pwsh -File install.ps1
-```
-
-Codex:
-
-```bash
-bash install-codex.sh
-```
 
 Windows:
-
-```powershell
-pwsh -File install-codex.ps1
-```
-
-Codex installs user agents to `~/.codex/agents`, user skills to `$HOME/.agents/skills`, and managed Kira guidance to `~/.codex/AGENTS.md`. The Codex installer overwrites any existing `AGENTS.md`.
-
-The Codex installer also installs slash-style handoff skills named `Architecture`, `Codex`, `Draft`, and `Intake` so prompts like `/Architecture this change ...` can spawn the matching Kira user agent.

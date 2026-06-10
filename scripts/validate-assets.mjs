@@ -31,18 +31,6 @@ const frontmatterRules = [
     match: (filePath) => filePath.endsWith('.instructions.md'),
     required: ['description']
   },
-  {
-    label: 'skill',
-    dir: path.join(rootDir, 'codex', 'skills'),
-    match: (filePath) => path.basename(filePath) === 'SKILL.md',
-    required: ['name', 'description']
-  },
-  {
-    label: 'instruction',
-    dir: path.join(rootDir, 'codex', 'instructions'),
-    match: (filePath) => filePath.endsWith('.md'),
-    required: ['description']
-  }
 ];
 
 const sizeBudgets = new Map([
@@ -61,8 +49,6 @@ const surfaceSizeBudgets = new Map([
   ['prompt', 1200],
   ['skill', 2600]
 ]);
-
-const codexAgentSizeBudget = 2600;
 
 async function walk(dirPath) {
   const entries = await readdir(dirPath, { withFileTypes: true });
@@ -227,41 +213,6 @@ async function validateInstructionScopes(instructionFiles) {
   }
 }
 
-async function validateCodexAgents() {
-  const agentsDir = path.join(rootDir, 'codex', 'agents');
-  let entries = [];
-  try {
-    entries = await readdir(agentsDir, { withFileTypes: true });
-  } catch {
-    errors.push('codex/agents: missing directory');
-    return;
-  }
-
-  const agentFiles = entries
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.toml'))
-    .map((entry) => path.join(agentsDir, entry.name));
-
-  if (agentFiles.length === 0) {
-    errors.push('codex/agents: expected at least one .toml agent file');
-    return;
-  }
-
-  for (const filePath of agentFiles) {
-    const content = await readFile(filePath, 'utf8');
-    const requiredKeys = ['name', 'description', 'developer_instructions'];
-    for (const key of requiredKeys) {
-      if (!hasTomlKey(content, key)) {
-        errors.push(`${relative(filePath)}: missing TOML key "${key}"`);
-      }
-    }
-
-    const info = await stat(filePath);
-    if (info.size > codexAgentSizeBudget) {
-      errors.push(`${relative(filePath)}: size ${info.size} exceeds budget ${codexAgentSizeBudget}`);
-    }
-  }
-}
-
 function hasTomlKey(content, key) {
   const pattern = new RegExp(`^${escapeRegExp(key)}\\s*=`, 'm');
   return pattern.test(content);
@@ -292,7 +243,6 @@ async function validateBudgets(filesByType) {
 
 async function main() {
   await walk(path.join(rootDir, 'copilot'));
-  await walk(path.join(rootDir, 'codex'));
   await walk(path.join(rootDir, 'docs'));
   const githubDir = path.join(rootDir, '.github');
   try {
@@ -327,7 +277,6 @@ async function main() {
   await validateLinks();
   await validateAgentReferences(filesByType.get('agent'));
   await validateInstructionScopes(filesByType.get('instruction'));
-  await validateCodexAgents();
   await validateBudgets(filesByType);
 
   if (errors.length > 0) {
@@ -340,7 +289,7 @@ async function main() {
   }
 
   console.log(`Validated ${markdownFiles.length} markdown files.`);
-  console.log(`Checked ${filesByType.get('agent').length} Copilot agents, ${filesByType.get('prompt').length} prompts, ${filesByType.get('skill').length} skills, ${filesByType.get('instruction').length} instructions, and Codex TOML agents.`);
+  console.log(`Checked ${filesByType.get('agent').length} Copilot agents, ${filesByType.get('prompt').length} prompts, ${filesByType.get('skill').length} skills, and ${filesByType.get('instruction').length} instructions.`);
 }
 
 await main();
