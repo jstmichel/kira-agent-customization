@@ -11,28 +11,6 @@ SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 
-prompt_cleanup_names=(
-    design-with-kira.prompt.md
-    document-pr-with-kira.prompt.md
-    draft-commit-with-kira.prompt.md
-    implement-with-kira.prompt.md
-    plan-with-kira.prompt.md
-    review-with-kira.prompt.md
-    architecture.prompt.md
-    draft-commit.prompt.md
-    implement.prompt.md
-    plan.prompt.md
-    review.prompt.md
-    adr.prompt.md
-    design-review.prompt.md
-    draft-squash.prompt.md
-    kira.prompt.md
-    plan-change.prompt.md
-    plan-ticket.prompt.md
-    review-branch.prompt.md
-    review-pr.prompt.md
-)
-
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
@@ -88,18 +66,6 @@ if [[ -d "$AGENTS_DST" ]]; then
             fi
         done
     fi
-
-    for legacy_agent in kira-aura.agent.md kira-companion.agent.md mila.agent.md; do
-        if remove_file_if_present "$AGENTS_DST/$legacy_agent"; then
-            agent_count=$((agent_count + 1))
-        fi
-    done
-
-    for agent_path in "$AGENTS_DST"/kira.agent.md "$AGENTS_DST"/kira-*.agent.md; do
-        if remove_file_if_present "$agent_path"; then
-            agent_count=$((agent_count + 1))
-        fi
-    done
 fi
 
 if [[ -d "$SKILLS_DST" ]]; then
@@ -113,26 +79,16 @@ if [[ -d "$SKILLS_DST" ]]; then
             fi
         done
     fi
-
-    for installed_skill_dir in "$SKILLS_DST"/kira-*; do
-        if remove_dir_if_present "$installed_skill_dir"; then
-            skill_count=$((skill_count + 1))
-        fi
-    done
 fi
 
 if [[ -d "$PROMPTS_DST" ]]; then
-    for prompt_name in "${prompt_cleanup_names[@]}"; do
-        if remove_file_if_present "$PROMPTS_DST/$prompt_name"; then
-            prompt_count=$((prompt_count + 1))
-        fi
-    done
-
-    for prompt_path in "$PROMPTS_DST"/kira-*.prompt.md; do
-        if remove_file_if_present "$prompt_path"; then
-            prompt_count=$((prompt_count + 1))
-        fi
-    done
+    if [[ -d "$PROMPTS_SRC" ]]; then
+        for prompt_file in "$PROMPTS_SRC"/*.prompt.md; do
+            if remove_file_if_present "$PROMPTS_DST/$(basename "$prompt_file")"; then
+                prompt_count=$((prompt_count + 1))
+            fi
+        done
+    fi
 fi
 
 if [[ -d "$INSTRUCTIONS_DST" ]]; then
@@ -143,12 +99,6 @@ if [[ -d "$INSTRUCTIONS_DST" ]]; then
             fi
         done
     fi
-
-    for instruction_path in "$INSTRUCTIONS_DST"/kira*.instructions.md; do
-        if remove_file_if_present "$instruction_path"; then
-            instruction_count=$((instruction_count + 1))
-        fi
-    done
 fi
 
 for dir in "$AGENTS_DST" "$SKILLS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME"; do

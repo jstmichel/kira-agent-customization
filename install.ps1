@@ -10,27 +10,10 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
-$PromptCleanupNames = @(
-    'design-with-kira.prompt.md',
-    'document-pr-with-kira.prompt.md',
-    'draft-commit-with-kira.prompt.md',
-    'implement-with-kira.prompt.md',
-    'plan-with-kira.prompt.md',
-    'review-with-kira.prompt.md',
-    'architecture.prompt.md',
-    'draft-commit.prompt.md',
-    'implement.prompt.md',
-    'plan.prompt.md',
-    'review.prompt.md',
-    'adr.prompt.md',
-    'design-review.prompt.md',
-    'draft-squash.prompt.md',
-    'kira.prompt.md',
-    'plan-change.prompt.md',
-    'plan-ticket.prompt.md',
-    'review-branch.prompt.md',
-    'review-pr.prompt.md'
-)
+# Note: no hard-coded legacy prompt names here. The installer will copy current
+# prompt files from the repository into the platform prompts directory and use
+# Copy-Item -Force to overwrite existing files. This avoids brittle name-based
+# cleanup logic.
 
 $KiraHome = if ($env:KIRA_HOME) { $env:KIRA_HOME } else { Join-Path $env:USERPROFILE '.copilot' }
 $AgentsDst = Join-Path $KiraHome 'agents'
@@ -40,45 +23,8 @@ $InstructionsDst = Join-Path $KiraHome 'instructions'
 # VS Code reads .prompt.md files from the platform User prompts directory
 $PromptsDst = if ($env:VSCODE_PROMPTS_DIR) { $env:VSCODE_PROMPTS_DIR } else { Join-Path $env:APPDATA 'Code\User\prompts' }
 
-Write-Host 'Removing existing KIRA files...'
-
-# Agents — KIRA-managed agents and any stale prior conversation agent names
-if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
-    Get-ChildItem -Path $AgentsDst -File |
-        Where-Object {
-            $_.Name -eq 'kira.agent.md' -or
-            $_.Name -like 'kira-*.agent.md' -or
-            $_.Name -eq 'kira-aura.agent.md' -or
-            $_.Name -eq 'kira-companion.agent.md' -or
-            $_.Name -eq 'mila.agent.md'
-        } |
-        Remove-Item -Force
-}
-
-# Skills — any folder named kira-*
-if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
-    Get-ChildItem -Path $SkillsDst -Directory |
-        Where-Object { $_.Name -like 'kira-*' } |
-        Remove-Item -Recurse -Force
-}
-
-# Prompts — current surface plus legacy prompt names
-$PromptCleanupNames | ForEach-Object {
-    $promptPath = Join-Path $PromptsDst $_
-    if (Test-Path -LiteralPath $promptPath -PathType Leaf) {
-        Remove-Item -LiteralPath $promptPath -Force
-    }
-}
-if (Test-Path -LiteralPath $PromptsDst -PathType Container) {
-    Get-ChildItem -Path $PromptsDst -File -Filter 'kira-*.prompt.md' |
-        Remove-Item -Force
-}
-
-# Instructions — kira*.instructions.md
-if (Test-Path -LiteralPath $InstructionsDst -PathType Container) {
-    Get-ChildItem -Path $InstructionsDst -File -Filter 'kira*.instructions.md' |
-        Remove-Item -Force
-}
+# We don't perform aggressive name-based deletions here. Copy operations below
+# use -Force to overwrite any existing files that match the repo sources.
 
 $agentCount = 0
 $skillCount = 0
@@ -90,7 +36,7 @@ if (Test-Path -LiteralPath $AgentsSrc -PathType Container) {
     New-Item -ItemType Directory -Force -Path $AgentsDst | Out-Null
     Get-ChildItem -LiteralPath $AgentsSrc -File -Filter '*.agent.md' |
         ForEach-Object {
-            Copy-Item -LiteralPath $_.FullName -Destination $AgentsDst
+            Copy-Item -LiteralPath $_.FullName -Destination $AgentsDst -Force
             $agentCount++
         }
 }
@@ -103,7 +49,7 @@ if (Test-Path -LiteralPath $SkillsSrc -PathType Container) {
             if (Test-Path -LiteralPath $skillFile -PathType Leaf) {
                 $dest = Join-Path $SkillsDst $_.Name
                 New-Item -ItemType Directory -Force -Path $dest | Out-Null
-                Copy-Item -LiteralPath $skillFile -Destination $dest
+                Copy-Item -LiteralPath $skillFile -Destination $dest -Force
                 $skillCount++
             }
         }
@@ -114,7 +60,7 @@ if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
     Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
         ForEach-Object {
             New-Item -ItemType Directory -Force -Path $PromptsDst | Out-Null
-            Copy-Item -LiteralPath $_.FullName -Destination $PromptsDst
+            Copy-Item -LiteralPath $_.FullName -Destination $PromptsDst -Force
             $promptCount++
         }
 }
@@ -124,7 +70,7 @@ if (Test-Path -LiteralPath $InstructionsSrc -PathType Container) {
     Get-ChildItem -LiteralPath $InstructionsSrc -File -Filter '*.instructions.md' |
         ForEach-Object {
             New-Item -ItemType Directory -Force -Path $InstructionsDst | Out-Null
-            Copy-Item -LiteralPath $_.FullName -Destination $InstructionsDst
+            Copy-Item -LiteralPath $_.FullName -Destination $InstructionsDst -Force
             $instructionCount++
         }
 }

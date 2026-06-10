@@ -10,27 +10,9 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 
-$PromptCleanupNames = @(
-    'design-with-kira.prompt.md',
-    'document-pr-with-kira.prompt.md',
-    'draft-commit-with-kira.prompt.md',
-    'implement-with-kira.prompt.md',
-    'plan-with-kira.prompt.md',
-    'review-with-kira.prompt.md',
-    'architecture.prompt.md',
-    'draft-commit.prompt.md',
-    'implement.prompt.md',
-    'plan.prompt.md',
-    'review.prompt.md',
-    'adr.prompt.md',
-    'design-review.prompt.md',
-    'draft-squash.prompt.md',
-    'kira.prompt.md',
-    'plan-change.prompt.md',
-    'plan-ticket.prompt.md',
-    'review-branch.prompt.md',
-    'review-pr.prompt.md'
-)
+# No hard-coded legacy prompt names. Uninstall will remove files that match
+# the names present in the repository source directories to avoid brittle
+# pattern-based deletions.
 
 $KiraHome = if ($env:KIRA_HOME) { $env:KIRA_HOME } else { Join-Path $env:USERPROFILE '.copilot' }
 $AgentsDst = Join-Path $KiraHome 'agents'
@@ -103,21 +85,6 @@ if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
                 }
             }
     }
-
-    foreach ($legacyAgent in @('kira-aura.agent.md', 'kira-companion.agent.md', 'mila.agent.md')) {
-        if (Remove-FileIfPresent -Path (Join-Path $AgentsDst $legacyAgent)) {
-            $agentCount++
-        }
-    }
-
-    @(Get-ChildItem -LiteralPath $AgentsDst -File | Where-Object {
-        $_.Name -eq 'kira.agent.md' -or
-        $_.Name -like 'kira-*.agent.md'
-    }) | ForEach-Object {
-        if (Remove-FileIfPresent -Path $_.FullName) {
-            $agentCount++
-        }
-    }
 }
 
 if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
@@ -130,27 +97,17 @@ if (Test-Path -LiteralPath $SkillsDst -PathType Container) {
                 }
             }
     }
-
-    @(Get-ChildItem -LiteralPath $SkillsDst -Directory | Where-Object {
-        $_.Name -like 'kira-*'
-    }) | ForEach-Object {
-        if (Remove-DirectoryIfPresent -Path $_.FullName) {
-            $skillCount++
-        }
-    }
 }
 
 if (Test-Path -LiteralPath $PromptsDst -PathType Container) {
-    foreach ($promptName in $PromptCleanupNames) {
-        if (Remove-FileIfPresent -Path (Join-Path $PromptsDst $promptName)) {
-            $promptCount++
-        }
-    }
-
-    @(Get-ChildItem -LiteralPath $PromptsDst -File -Filter 'kira-*.prompt.md') | ForEach-Object {
-        if (Remove-FileIfPresent -Path $_.FullName) {
-            $promptCount++
-        }
+    # Remove prompt files that were copied from the repository prompts folder.
+    if (Test-Path -LiteralPath $PromptsSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $PromptsSrc -File -Filter '*.prompt.md' |
+            ForEach-Object {
+                if (Remove-FileIfPresent -Path (Join-Path $PromptsDst $_.Name)) {
+                    $promptCount++
+                }
+            }
     }
 }
 
@@ -162,12 +119,6 @@ if (Test-Path -LiteralPath $InstructionsDst -PathType Container) {
                     $instructionCount++
                 }
             }
-    }
-
-    @(Get-ChildItem -LiteralPath $InstructionsDst -File -Filter 'kira*.instructions.md') | ForEach-Object {
-        if (Remove-FileIfPresent -Path $_.FullName) {
-            $instructionCount++
-        }
     }
 }
 
