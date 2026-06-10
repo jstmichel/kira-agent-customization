@@ -6,7 +6,7 @@
 - Keep every instruction, prompt, and skill small, focused, and direct.
 - Treat prompts as user-invocable actions that target an agent.
 - Treat skills as reusable execution workflows that an agent can call at any time.
-- Use `Kira :: <function>` for subagent handoffs.
 - Keep agents user-invocable unless a file explicitly says otherwise.
 - Prefer one narrow purpose per file. Do not duplicate the same rule across files unless it is necessary.
+- Keep naming rules in dedicated instruction files such as [instructions/copilot-addon-naming.instructions.md](instructions/copilot-addon-naming.instructions.md) instead of repeating them here.
 - When rules conflict, choose the more cost-efficient and more concise path.
