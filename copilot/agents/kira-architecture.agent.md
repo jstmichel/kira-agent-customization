@@ -5,6 +5,17 @@ user-invocable: true
 model: "GPT-5.4 (copilot)"
 tools: ["read", "search", "read/problems"]
 agents: []
+handoffs:
+  - label: Coder
+    agent: Kira :: Coder
+    prompt: "Apply the concrete code changes from this plan directly in repository files when the scope is clear and implementation-ready."
+    model: GPT-5.4 mini (copilot)
+    send: true
+  - label: Coder++
+    agent: Kira :: Coder
+    prompt: "Apply the concrete code changes from this plan directly in repository files when the scope is clear and implementation-ready."
+    model: GPT-5.3-Codex (copilot)
+    send: true
 argument-hint: "ADR request, implementation plans, architecture question, or infrastructure analysis task"
 ---
 

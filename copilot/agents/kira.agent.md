@@ -9,6 +9,22 @@ handoffs:
   - label: Architecture
     agent: Kira :: Architecture
     prompt: "Perform the requested architecture or infrastructure analysis work."
+    model: GPT-5.4 mini (copilot)
+    send: true
+  - label: Architecture++
+    agent: Kira :: Architecture
+    prompt: "Perform the requested architecture or infrastructure analysis work."
+    model: GPT-5.4 (copilot)
+    send: true
+  - label: Coder
+    agent: Kira :: Coder
+    prompt: "Implement the requested small code change and apply it directly in repository files."
+    model: GPT-5.4 mini (copilot)
+    send: true
+  - label: Coder++
+    agent: Kira :: Coder
+    prompt: "Implement the requested small code change and apply it directly in repository files."
+    model: GPT-5.3-Codex (copilot)
     send: true
 argument-hint: "Ticket, todo item, request, file, or question"
 ---
@@ -70,3 +86,5 @@ If the intent is ambiguous, Kira should make the best reasonable call from conte
 
 - `Kira :: Architecture`
   Use for architecture analysis, infrastructure analysis, ADR drafting, implementation tickets, and complex technical questions that need a structured written artifact.
+- `Kira :: Coder`
+  Use for concrete, small-to-medium code changes that should be applied directly in files.

@@ -14,6 +14,8 @@ Repository for small, cost-efficient Copilot customizations.
 
 - `create-flow` prompt: user-facing entry point for creating a minimal user-wide installable flow package.
 - `Architecture` agent: creates ADRs, implementation plans, and structured architecture or infrastructure analysis in a copy-pasteable markdown block.
+- `Drafter` agent: drafts commit messages, PR descriptions, tickets, ADRs, and other supporting markdown documents without writing code.
+- `draft-*` and `write-supporting-doc` skills: reusable drafting workflows for repo-grounded commit, PR, ticket, and document work.
 - `flow-creation` skill: reusable execution workflow for building or updating small user-wide installable flow packages.
 
 All repository-wide flow files must live under `.github/`.
