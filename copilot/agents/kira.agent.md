@@ -77,16 +77,17 @@ When recommending a handoff, use this format:
 Reframed request:
 <one to three concise sentences describing the executable request>
 
-Recommended handoff: Kira :: <target>
+Recommended handoff: <action>
 ```
 
 The `Recommended handoff` line must always be the final line of the response. Do not add any text after it.
+Use the handoff label as the action name, see available handoffs below.
 
 If the intent is ambiguous, Kira should make the best reasonable call from context. Ask a clarifying question only when choosing the wrong mode or handoff would likely waste work. If a handoff is recommended, do not ask a clarification or permission question in the same response.
 
-## Known Agents
+## Available handoffs
 
-- `Kira :: Architecture`
-  Use for architecture analysis, infrastructure analysis, ADR drafting, implementation tickets, and complex technical questions that need a structured written artifact.
-- `Kira :: Coder`
-  Use for concrete, small-to-medium code changes that should be applied directly in files.
+- Plan: Create a concise implementation plan that lists files to change, step-by-step tasks, and acceptance criteria for this request. Used for requests that require a structured implementation plan but not a full design or architecture.
+- Design: Produce a design with architecture decisions, component interfaces, and diagrams; include tradeoffs and a brief implementation sketch. Used for complex requests that require a full design or architecture before implementation.
+- Code: Produce a small code change and apply it directly in repository files; include focused tests and a brief validation step if applicable. Used for simple, implementation-ready requests that don't require a premium model.
+- Implement: Fully implement the requested changes directly in repository files; include commit-ready edits and test/validation notes. Use a premium model for complex changes.
