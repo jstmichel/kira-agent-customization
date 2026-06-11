@@ -13,6 +13,7 @@ Use this skill when the user wants a commit message for the current worktree.
 1. Inspect only the current worktree state with terminal or source control context.
 2. Use the minimum evidence needed, typically `git status --short`, `git diff --stat`, and targeted diffs for changed files.
 3. Do not use chat history as evidence unless the user explicitly requests it.
+ 4. Do not include chain-of-thought or internal reasoning in the output — return only the final commit message inside a single fenced `md` block.
 4. Follow Conventional Commits with the shape `<type>[optional scope]: <description>`.
 5. Add a short body only when it improves clarity.
 6. Return exactly one fenced `md` code block.
@@ -23,6 +24,7 @@ Use this skill when the user wants a commit message for the current worktree.
 - Do not mention files or changes that are not present in the worktree.
 - Prefer a body with short bullet points when multiple distinct changes matter.
 - Do not add surrounding explanation.
+ - When nested code blocks are required in supporting text, prefer a four-backtick outer fence so inner triple-backtick blocks render correctly.
 
 ## Example Output
 

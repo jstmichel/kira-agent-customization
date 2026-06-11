@@ -15,6 +15,8 @@ Use this skill when the user wants a PR description for the current branch.
 3. Inspect the branch diff with the terminal before drafting.
 4. Summarize user-visible purpose, key changes, risks, and validation based on repository evidence only.
 5. Return exactly one fenced `md` code block.
+ 6. If the PR description references tickets, append a `Refs:` line (see agent-level rules) after a blank line at the end of the code block.
+ 7. Ensure the final PR description is no longer than 4000 characters. If the full description would exceed 4000 characters, truncate or compress wording to fit and, when truncation is necessary, add a final line that says `NOTE: description truncated to 4000 chars` outside the code block.
 
 ## Output Shape
 
@@ -22,6 +24,8 @@ Use this skill when the user wants a PR description for the current branch.
 - Omit empty sections.
 - Keep the artifact ready to paste into GitHub.
 - Do not add explanation outside the code block.
+ - Do not include chain-of-thought or internal reasoning. Return only the final PR description.
+ - When nested code blocks are required, use an outer fence of four backticks (````) so inner triple-backtick blocks render correctly.
 
 ## Example Output
 

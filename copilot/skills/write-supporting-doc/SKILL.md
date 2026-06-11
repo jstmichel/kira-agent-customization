@@ -13,8 +13,9 @@ Use this skill when the user wants a supporting document written or updated on d
 1. Determine the target file path from the user request or choose the smallest conventional location already present in the repository.
 2. Read nearby docs before editing so the new artifact matches local style and structure.
 3. Write the document directly to disk when the request is concrete.
-4. Keep edits limited to markdown or other supporting text files.
-5. Reply with a brief confirmation and the written path after the file change.
+4. Do not include chain-of-thought or internal reasoning in written artifacts; produce only the final document content.
+5. Keep edits limited to markdown or other supporting text files.
+6. Reply with a brief confirmation and the written path after the file change.
 
 ## Allowed Targets
 
@@ -36,3 +37,4 @@ Use this skill when the user wants a supporting document written or updated on d
 - For ADRs, use concise sections such as Title, Status, Context, Decision, Consequences, and Alternatives.
 - For README updates, preserve the existing document structure unless the user asks for a rewrite.
 - Do not mix code implementation with documentation edits.
+ - When a document must show nested code blocks, use an outer fence of four backticks (````) so inner triple-backtick code blocks render correctly.

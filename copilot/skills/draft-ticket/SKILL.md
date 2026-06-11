@@ -13,6 +13,7 @@ Use this skill when the user wants a ticket or task artifact.
 1. Read the minimum repository context needed to ground the ticket.
 2. Infer the audience as engineers unless the user specifies otherwise.
 3. Return exactly one fenced `md` code block unless the user asks for the ticket to be written to disk.
+ 4. Do not include chain-of-thought or internal reasoning in the ticket output.
 4. Keep the ticket actionable and concrete.
 
 ## Output Shape
@@ -21,6 +22,8 @@ Use this skill when the user wants a ticket or task artifact.
 - Include context, problem or goal, scope, acceptance criteria, and risks when relevant.
 - Add open questions only when they materially affect execution.
 - Avoid implementation fiction that is not supported by the repository or user request.
+ - When referencing tickets, append a `Refs:` line after a blank line at the end of the code block.
+ - For nested code blocks use a four-backtick outer fence so inner triple-backtick code blocks render correctly when viewed in GitHub.
 
 ## Example Output
 
