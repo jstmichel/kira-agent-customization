@@ -1,2 +1,4 @@
 [x] Review order should not be in markdown
 [x] Review order should ALWAYS be shown even with one file or when there is follow-up question to continue implementation, if there is a follow-up question, only include current changes, after the next changes only include the new changes, etc...
+[x] Allow escalating to Coder from Kira and architecture using a gpt 5.4 model. New handoff with a different name than actual. (Updated copilot/agents/kira.agent.md and copilot/agents/kira-architecture.agent.md)
+[x] Coder argument hint should target any size of code change, not just small changes. Remove "small" from the hint. Same for Coder description. (Updated copilot/agents/kira-coder.agent.md)

@@ -9,13 +9,18 @@ handoffs:
   - label: Code
     agent: Kira :: Coder
     prompt: "Apply the concrete code changes from this plan directly in repository files when the scope is clear and implementation-ready."
-    model: GPT-5.4 mini (copilot)
+    model: "GPT-5.4 mini (copilot)"
     send: true
-  - label: Write Supporting Doc
+  - label: Implement
+    agent: Kira :: Coder
+    prompt: "Use the premium model to implement changes when the request is implementation-ready."
+    model: "GPT-5.4 (copilot)"
+    send: true
+  - label: Draft documentation
     agent: Kira :: Drafter
     prompt: "Write an ADR or supporting markdown document to disk for this architecture work when the request includes documentation or analysis deliverables."
     send: true
-  - label: New request
+  - label: Restart
     agent: Kira
     prompt: ""
     send: false

@@ -6,11 +6,11 @@ model: "GPT-5 mini (copilot)"
 tools: ["read", "search", "edit", "execute", "read/problems"]
 agents: []
 handoffs:
-  - label: Pull request
+  - label: Draft PR Description
     agent: Kira :: Drafter
-    prompt: "Draft a concise pull request description for this branch."
+    prompt: "Draft a pull request description for this branch."
     send: true
-  - label: New request
+  - label: Restart
     agent: Kira
     prompt: ""
     send: false

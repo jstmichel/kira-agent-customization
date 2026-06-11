@@ -6,15 +6,25 @@ model: "GPT-5 mini (copilot)"
 tools: ["read", "search", "read/problems"]
 agents: []
 handoffs: 
-  - label: Architecture
+  - label: Plan
     agent: Kira :: Architecture
-    prompt: "Perform the requested architecture or infrastructure analysis work."
+    prompt: "Create a concise implementation plan that lists files to change, step-by-step tasks, and acceptance criteria for this request."
     send: true
-  - label: Coder
+  - label: Design
+    agent: Kira :: Architecture
+    prompt: "Produce a design with architecture decisions, component interfaces, and diagrams; include tradeoffs and a brief implementation sketch."
+    model: "GPT-5.4 (copilot)"
+    send: true
+  - label: Code
     agent: Kira :: Coder
-    prompt: "Implement the requested small code change and apply it directly in repository files."
+    prompt: "Implement the requested code change and apply it directly in repository files; include focused tests and a brief validation step if applicable."
     send: true
-  - label: New request
+  - label: Implement
+    agent: Kira :: Coder
+    prompt: "Use a premium model to implement the requested changes directly in repository files; include commit-ready edits and test/validation notes."
+    model: "GPT-5.4 (copilot)"
+    send: true
+  - label: Restart
     agent: Kira
     prompt: ""
     send: false
