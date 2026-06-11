@@ -9,23 +9,15 @@ handoffs:
   - label: Architecture
     agent: Kira :: Architecture
     prompt: "Perform the requested architecture or infrastructure analysis work."
-    model: GPT-5.4 mini (copilot)
-    send: true
-  - label: Architecture++
-    agent: Kira :: Architecture
-    prompt: "Perform the requested architecture or infrastructure analysis work."
-    model: GPT-5.4 (copilot)
     send: true
   - label: Coder
     agent: Kira :: Coder
     prompt: "Implement the requested small code change and apply it directly in repository files."
-    model: GPT-5.4 mini (copilot)
     send: true
-  - label: Coder++
-    agent: Kira :: Coder
-    prompt: "Implement the requested small code change and apply it directly in repository files."
-    model: GPT-5.3-Codex (copilot)
-    send: true
+  - label: New request
+    agent: Kira
+    prompt: ""
+    send: false
 argument-hint: "Ticket, todo item, request, file, or question"
 ---
 

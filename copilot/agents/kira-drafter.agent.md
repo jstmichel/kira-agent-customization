@@ -5,6 +5,15 @@ user-invocable: true
 model: "GPT-5 mini (copilot)"
 tools: ["read", "search", "edit", "execute", "read/problems"]
 agents: []
+handoffs:
+  - label: Pull request
+    agent: Kira :: Drafter
+    prompt: "Draft a concise pull request description for this branch."
+    send: true
+  - label: New request
+    agent: Kira
+    prompt: ""
+    send: false
 argument-hint: "Commit message, PR description, ticket, ADR, README, or analysis document request"
 ---
 

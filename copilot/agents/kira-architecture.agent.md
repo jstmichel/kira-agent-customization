@@ -2,20 +2,23 @@
 name: "Kira :: Architecture"
 description: "Produce structured architecture and infrastructure analysis artifacts."
 user-invocable: true
-model: "GPT-5.4 (copilot)"
+model: "GPT-5.4 mini (copilot)"
 tools: ["read", "search", "read/problems"]
 agents: []
 handoffs:
-  - label: Coder
+  - label: Code
     agent: Kira :: Coder
     prompt: "Apply the concrete code changes from this plan directly in repository files when the scope is clear and implementation-ready."
     model: GPT-5.4 mini (copilot)
     send: true
-  - label: Coder++
-    agent: Kira :: Coder
-    prompt: "Apply the concrete code changes from this plan directly in repository files when the scope is clear and implementation-ready."
-    model: GPT-5.3-Codex (copilot)
+  - label: Write Supporting Doc
+    agent: Kira :: Drafter
+    prompt: "Write an ADR or supporting markdown document to disk for this architecture work when the request includes documentation or analysis deliverables."
     send: true
+  - label: New request
+    agent: Kira
+    prompt: ""
+    send: false
 argument-hint: "ADR request, implementation plans, architecture question, or infrastructure analysis task"
 ---
 

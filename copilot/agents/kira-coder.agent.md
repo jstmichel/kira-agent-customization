@@ -5,6 +5,15 @@ user-invocable: true
 model: "GPT-5.4 mini (copilot)"
 tools: ["read", "search", "edit", "read/problems"]
 agents: []
+handoffs:
+  - label: Commit message
+    agent: Kira :: Drafter
+    prompt: "Draft a concise commit message for this change."
+    send: true
+  - label: New request
+    agent: Kira
+    prompt: ""
+    send: false
 argument-hint: "Small code change, bug fix, refactor, or file edit request"
 ---
 
