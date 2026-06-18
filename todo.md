@@ -2,3 +2,5 @@
 [x] Review order should ALWAYS be shown even with one file or when there is follow-up question to continue implementation, if there is a follow-up question, only include current changes, after the next changes only include the new changes, etc...
 [x] Allow escalating to Coder from Kira and architecture using a gpt 5.4 model. New handoff with a different name than actual. (Updated copilot/agents/kira.agent.md and copilot/agents/kira-architecture.agent.md)
 [x] Coder argument hint should target any size of code change, not just small changes. Remove "small" from the hint. Same for Coder description. (Updated copilot/agents/kira-coder.agent.md)
+[x] Handoff focus to a specific action instead of just doing what is being handoff. Ex.: Kira send a request to evaluate the code, but coder handoff says to "implement code" instead of "do what Kira is asking for". (Updated copilot/agents/kira.agent.md)
+[ ] Asking for pr description should send to draft or a model that can execute in terminal then send the code block.
