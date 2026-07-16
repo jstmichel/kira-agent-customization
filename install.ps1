@@ -10,6 +10,7 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 $OpenCodeSrc = Join-Path $ScriptRoot 'opencode'
+$CodexSrc = Join-Path $ScriptRoot 'codex'
 
 # Note: no hard-coded legacy prompt names here. The installer will copy current
 # prompt files from the repository into the platform prompts directory and use
@@ -23,6 +24,10 @@ $InstructionsDst = Join-Path $KiraHome 'instructions'
 $OpenCodeHome = if ($env:OPENCODE_HOME) { $env:OPENCODE_HOME } else { Join-Path $env:USERPROFILE '.config\opencode' }
 $OpenCodeCommandsDst = Join-Path $OpenCodeHome 'commands'
 $OpenCodeAgentsDst = Join-Path $OpenCodeHome 'agents'
+$CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
+$CodexAgentsSrc = Join-Path $CodexSrc 'AGENTS.md'
+$CodexAgentFilesSrc = Join-Path $CodexSrc 'agents'
+$CodexAgentsDst = Join-Path $CodexHome 'agents'
 
 # VS Code reads .prompt.md files from the platform User prompts directory
 $PromptsDst = if ($env:VSCODE_PROMPTS_DIR) { $env:VSCODE_PROMPTS_DIR } else { Join-Path $env:APPDATA 'Code\User\prompts' }
@@ -36,6 +41,7 @@ $promptCount = 0
 $instructionCount = 0
 $openCodeCommandCount = 0
 $openCodeAgentCount = 0
+$codexAgentCount = 0
 
 Write-Host 'Installing KIRA agents...'
 if (Test-Path -LiteralPath $AgentsSrc -PathType Container) {
@@ -103,6 +109,22 @@ if (Test-Path -LiteralPath $openCodeAgentsSrc -PathType Container) {
         }
 }
 
+Write-Host 'Preparing Codex home...'
+if (Test-Path -LiteralPath $CodexSrc -PathType Container) {
+    New-Item -ItemType Directory -Force -Path $CodexHome | Out-Null
+    if (Test-Path -LiteralPath $CodexAgentsSrc -PathType Leaf) {
+        Copy-Item -LiteralPath $CodexAgentsSrc -Destination (Join-Path $CodexHome 'AGENTS.md') -Force
+    }
+    if (Test-Path -LiteralPath $CodexAgentFilesSrc -PathType Container) {
+        Get-ChildItem -LiteralPath $CodexAgentFilesSrc -File -Filter '*.toml' |
+            ForEach-Object {
+                New-Item -ItemType Directory -Force -Path $CodexAgentsDst | Out-Null
+                Copy-Item -LiteralPath $_.FullName -Destination $CodexAgentsDst -Force
+                $codexAgentCount++
+            }
+    }
+}
+
 Write-Host ''
 Write-Host "KIRA installed to $KiraHome"
 Write-Host "  Agents  : $agentCount files"
@@ -111,3 +133,5 @@ Write-Host "  Prompts : $promptCount files -> $PromptsDst"
 Write-Host "  Instructions : $instructionCount files"
 Write-Host "  OpenCode commands : $openCodeCommandCount files -> $OpenCodeCommandsDst"
 Write-Host "  OpenCode agents   : $openCodeAgentCount files -> $OpenCodeAgentsDst"
+Write-Host "  Codex home        : $CodexHome"
+Write-Host "  Codex agents      : $codexAgentCount files -> $CodexAgentsDst"
