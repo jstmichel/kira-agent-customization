@@ -10,11 +10,15 @@ AGENTS_SRC="$SCRIPT_DIR/copilot/agents"
 SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
+OPENCODE_SRC="$SCRIPT_DIR/opencode"
 
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
+OPENCODE_HOME="${OPENCODE_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}"
+OPENCODE_COMMANDS_DST="$OPENCODE_HOME/commands"
+OPENCODE_AGENTS_DST="$OPENCODE_HOME/agents"
 
 # VS Code reads .prompt.md files from the platform User prompts directory
 if [[ -n "${VSCODE_PROMPTS_DIR:-}" ]]; then
@@ -56,6 +60,8 @@ agent_count=0
 skill_count=0
 prompt_count=0
 instruction_count=0
+opencode_command_count=0
+opencode_agent_count=0
 cleaned_count=0
 
 if [[ -d "$AGENTS_DST" ]]; then
@@ -101,7 +107,23 @@ if [[ -d "$INSTRUCTIONS_DST" ]]; then
     fi
 fi
 
-for dir in "$AGENTS_DST" "$SKILLS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME"; do
+if [[ -d "$OPENCODE_COMMANDS_DST" && -d "$OPENCODE_SRC/commands" ]]; then
+    for command_file in "$OPENCODE_SRC/commands"/*.md; do
+        if remove_file_if_present "$OPENCODE_COMMANDS_DST/$(basename "$command_file")"; then
+            opencode_command_count=$((opencode_command_count + 1))
+        fi
+    done
+fi
+
+if [[ -d "$OPENCODE_AGENTS_DST" && -d "$OPENCODE_SRC/agents" ]]; then
+    for agent_file in "$OPENCODE_SRC/agents"/*.md; do
+        if remove_file_if_present "$OPENCODE_AGENTS_DST/$(basename "$agent_file")"; then
+            opencode_agent_count=$((opencode_agent_count + 1))
+        fi
+    done
+fi
+
+for dir in "$AGENTS_DST" "$SKILLS_DST" "$INSTRUCTIONS_DST" "$KIRA_HOME" "$OPENCODE_COMMANDS_DST" "$OPENCODE_AGENTS_DST" "$OPENCODE_HOME"; do
     if cleanup_if_empty "$dir"; then
         cleaned_count=$((cleaned_count + 1))
     fi
@@ -113,8 +135,10 @@ printf '  Agents removed  : %s files\n' "$agent_count"
 printf '  Skills removed  : %s folders\n' "$skill_count"
 printf '  Prompts removed : %s files\n' "$prompt_count"
 printf '  Instructions removed : %s files\n' "$instruction_count"
+printf '  OpenCode commands removed : %s files\n' "$opencode_command_count"
+printf '  OpenCode agents removed   : %s files\n' "$opencode_agent_count"
 printf '  Empty dirs pruned: %s\n' "$cleaned_count"
 
-if [[ "$agent_count" -eq 0 && "$skill_count" -eq 0 && "$prompt_count" -eq 0 && "$instruction_count" -eq 0 ]]; then
+if [[ "$agent_count" -eq 0 && "$skill_count" -eq 0 && "$prompt_count" -eq 0 && "$instruction_count" -eq 0 && "$opencode_command_count" -eq 0 && "$opencode_agent_count" -eq 0 ]]; then
     echo '  No KIRA files or folders were found.'
 fi

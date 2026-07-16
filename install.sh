@@ -10,11 +10,15 @@ AGENTS_SRC="$SCRIPT_DIR/copilot/agents"
 SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
+OPENCODE_SRC="$SCRIPT_DIR/opencode"
 
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
 SKILLS_DST="$KIRA_HOME/skills"
 INSTRUCTIONS_DST="$KIRA_HOME/instructions"
+OPENCODE_HOME="${OPENCODE_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}"
+OPENCODE_COMMANDS_DST="$OPENCODE_HOME/commands"
+OPENCODE_AGENTS_DST="$OPENCODE_HOME/agents"
 
 # No hard-coded legacy prompt names. Installer will copy current prompts and
 # use force-overwrites so name-based cleanup is unnecessary.
@@ -35,6 +39,8 @@ agent_count=0
 skill_count=0
 prompt_count=0
 instruction_count=0
+opencode_command_count=0
+opencode_agent_count=0
 
 echo "Installing KIRA agents..."
 if [[ -d "$AGENTS_SRC" ]]; then
@@ -75,9 +81,29 @@ if [[ -d "$INSTRUCTIONS_SRC" ]]; then
     done
 fi
 
+echo "Installing OpenCode commands..."
+if [[ -d "$OPENCODE_SRC/commands" ]]; then
+    for command_file in "$OPENCODE_SRC/commands"/*.md; do
+        mkdir -p "$OPENCODE_COMMANDS_DST"
+        cp -f "$command_file" "$OPENCODE_COMMANDS_DST/"
+        opencode_command_count=$((opencode_command_count + 1))
+    done
+fi
+
+echo "Installing OpenCode agents..."
+if [[ -d "$OPENCODE_SRC/agents" ]]; then
+    for agent_file in "$OPENCODE_SRC/agents"/*.md; do
+        mkdir -p "$OPENCODE_AGENTS_DST"
+        cp -f "$agent_file" "$OPENCODE_AGENTS_DST/"
+        opencode_agent_count=$((opencode_agent_count + 1))
+    done
+fi
+
 echo ""
 echo "KIRA installed to $KIRA_HOME"
 printf "  Agents  : %s files\n" "$agent_count"
 printf "  Skills  : %s folders\n" "$skill_count"
 printf "  Prompts : %s files -> %s\n" "$prompt_count" "$PROMPTS_DST"
 printf "  Instructions : %s files\n" "$instruction_count"
+printf "  OpenCode commands : %s files -> %s\n" "$opencode_command_count" "$OPENCODE_COMMANDS_DST"
+printf "  OpenCode agents   : %s files -> %s\n" "$opencode_agent_count" "$OPENCODE_AGENTS_DST"

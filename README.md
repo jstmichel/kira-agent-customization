@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Repository for small, cost-efficient Copilot customizations.
+Repository for small, cost-efficient Copilot and OpenCode customizations.
 
 ## Core Rules
 
@@ -25,9 +25,19 @@ All repository-wide flow files must live under `.github/`.
 - `copilot/agents` for source copies used by the install scripts.
 - `copilot/prompts` for source copies used by the install scripts.
 - `copilot/skills` for source copies used by the install scripts.
+- `opencode/commands` for source copies of user-level OpenCode commands.
+- `opencode/agents` for source copies of user-level OpenCode agents.
 - `.github/agents`, `.github/prompts`, and `.github/skills` for repository-wide customizations.
 - `docs` for workflow and billing guidance.
 
 ## Install
 
-Use the repo install scripts to copy the customization files into the local Copilot locations.
+Use the repo install scripts to copy customization files into the local Copilot and OpenCode locations.
+
+```bash
+bash install.sh
+bash update.sh
+bash uninstall.sh
+```
+
+On Windows, run the corresponding `install.ps1`, `update.ps1`, or `uninstall.ps1` script in PowerShell. Set `KIRA_HOME`, `VSCODE_PROMPTS_DIR`, or `OPENCODE_HOME` to override the default user-level destinations. Restart OpenCode after installing, updating, or uninstalling so it reloads commands and agents.
