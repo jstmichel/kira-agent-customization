@@ -10,7 +10,6 @@ $SkillsSrc = Join-Path $ScriptRoot 'copilot\skills'
 $PromptsSrc = Join-Path $ScriptRoot 'copilot\prompts'
 $InstructionsSrc = Join-Path $ScriptRoot 'copilot\instructions'
 $OpenCodeSrc = Join-Path $ScriptRoot 'opencode'
-$CodexSrc = Join-Path $ScriptRoot 'codex'
 
 # No hard-coded legacy prompt names. Uninstall will remove files that match
 # the names present in the repository source directories to avoid brittle
@@ -23,10 +22,8 @@ $InstructionsDst = Join-Path $KiraHome 'instructions'
 $OpenCodeHome = if ($env:OPENCODE_HOME) { $env:OPENCODE_HOME } else { Join-Path $env:USERPROFILE '.config\opencode' }
 $OpenCodeCommandsDst = Join-Path $OpenCodeHome 'commands'
 $OpenCodeAgentsDst = Join-Path $OpenCodeHome 'agents'
-$CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
-$CodexAgentsSrc = Join-Path $CodexSrc 'AGENTS.md'
-$CodexAgentFilesSrc = Join-Path $CodexSrc 'agents'
-$CodexAgentsDst = Join-Path $CodexHome 'agents'
+$OpenCodeSkillsSrc = Join-Path $OpenCodeSrc 'skills'
+$OpenCodeSkillsDst = Join-Path $OpenCodeHome 'skills'
 
 # VS Code reads .prompt.md files from the platform User prompts directory
 $PromptsDst = if ($env:VSCODE_PROMPTS_DIR) { $env:VSCODE_PROMPTS_DIR } else { Join-Path $env:APPDATA 'Code\User\prompts' }
@@ -85,7 +82,7 @@ $promptCount = 0
 $instructionCount = 0
 $openCodeCommandCount = 0
 $openCodeAgentCount = 0
-$codexAgentCount = 0
+$openCodeSkillCount = 0
 $cleanedCount = 0
 
 if (Test-Path -LiteralPath $AgentsDst -PathType Container) {
@@ -154,28 +151,18 @@ if (Test-Path -LiteralPath $OpenCodeAgentsDst -PathType Container -and Test-Path
         }
 }
 
-foreach ($path in @($AgentsDst, $SkillsDst, $InstructionsDst, $KiraHome, $OpenCodeCommandsDst, $OpenCodeAgentsDst, $OpenCodeHome)) {
-    if (Remove-EmptyDirectory -Path $path) {
-        $cleanedCount++
-    }
+if (Test-Path -LiteralPath $OpenCodeSkillsDst -PathType Container -and Test-Path -LiteralPath $OpenCodeSkillsSrc -PathType Container) {
+    Get-ChildItem -LiteralPath $OpenCodeSkillsSrc -Directory |
+        ForEach-Object {
+            $skillFile = Join-Path $_.FullName 'SKILL.md'
+            if ((Test-Path -LiteralPath $skillFile -PathType Leaf) -and (Remove-DirectoryIfPresent -Path (Join-Path $OpenCodeSkillsDst $_.Name))) {
+                $openCodeSkillCount++
+            }
+        }
 }
 
-if (Test-Path -LiteralPath $CodexSrc -PathType Container) {
-    if (Test-Path -LiteralPath $CodexAgentsSrc -PathType Leaf) {
-        Remove-FileIfPresent -Path (Join-Path $CodexHome 'AGENTS.md') | Out-Null
-    }
-    if ((Test-Path -LiteralPath $CodexAgentsDst -PathType Container) -and (Test-Path -LiteralPath $CodexAgentFilesSrc -PathType Container)) {
-        Get-ChildItem -LiteralPath $CodexAgentFilesSrc -File -Filter '*.toml' |
-            ForEach-Object {
-                if (Remove-FileIfPresent -Path (Join-Path $CodexAgentsDst $_.Name)) {
-                    $codexAgentCount++
-                }
-            }
-    }
-    if (Remove-EmptyDirectory -Path $CodexAgentsDst) {
-        $cleanedCount++
-    }
-    if (Remove-EmptyDirectory -Path $CodexHome) {
+foreach ($path in @($AgentsDst, $SkillsDst, $InstructionsDst, $KiraHome, $OpenCodeCommandsDst, $OpenCodeAgentsDst, $OpenCodeSkillsDst, $OpenCodeHome)) {
+    if (Remove-EmptyDirectory -Path $path) {
         $cleanedCount++
     }
 }
@@ -188,9 +175,9 @@ Write-Host "  Prompts removed : $promptCount files"
 Write-Host "  Instructions removed : $instructionCount files"
 Write-Host "  OpenCode commands removed : $openCodeCommandCount files"
 Write-Host "  OpenCode agents removed   : $openCodeAgentCount files"
-Write-Host "  Codex agents removed      : $codexAgentCount files"
+Write-Host "  OpenCode skills removed   : $openCodeSkillCount folders"
 Write-Host "  Empty dirs pruned: $cleanedCount"
 
-if (($agentCount + $skillCount + $promptCount + $instructionCount + $openCodeCommandCount + $openCodeAgentCount + $codexAgentCount) -eq 0) {
+if (($agentCount + $skillCount + $promptCount + $instructionCount + $openCodeCommandCount + $openCodeAgentCount + $openCodeSkillCount) -eq 0) {
     Write-Host '  No KIRA files or folders were found.'
 }

@@ -1,6 +1,6 @@
 # Kira Agent Customization
 
-Repository for small, cost-efficient Copilot, OpenCode, and Codex customizations.
+Repository for small, cost-efficient Copilot and OpenCode customizations.
 
 ## Core Rules
 
@@ -27,14 +27,13 @@ All repository-wide flow files must live under `.github/`.
 - `copilot/skills` for source copies used by the install scripts.
 - `opencode/commands` for source copies of user-level OpenCode commands.
 - `opencode/agents` for source copies of user-level OpenCode agents.
-- `codex/AGENTS.md` for the managed user-level Codex instructions applied to every agent.
-- `codex/agents` for installable Codex custom agents.
+- `opencode/skills` for reusable OpenCode workflows used by commands and agents.
 - `.github/agents`, `.github/prompts`, and `.github/skills` for repository-wide customizations.
 - `docs` for workflow and billing guidance.
 
 ## Install
 
-Use the repo install scripts to copy customization files into the local Copilot, OpenCode, and Codex locations.
+Use the repo install scripts to copy customization files into the local Copilot and OpenCode locations.
 
 ```bash
 bash install.sh
@@ -42,6 +41,11 @@ bash update.sh
 bash uninstall.sh
 ```
 
-On Windows, run the corresponding `install.ps1`, `update.ps1`, or `uninstall.ps1` script in PowerShell. Set `KIRA_HOME`, `VSCODE_PROMPTS_DIR`, `OPENCODE_HOME`, or `CODEX_HOME` to override the default user-level destinations. Restart OpenCode or start a new Codex session after installing, updating, or uninstalling so they reload customization files. The Codex installer overwrites the managed `AGENTS.md` and custom agents on each install/update.
+On Windows, run the corresponding `install.ps1`, `update.ps1`, or `uninstall.ps1` script in PowerShell. Set `KIRA_HOME`, `VSCODE_PROMPTS_DIR`, or `OPENCODE_HOME` to override the default user-level destinations. Restart OpenCode after installing, updating, or uninstalling so it reloads customization files.
 
-Codex custom agents are available for delegated work. Ask Codex to use `kira_plan` for a new or revised implementation plan, then `kira_coder` to implement the latest plan from the conversation. `kira_plan` uses `gpt-5.6-terra` and cannot edit files; `kira_coder` edits workspace files and runs focused validation.
+OpenCode commit commands:
+
+- `/draft-commit` drafts one Conventional Commit message and does not modify the worktree.
+- `/commit` drafts a message, stages the intended changes, and creates the commit.
+
+Both commands use the shared `draft-commit-message` skill and a low-cost model. Run `bash update.sh` or `update.ps1` to install the latest command and skill sources.

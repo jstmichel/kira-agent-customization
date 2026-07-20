@@ -11,7 +11,6 @@ SKILLS_SRC="$SCRIPT_DIR/copilot/skills"
 PROMPTS_SRC="$SCRIPT_DIR/copilot/prompts"
 INSTRUCTIONS_SRC="$SCRIPT_DIR/copilot/instructions"
 OPENCODE_SRC="$SCRIPT_DIR/opencode"
-CODEX_SRC="$SCRIPT_DIR/codex"
 
 KIRA_HOME="${KIRA_HOME:-$HOME/.copilot}"
 AGENTS_DST="$KIRA_HOME/agents"
@@ -20,10 +19,8 @@ INSTRUCTIONS_DST="$KIRA_HOME/instructions"
 OPENCODE_HOME="${OPENCODE_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/opencode}"
 OPENCODE_COMMANDS_DST="$OPENCODE_HOME/commands"
 OPENCODE_AGENTS_DST="$OPENCODE_HOME/agents"
-CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-CODEX_AGENTS_SRC="$CODEX_SRC/AGENTS.md"
-CODEX_AGENT_FILES_SRC="$CODEX_SRC/agents"
-CODEX_AGENTS_DST="$CODEX_HOME/agents"
+OPENCODE_SKILLS_DST="$OPENCODE_HOME/skills"
+OPENCODE_SKILLS_SRC="$OPENCODE_SRC/skills"
 
 # No hard-coded legacy prompt names. Installer will copy current prompts and
 # use force-overwrites so name-based cleanup is unnecessary.
@@ -46,7 +43,7 @@ prompt_count=0
 instruction_count=0
 opencode_command_count=0
 opencode_agent_count=0
-codex_agent_count=0
+opencode_skill_count=0
 
 echo "Installing KIRA agents..."
 if [[ -d "$AGENTS_SRC" ]]; then
@@ -105,19 +102,16 @@ if [[ -d "$OPENCODE_SRC/agents" ]]; then
     done
 fi
 
-echo "Preparing Codex home..."
-if [[ -d "$CODEX_SRC" ]]; then
-    mkdir -p "$CODEX_HOME"
-    if [[ -f "$CODEX_AGENTS_SRC" ]]; then
-        cp -f "$CODEX_AGENTS_SRC" "$CODEX_HOME/AGENTS.md"
-    fi
-    if [[ -d "$CODEX_AGENT_FILES_SRC" ]]; then
-        for codex_agent_file in "$CODEX_AGENT_FILES_SRC"/*.toml; do
-            mkdir -p "$CODEX_AGENTS_DST"
-            cp -f "$codex_agent_file" "$CODEX_AGENTS_DST/"
-            codex_agent_count=$((codex_agent_count + 1))
-        done
-    fi
+echo "Installing OpenCode skills..."
+if [[ -d "$OPENCODE_SKILLS_SRC" ]]; then
+    for skill_dir in "$OPENCODE_SKILLS_SRC"/*; do
+        [[ -d "$skill_dir" ]] || continue
+        [[ -f "$skill_dir/SKILL.md" ]] || continue
+        name=$(basename "$skill_dir")
+        mkdir -p "$OPENCODE_SKILLS_DST/$name"
+        cp -f "$skill_dir/SKILL.md" "$OPENCODE_SKILLS_DST/$name/SKILL.md"
+        opencode_skill_count=$((opencode_skill_count + 1))
+    done
 fi
 
 echo ""
@@ -128,5 +122,4 @@ printf "  Prompts : %s files -> %s\n" "$prompt_count" "$PROMPTS_DST"
 printf "  Instructions : %s files\n" "$instruction_count"
 printf "  OpenCode commands : %s files -> %s\n" "$opencode_command_count" "$OPENCODE_COMMANDS_DST"
 printf "  OpenCode agents   : %s files -> %s\n" "$opencode_agent_count" "$OPENCODE_AGENTS_DST"
-printf "  Codex home        : %s\n" "$CODEX_HOME"
-printf "  Codex agents      : %s files -> %s\n" "$codex_agent_count" "$CODEX_AGENTS_DST"
+printf "  OpenCode skills   : %s folders -> %s\n" "$opencode_skill_count" "$OPENCODE_SKILLS_DST"

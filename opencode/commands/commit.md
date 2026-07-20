@@ -1,23 +1,29 @@
 ---
-description: Generate a Conventional Commit message from the current git changes.
-model: openai/gpt-5.6-luna
+description: Draft a commit message, stage the intended changes, and commit them.
+model: openai/gpt-5.4-mini
 temperature: 0
 ---
 
-Write one Conventional Commit message for the uncommitted git changes below.
+Load and follow the `draft-commit-message` skill.
 
-!`git status --short`
-!`git diff --stat`
-!`git diff`
+Draft one Conventional Commit message from the current worktree, then stage
+the intended changed files and create one commit using exactly that message.
 
-Return only:
+Before staging, inspect `git status --short` and the relevant diffs. Do not
+stage unrelated user changes when the intended file set can be identified. Do
+not use `git add -A` blindly. Include intended untracked files when they are
+part of the current change.
 
-```text
-type(optional-scope): short imperative summary
+Use a temporary commit message file or another safe multiline mechanism so the
+commit body is preserved exactly. Do not amend an existing commit, force
+anything, reset files, or remove unrelated worktree changes.
 
-- Detail 1
-- Detail 2
-- Detail 3
-```
+If there are no intended changes, do not create an empty commit. If staging or
+the commit hook fails, preserve the worktree and report the failure without
+retrying destructively.
 
-Use 2-6 bullets. Do not explain or repeat.
+User constraints or intended file scope:
+$ARGUMENTS
+
+After a successful commit, report the commit hash and the final `git status
+--short` result.
